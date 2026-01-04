@@ -7,15 +7,15 @@ import olympicBid from './olympicBid'
 import disciplines from './disciplines'
 import about from './about'
 
-export const schemaTypes = [
-  // Documents
-  athlete,
-  event,
-  sponsor,
-  article,
-  // Single pages
-  homepage,
-  olympicBid,
-  disciplines,
-  about,
-]
+export const schema = {
+  types: [
+    athlete,
+    event,
+    sponsor,
+    article,
+    homepage,
+    olympicBid,
+    disciplines,
+    about,
+  ],
+}
