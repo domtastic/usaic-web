@@ -14,12 +14,14 @@
   --color-ice-900: #0b4a6f;
   --color-ice-950: #072f4a;
   
-  --color-usa-red: #BF0A30;
-  --color-usa-red-dark: #9A0826;
-  --color-usa-red-light: #D91E47;
-  
+  --color-usa-red: #c52630;
+--color-usa-red-dark: #a01f28;
+--color-usa-red-light: #d94550;
+--color-usa-navy: #0c1e43;
+
   --color-silver: #C0C0C0;
   --color-gold: #FFD700;
+
   
   --font-display: 'Fjalla One', sans-serif;
   --font-body: 'Open Sans', sans-serif;
@@ -123,4 +125,47 @@ h1, h2, h3, h4, h5, h6 {
 
 .bg-usa-gradient {
   background: linear-gradient(135deg, #BF0A30 0%, #D91E47 100%);
+}
+
+.container-wide {
+  max-width: 90rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-wide {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-wide {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.btn-donate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1.5rem;
+  background-color: var(--color-usa-red);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-donate:hover {
+  background-color: var(--color-usa-red-dark);
+  transform: translateY(-1px);
 }
