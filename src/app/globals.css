@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Open+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ice-50: #f0f9ff;
+  --color-ice-100: #e0f2fe;
+  --color-ice-200: #b9e5fe;
+  --color-ice-300: #7cd4fd;
+  --color-ice-400: #36bffa;
+  --color-ice-500: #0ca5eb;
+  --color-ice-600: #0086c9;
+  --color-ice-700: #016aa3;
+  --color-ice-800: #065986;
+  --color-ice-900: #0b4a6f;
+  --color-ice-950: #072f4a;
+  
+  --color-usa-red: #BF0A30;
+  --color-usa-red-dark: #9A0826;
+  --color-usa-red-light: #D91E47;
+  
+  --color-silver: #C0C0C0;
+  --color-gold: #FFD700;
+  
+  --font-display: 'Fjalla One', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #1e293b;
+  background: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-usa-red);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-usa-red-dark);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-ice-700);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-ice-800);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--color-ice-700);
+  color: var(--color-ice-700);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-ice-700);
+  color: white;
+}
+
+.card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.bg-ice-gradient {
+  background: linear-gradient(135deg, #0b4a6f 0%, #0ca5eb 50%, #b9e5fe 100%);
+}
+
+.bg-ice-gradient-dark {
+  background: linear-gradient(135deg, #072f4a 0%, #065986 50%, #0086c9 100%);
+}
+
+.bg-usa-gradient {
+  background: linear-gradient(135deg, #BF0A30 0%, #D91E47 100%);
+}
