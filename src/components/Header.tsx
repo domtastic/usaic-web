@@ -115,6 +115,13 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Red Style Bar */}
+
+      <div className={cn(
+  "bg-usa-navy text-white",
+  isScrolled ? "border-b-2 border-usa-red" : ""
+)}>
+      </div>
       {/* Main Nav */}
       <nav
         className={cn(
