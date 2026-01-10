@@ -8,10 +8,10 @@ const placeholderSponsors = [
 
 export default function SponsorsSection() {
   return (
-    <section className="section-padding bg-slate-50">
+    <section className="section-padding bg-black">
       <div className="section-container">
         <div className="text-center mb-10">
-          <h2 className="font-display text-2xl md:text-3xl text-ice-900 mb-3">
+          <h2 className="font-display text-2xl md:text-3xl text-white mb-3">
             Our Sponsors
           </h2>
           <p className="text-slate-600">
@@ -27,19 +27,21 @@ export default function SponsorsSection() {
               className="group relative"
             >
               {/* Logo placeholder */}
-              <div className="w-40 h-24 bg-white rounded-lg shadow-sm flex items-center justify-center p-4 transition-shadow hover:shadow-md">
-                <div className="text-center">
-                  <p className="font-display text-xl text-slate-400">{sponsor.name}</p>
-                  <p className="text-xs text-slate-300 mt-1">Logo here</p>
-                </div>
+              <div className="w-40 h-24 bg-black rounded-lg shadow-sm flex items-center justify-center p-4 transition-shadow hover:shadow-md">
+               <a href="https://rab.equipment/us/" target='blank'>
+                <img src="/Rab-Logo-Black.jpg" alt="" />
+               </a>
+
               </div>
-              
-              {/* Tier badge */}
+
+              {/* Tier badge 
               {sponsor.tier === 'title' && (
                 <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-gold text-slate-900 text-xs font-semibold rounded">
                   Title Sponsor
                 </span>
               )}
+*/}
+
             </div>
           ))}
         </div>
