@@ -30,10 +30,18 @@ export default defineType({
           { title: 'World Cup', value: 'world-cup' },
           { title: 'Continental Cup', value: 'continental-cup' },
           { title: 'Ice Festival', value: 'ice-festival' },
+          { title: 'Local Competition', value: 'local-competition' },
         ],
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'isUsaCircuit',
+      title: 'USA Circuit Event',
+      type: 'boolean',
+      description: 'Check if this event is part of the official USA Ice Climbing Circuit',
+      initialValue: false,
     }),
     defineField({
       name: 'startDate',
@@ -54,6 +62,7 @@ export default defineType({
       fields: [
         { name: 'venue', title: 'Venue Name', type: 'string' },
         { name: 'city', title: 'City', type: 'string', validation: (Rule) => Rule.required() },
+        { name: 'state', title: 'State (US events)', type: 'string' },
         { name: 'country', title: 'Country', type: 'string', validation: (Rule) => Rule.required() },
       ],
     }),
@@ -72,20 +81,16 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'registrationLink',
-      title: 'Registration Link',
+      name: 'eventLink',
+      title: 'Event Homepage Link',
       type: 'url',
+      description: "Link to the organizer's event page",
     }),
     defineField({
       name: 'resultsLink',
       title: 'Results Link',
       type: 'url',
       description: 'Add after event is complete',
-    }),
-    defineField({
-      name: 'websiteLink',
-      title: 'Official Website',
-      type: 'url',
     }),
   ],
   orderings: [
@@ -105,17 +110,19 @@ export default defineType({
       title: 'title',
       date: 'startDate',
       eventType: 'eventType',
+      isUsaCircuit: 'isUsaCircuit',
       media: 'featuredImage',
     },
     prepare(selection) {
-      const { title, date, eventType, media } = selection
+      const { title, date, eventType, isUsaCircuit, media } = selection
       const typeLabels: Record<string, string> = {
         'world-cup': '🏆 World Cup',
         'continental-cup': '🌎 Continental Cup',
         'ice-festival': '🎪 Ice Festival',
+        'local-competition': '📍 Local Competition',
       }
       return {
-        title,
+        title: `${title}${isUsaCircuit ? ' 🇺🇸' : ''}`,
         subtitle: `${typeLabels[eventType] || eventType} • ${date}`,
         media,
       }
