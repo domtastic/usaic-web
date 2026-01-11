@@ -1,6 +1,8 @@
 // Run this script with: npx ts-node scripts/import-athletes.ts
 // Or: npx tsx scripts/import-athletes.ts
-
+import 'dotenv/config'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
 import { createClient } from '@sanity/client'
 
 const client = createClient({
