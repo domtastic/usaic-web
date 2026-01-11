@@ -108,23 +108,19 @@ export default async function AthletePage({ params }: PageProps) {
             </div>
 
             {/* Info */}
-            <div>
-              <span className="inline-block px-3 py-1 bg-slate-100 text-usa-navy text-sm font-semibold rounded-full mb-4">
-                {athlete.category === 'adult' ? 'Adult Team' : 'Youth Team'}
-              </span>
-              
+            <div>    
               <h1 className="font-display text-4xl md:text-5xl text-usa-navy mb-6">
                 {athlete.name}
               </h1>
 
               {/* Details */}
               <div className="space-y-4 mb-8">
-                {athlete.dateOfBirth && (
-                  <div className="flex items-start gap-4">
-                    <div className="w-32 text-slate-500 font-medium">D.O.B.</div>
-                    <div className="text-usa-navy">{formatDate(athlete.dateOfBirth)}</div>
-                  </div>
-                )}
+              {athlete.dateOfBirth && (
+  <div className="flex items-start gap-4">
+    <div className="w-32 text-slate-500 font-medium">D.O.B.</div>
+    <div className="text-usa-navy">{athlete.dateOfBirth}</div>
+  </div>
+)}
                 {athlete.residence && (
                   <div className="flex items-start gap-4">
                     <div className="w-32 text-slate-500 font-medium">Residence</div>

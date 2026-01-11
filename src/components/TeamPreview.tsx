@@ -1,72 +1,59 @@
 import Link from 'next/link'
-
-// Placeholder athletes - will be replaced with Sanity data
-const placeholderAthletes = [
-  { id: 1, name: 'Athlete Name', discipline: 'Lead' },
-  { id: 2, name: 'Athlete Name', discipline: 'Speed' },
-  { id: 3, name: 'Athlete Name', discipline: 'Lead' },
-  { id: 4, name: 'Athlete Name', discipline: 'Speed' },
-]
+import Image from 'next/image'
 
 export default function TeamPreview() {
   return (
-    <section className="section-padding">
-      <div className="section-container">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl text-ice-900 mb-4">
-            Meet Team USA
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Our athletes represent the best of American ice climbing, competing at the highest 
-            levels on the world stage.
-          </p>
-        </div>
+    <section className="relative w-full h-[70vh] min-h-[500px] md:h-[85vh] overflow-hidden">
+      {/* Full-bleed background image */}
+      <Image
+        src="/Team-USA-Photo-2025.jpg"
+        alt="Team USA Ice Climbing national team – powerful group action shot on ice"
+        fill
+        className="object-cover brightness-[0.88] contrast-[1.1] scale-105"
+        priority
+        sizes="100vw"
+      />
 
-        {/* Athlete Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
-          {placeholderAthletes.map((athlete) => (
-            <div 
-              key={athlete.id}
-              className="card group cursor-pointer"
-            >
-              {/* Photo placeholder */}
-              <div className="aspect-[3/4] bg-ice-100 relative overflow-hidden">
-                <div className="absolute inset-0 bg-ice-gradient-dark flex items-center justify-center">
-                  <svg 
-                    className="w-16 h-16 text-white/50" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={1.5} 
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" 
-                    />
-                  </svg>
-                </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-usa-red/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white font-semibold">View Profile</span>
-                </div>
-              </div>
-              {/* Info */}
-              <div className="p-4 text-center">
-                <h3 className="font-display text-lg text-ice-900">{athlete.name}</h3>
-                <p className="text-sm text-slate-500">{athlete.discipline}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Dark gradient overlay – stronger at bottom for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/70" />
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link href="/team" className="btn-outline">
-            View Full Team
-          </Link>
-        </div>
+      {/* CTA and text grouped at bottom center */}
+      <div className="absolute bottom-0 left-0 right-0 pb-12 md:pb-16 px-6 flex flex-col items-center text-center z-10">
+        {/* Minimal text overlay – now positioned just above button */}
+        <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight drop-shadow-2xl mb-3 md:mb-4">
+          Team USA
+        </h2>
+        <p className="text-xl sm:text-2xl md:text-3xl text-white/95 font-light max-w-3xl mb-8 md:mb-10 drop-shadow-lg">
+          Meet the team representing USA at international World Cup competitions.
+        </p>
+
+        {/* Button */}
+        <Link
+          href="/team"
+          className={`
+            inline-flex items-center gap-3 
+            px-8 py-4 md:px-10 md:py-5
+            bg-usa-red/95 backdrop-blur-sm text-white 
+            font-display font-bold uppercase tracking-wider text-base md:text-lg
+            rounded-full 
+            border border-white/30
+            shadow-2xl shadow-black/50
+            transition-all duration-300 
+            hover:bg-usa-red hover:scale-105 hover:shadow-2xl hover:shadow-black/60
+            active:scale-95
+            focus:outline-none focus:ring-4 focus:ring-white/40
+          `}
+        >
+          View Full Team
+          <svg 
+            className="w-5 h-5" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
       </div>
     </section>
   )

@@ -33,10 +33,8 @@ export default defineType({
     defineField({
       name: 'dateOfBirth',
       title: 'Date of Birth',
-      type: 'date',
-      options: {
-        dateFormat: 'MMMM D, YYYY',
-      },
+      type: 'string',
+      description: 'e.g., October 21, 1991',
     }),
     defineField({
       name: 'residence',
