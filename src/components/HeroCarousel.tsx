@@ -162,7 +162,7 @@ if (homepage.eventSlide?.enabled !== false && events.length > 0) {
     slides.push({
       type: 'donate',
       title: homepage.donateSlide?.title || 'Support Team USA',
-      subtitle: homepage.donateSlide?.subtitle || 'Help our athletes compete on the world stage',
+      subtitle: homepage.donateSlide?.subtitle || 'Team USA is prouldy funded by fans like you!',
       image: homepage.donateSlide?.image,
       ctaText: homepage.donateSlide?.ctaText || 'Donate Now',
       ctaLink: '/donate',
