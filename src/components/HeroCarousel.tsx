@@ -1,114 +1,189 @@
-'use client'
+import { client, urlFor } from '@/lib/sanity'
+import HeroCarouselClient from './HeroCarouselClient'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
+interface HomepageSettings {
+  eventSlide?: {
+    enabled: boolean
+    youtubeLink?: string
+    fallbackImage?: { asset: { _ref: string } }
+  }
+  articleSlide?: {
+    enabled: boolean
+    fallbackImage?: { asset: { _ref: string } }
+  }
+  donateSlide?: {
+    enabled: boolean
+    title?: string
+    subtitle?: string
+    image?: { asset: { _ref: string } }
+    ctaText?: string
+  }
+  staticSlides?: {
+    title: string
+    subtitle?: string
+    image?: { asset: { _ref: string } }
+    ctaText?: string
+    ctaLink?: string
+    isExternal?: boolean
+  }[]
+}
 
-// Placeholder slides - these will come from Sanity CMS later
-const placeholderSlides = [
-  {
-    id: 1,
-    title: 'Team USA Ice Climbing',
-    subtitle: 'Representing America on the World Stage',
-    ctaText: 'Meet the Team',
-    ctaLink: '/team',
-    // Placeholder gradient background - replace with actual images
-    bgClass: 'bg-ice-gradient-dark',
-  },
-  {
-    id: 2,
-    title: 'Road to 2030',
-    subtitle: 'Supporting Ice Climbing\'s Olympic Journey',
-    ctaText: 'Learn More',
-    ctaLink: '/olympics-2030',
-    bgClass: 'bg-gradient-to-br from-ice-900 via-ice-700 to-ice-500',
-  },
-  {
-    id: 3,
-    title: 'Support Our Athletes',
-    subtitle: 'Your donation helps Team USA compete globally',
-    ctaText: 'Donate Now',
-    ctaLink: '/donate',
-    bgClass: 'bg-gradient-to-br from-slate-900 via-usa-red to-usa-redDark',
-  },
-]
+interface Event {
+  title: string
+  eventType: string
+  startDate: string
+  endDate?: string
+  location: { city: string; state?: string; country: string }
+  eventLink?: string
+  featuredImage?: { asset: { _ref: string } }
+}
 
-export default function HeroCarousel() {
-  const [currentSlide, setCurrentSlide] = useState(0)
+interface Article {
+  title: string
+  slug: { current: string }
+  excerpt?: string
+  featuredImage?: { asset: { _ref: string } }
+}
 
-  // Auto-advance slides
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % placeholderSlides.length)
-    }, 6000)
-    return () => clearInterval(timer)
-  }, [])
+async function getCarouselData() {
+  // Get homepage settings
+  const homepageQuery = `*[_type == "homepage"][0]`
+  const homepage: HomepageSettings = await client.fetch(homepageQuery) || {}
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index)
+  // Get current or upcoming events (World Cup, Continental Cup, Ice Festival only)
+  // Get events happening now or in the next 7 days
+  const today = new Date()
+  const todayStr = today.toISOString().split('T')[0]
+  const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
+  const nextWeekStr = nextWeek.toISOString().split('T')[0]
+  
+  const eventsQuery = `*[_type == "event" && 
+  eventType == "world-cup" &&
+  ((startDate <= $today && endDate >= $today) || (startDate >= $today && startDate <= $nextWeek))
+] | order(startDate asc) {
+    title,
+    eventType,
+    startDate,
+    endDate,
+    location,
+    eventLink,
+    featuredImage
+  }`
+  const upcomingEvents: Event[] = await client.fetch(eventsQuery, { today: todayStr, nextWeek: nextWeekStr })
+
+  // Sort by priority: world-cup > continental-cup > ice-festival
+  const eventPriority: Record<string, number> = {
+    'world-cup': 1,
+    'continental-cup': 2,
+    'ice-festival': 3,
+  }
+  
+  const sortedEvents = upcomingEvents.sort((a, b) => {
+    // First by priority
+    const priorityDiff = eventPriority[a.eventType] - eventPriority[b.eventType]
+    if (priorityDiff !== 0) return priorityDiff
+    // Then by date
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  })
+
+  // Get latest article
+  const articleQuery = `*[_type == "article"] | order(publishDate desc)[0] {
+    title,
+    slug,
+    excerpt,
+    featuredImage
+  }`
+  const latestArticle: Article | null = await client.fetch(articleQuery)
+
+  return { homepage, events: sortedEvents, latestArticle }
+}
+
+function formatEventDate(start: string, end?: string) {
+  const startDate = new Date(start)
+  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' }
+  if (end && end !== start) {
+    const endDate = new Date(end)
+    return `${startDate.toLocaleDateString('en-US', options)} - ${endDate.toLocaleDateString('en-US', options)}, ${endDate.getFullYear()}`
+  }
+  return startDate.toLocaleDateString('en-US', { ...options, year: 'numeric' })
+}
+
+function formatLocation(location: Event['location']) {
+  const parts = [location.city]
+  if (location.state) parts.push(location.state)
+  if (location.country && location.country !== 'USA' && location.country !== 'United States') {
+    parts.push(location.country)
+  }
+  return parts.join(', ')
+}
+
+export default async function HeroCarousel() {
+  const { homepage, events, latestArticle } = await getCarouselData()
+
+  // Build slides array
+  const slides: any[] = []
+
+  // 1. Event Slides (multiple if same weekend)
+const WORLD_CUP_YOUTUBE = 'https://www.youtube.com/playlist?list=PL0DMtATwEZ0jR6KC7LcrqljP-nZZGpqZG'
+
+if (homepage.eventSlide?.enabled !== false && events.length > 0) {
+  events.forEach((event) => {
+    const isWorldCup = event.eventType === 'world-cup'
+    
+    slides.push({
+      type: 'event',
+      title: event.title,
+      subtitle: `${formatEventDate(event.startDate, event.endDate)} • ${formatLocation(event.location)}`,
+      image: event.featuredImage || homepage.eventSlide?.fallbackImage,
+      ctaText: 'Event Details',
+      ctaLink: event.eventLink || '/events',
+      isExternal: !!event.eventLink,
+      secondaryCtaText: isWorldCup ? '▶ Watch' : undefined,
+      secondaryCtaLink: isWorldCup ? WORLD_CUP_YOUTUBE : undefined,
+    })
+  })
+}
+
+  // 2. Latest Article Slide
+  if (homepage.articleSlide?.enabled !== false && latestArticle) {
+    slides.push({
+      type: 'article',
+      title: latestArticle.title,
+      subtitle: latestArticle.excerpt,
+      image: latestArticle.featuredImage || homepage.articleSlide?.fallbackImage,
+      ctaText: 'Read More',
+      ctaLink: `/news/${latestArticle.slug.current}`,
+      isExternal: false,
+    })
   }
 
-  const slide = placeholderSlides[currentSlide]
+  // 3. Donate Slide
+  if (homepage.donateSlide?.enabled !== false) {
+    slides.push({
+      type: 'donate',
+      title: homepage.donateSlide?.title || 'Support Team USA',
+      subtitle: homepage.donateSlide?.subtitle || 'Help our athletes compete on the world stage',
+      image: homepage.donateSlide?.image,
+      ctaText: homepage.donateSlide?.ctaText || 'Donate Now',
+      ctaLink: '/donate',
+      isExternal: false,
+    })
+  }
 
-  return (
-    <section className="relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
-      {/* Background */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-1000 ${slide.bgClass}`}
-      >
-        {/* Overlay for text readability */}
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
+  // 4. Static Slides
+  if (homepage.staticSlides) {
+    homepage.staticSlides.forEach((slide) => {
+      slides.push({
+        type: 'static',
+        title: slide.title,
+        subtitle: slide.subtitle,
+        image: slide.image,
+        ctaText: slide.ctaText,
+        ctaLink: slide.ctaLink,
+        isExternal: slide.isExternal,
+      })
+    })
+  }
 
-      {/* Content */}
-      <div className="relative h-full section-container flex items-center">
-        <div className="max-w-2xl text-white animate-fade-in-up">
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
-            {slide.title}
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 mb-8">
-            {slide.subtitle}
-          </p>
-          <Link href={slide.ctaLink} className="btn-primary text-lg">
-            {slide.ctaText}
-          </Link>
-        </div>
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-        {placeholderSlides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? 'bg-white w-8' 
-                : 'bg-white/50 hover:bg-white/75'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* Navigation Arrows */}
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev - 1 + placeholderSlides.length) % placeholderSlides.length)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 text-white/75 hover:text-white transition-colors"
-        aria-label="Previous slide"
-      >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        onClick={() => setCurrentSlide((prev) => (prev + 1) % placeholderSlides.length)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-white/75 hover:text-white transition-colors"
-        aria-label="Next slide"
-      >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </section>
-  )
+  return <HeroCarouselClient slides={slides} />
 }

@@ -6,8 +6,92 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'heroSlides',
-      title: 'Hero Carousel Slides',
+      name: 'eventSlide',
+      title: 'Event Slide Settings',
+      type: 'object',
+      fields: [
+        {
+          name: 'enabled',
+          title: 'Auto-show Current/Upcoming Event',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'youtubeLink',
+          title: 'YouTube Livestream Link',
+          type: 'url',
+          description: 'Link to watch the event live',
+        },
+        {
+          name: 'fallbackImage',
+          title: 'Fallback Image',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Used if event has no featured image',
+        },
+      ],
+    }),
+    defineField({
+      name: 'articleSlide',
+      title: 'Article Slide Settings',
+      type: 'object',
+      fields: [
+        {
+          name: 'enabled',
+          title: 'Auto-show Latest Article',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'fallbackImage',
+          title: 'Fallback Image',
+          type: 'image',
+          options: { hotspot: true },
+          description: 'Used if article has no featured image',
+        },
+      ],
+    }),
+    defineField({
+      name: 'donateSlide',
+      title: 'Donate Slide',
+      type: 'object',
+      fields: [
+        {
+          name: 'enabled',
+          title: 'Show Donate Slide',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          initialValue: 'Support Team USA',
+        },
+        {
+          name: 'subtitle',
+          title: 'Subtitle',
+          type: 'string',
+          initialValue: 'Help our athletes compete on the world stage',
+        },
+        {
+          name: 'image',
+          title: 'Background Image',
+          type: 'image',
+          options: { hotspot: true },
+        },
+        {
+          name: 'ctaText',
+          title: 'Button Text',
+          type: 'string',
+          initialValue: 'Donate Now',
+        },
+      ],
+    }),
+    defineField({
+      name: 'staticSlides',
+      title: 'Additional Static Slides',
+      description: 'Add any extra slides you want',
       type: 'array',
       of: [
         {
@@ -41,6 +125,12 @@ export default defineType({
               title: 'Button Link',
               type: 'string',
             },
+            {
+              name: 'isExternal',
+              title: 'External Link?',
+              type: 'boolean',
+              initialValue: false,
+            },
           ],
           preview: {
             select: {
@@ -50,86 +140,12 @@ export default defineType({
           },
         },
       ],
-      validation: (Rule) => Rule.max(5),
-    }),
-    defineField({
-      name: 'olympicBidSection',
-      title: 'Olympic Bid Section',
-      type: 'object',
-      fields: [
-        {
-          name: 'heading',
-          title: 'Heading',
-          type: 'string',
-        },
-        {
-          name: 'subheading',
-          title: 'Subheading',
-          type: 'text',
-          rows: 2,
-        },
-        {
-          name: 'image',
-          title: 'Image',
-          type: 'image',
-          options: { hotspot: true },
-        },
-        {
-          name: 'ctaText',
-          title: 'Button Text',
-          type: 'string',
-          initialValue: 'Learn More',
-        },
-      ],
-    }),
-    defineField({
-      name: 'teamSectionHeading',
-      title: 'Team Section Heading',
-      type: 'string',
-      initialValue: 'Meet Team USA',
-    }),
-    defineField({
-      name: 'teamSectionSubheading',
-      title: 'Team Section Subheading',
-      type: 'text',
-      rows: 2,
-    }),
-    defineField({
-      name: 'donateSection',
-      title: 'Donate Section',
-      type: 'object',
-      fields: [
-        {
-          name: 'heading',
-          title: 'Heading',
-          type: 'string',
-          initialValue: 'Support Team USA',
-        },
-        {
-          name: 'description',
-          title: 'Description',
-          type: 'text',
-          rows: 3,
-        },
-        {
-          name: 'ctaText',
-          title: 'Button Text',
-          type: 'string',
-          initialValue: 'Donate Now',
-        },
-        {
-          name: 'backgroundImage',
-          title: 'Background Image',
-          type: 'image',
-          options: { hotspot: true },
-        },
-      ],
     }),
   ],
   preview: {
     prepare() {
       return {
-        title: 'Homepage Content',
+        title: 'Homepage Settings',
       }
     },
   },
