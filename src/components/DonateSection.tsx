@@ -14,11 +14,10 @@ export default function DonateSection() {
       {/* Content */}
       <div className="relative section-container text-center text-white">
         <h2 className="font-display text-3xl md:text-5xl mb-6">
-          Support Team USA
+          Support USA Ice Climbing
         </h2>
         <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8">
-          Your contribution helps our athletes train, compete internationally, and represent 
-          the United States at World Cup events. Every dollar makes a difference in their journey.
+        Your donation fuels the future of ice climbing in the United States. From expanding gym access and youth programs to supporting elite athletes at World Cup competitions, every contribution strengthens our community and elevates the sport we love.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/donate" className="btn-primary text-lg px-8">

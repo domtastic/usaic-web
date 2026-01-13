@@ -7,7 +7,7 @@ export default function TeamPreview() {
       {/* Full-bleed background image */}
       <Image
         src="/Team-USA-Photo-2025.jpg"
-        alt="Team USA Ice Climbing national team – powerful group action shot on ice"
+        alt="USA Ice Climbing National Team – powerful group action shot on ice"
         fill
         className="object-cover brightness-[0.88] contrast-[1.1] scale-105"
         priority
@@ -21,10 +21,10 @@ export default function TeamPreview() {
       <div className="absolute bottom-0 left-0 right-0 pb-12 md:pb-16 px-6 flex flex-col items-center text-center z-10">
         {/* Minimal text overlay – now positioned just above button */}
         <h2 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight drop-shadow-2xl mb-3 md:mb-4">
-          Team USA
+          USA National Team
         </h2>
         <p className="text-xl sm:text-2xl md:text-3xl text-white/95 font-light max-w-3xl mb-8 md:mb-10 drop-shadow-lg">
-          Meet the team representing USA at international World Cup competitions.
+          Meet the team representing USA at international ice climbing World Cup competitions.
         </p>
 
         {/* Button */}

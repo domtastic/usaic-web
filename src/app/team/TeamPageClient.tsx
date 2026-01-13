@@ -18,7 +18,7 @@ export default function TeamPageClient({ athletes }: { athletes: Athlete[] }) {
         <div className="absolute inset-0 bg-black/30" />
         <div className="relative section-container text-center text-white">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
-            Team USA
+            USA National Team
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             Meet the athletes representing the United States in international World Cup ice climbing competitions

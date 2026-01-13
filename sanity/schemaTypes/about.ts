@@ -6,28 +6,37 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'heroHeading',
-      title: 'Hero Heading',
-      type: 'string',
-      initialValue: 'About USA Ice Climbing',
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Image',
-      type: 'image',
-      options: { hotspot: true },
-    }),
-    defineField({
-      name: 'mission',
+      name: 'missionStatement',
       title: 'Mission Statement',
       type: 'text',
       rows: 4,
+      description: 'Displayed in the hero section',
     }),
     defineField({
-      name: 'history',
-      title: 'History',
+      name: 'aboutHeading',
+      title: 'About Section Heading',
+      type: 'string',
+      initialValue: 'About Us',
+    }),
+    defineField({
+      name: 'aboutContent',
+      title: 'About Content',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+          },
+        },
+      ],
+      description: 'Main about section content (supports paragraphs and bullet lists)',
     }),
     defineField({
       name: 'values',
@@ -41,39 +50,59 @@ export default defineType({
               name: 'title',
               title: 'Value Title',
               type: 'string',
+              validation: (Rule) => Rule.required(),
             },
             {
               name: 'description',
               title: 'Description',
               type: 'text',
               rows: 2,
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'icon',
+              title: 'Icon',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Lightning (Excellence)', value: 'lightning' },
+                  { title: 'People (Community)', value: 'people' },
+                  { title: 'Globe (Growth)', value: 'globe' },
+                  { title: 'Star (Achievement)', value: 'star' },
+                  { title: 'Heart (Passion)', value: 'heart' },
+                  { title: 'Shield (Safety)', value: 'shield' },
+                ],
+              },
+              initialValue: 'star',
             },
           ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'description',
+            },
+          },
         },
       ],
+      validation: (Rule) => Rule.max(6),
     }),
     defineField({
-      name: 'uiaaInfo',
-      title: 'UIAA Information',
+      name: 'uiaaText',
+      title: 'UIAA Section Text',
       type: 'text',
-      rows: 3,
-      description: 'Information about UIAA certification and affiliation',
+      rows: 4,
     }),
     defineField({
       name: 'contactEmail',
       title: 'Contact Email',
       type: 'string',
+      initialValue: 'usaiceclimbing@gmail.com',
     }),
     defineField({
-      name: 'socialMedia',
-      title: 'Social Media Links',
-      type: 'object',
-      fields: [
-        { name: 'instagram', title: 'Instagram URL', type: 'url' },
-        { name: 'facebook', title: 'Facebook URL', type: 'url' },
-        { name: 'twitter', title: 'Twitter/X URL', type: 'url' },
-        { name: 'youtube', title: 'YouTube URL', type: 'url' },
-      ],
+      name: 'contactDescription',
+      title: 'Contact Section Description',
+      type: 'text',
+      rows: 3,
     }),
   ],
   preview: {

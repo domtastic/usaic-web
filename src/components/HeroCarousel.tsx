@@ -161,8 +161,8 @@ if (homepage.eventSlide?.enabled !== false && events.length > 0) {
   if (homepage.donateSlide?.enabled !== false) {
     slides.push({
       type: 'donate',
-      title: homepage.donateSlide?.title || 'Support Team USA',
-      subtitle: homepage.donateSlide?.subtitle || 'Team USA is prouldy funded by fans like you!',
+      title: homepage.donateSlide?.title || 'Support USA Ice CLimbing',
+      subtitle: homepage.donateSlide?.subtitle || 'USA Ice Climbing is prouldy funded by fans like you!',
       image: homepage.donateSlide?.image,
       ctaText: homepage.donateSlide?.ctaText || 'Donate Now',
       ctaLink: '/donate',
