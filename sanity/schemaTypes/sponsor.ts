@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Company Name',
+      title: 'Sponsor Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
@@ -21,74 +21,57 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'tier',
-      title: 'Sponsor Tier',
+      name: 'logoBackground',
+      title: 'Logo Background',
       type: 'string',
       options: {
         list: [
-          { title: 'Title Sponsor', value: 'title' },
-          { title: 'Gold', value: 'gold' },
-          { title: 'Silver', value: 'silver' },
-          { title: 'Bronze', value: 'bronze' },
+          { title: 'White', value: 'white' },
+          { title: 'Black', value: 'black' },
         ],
         layout: 'radio',
       },
-      validation: (Rule) => Rule.required(),
+      initialValue: 'white',
+      description: 'Choose background color for the logo container',
     }),
     defineField({
       name: 'website',
       title: 'Website URL',
       type: 'url',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Description / Quote',
-      type: 'text',
-      rows: 3,
-      description: 'Optional brand message or partnership description',
+      description: 'Link to sponsor\'s website',
     }),
     defineField({
       name: 'active',
       title: 'Active Sponsor',
       type: 'boolean',
       initialValue: true,
-      description: 'Uncheck to hide from website without deleting',
+      description: 'Uncheck to hide sponsor from website',
     }),
     defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',
-      description: 'Lower numbers appear first within their tier',
+      description: 'Lower numbers appear first',
+      initialValue: 10,
     }),
   ],
   orderings: [
     {
-      title: 'Tier & Order',
-      name: 'tierOrder',
-      by: [
-        { field: 'tier', direction: 'asc' },
-        { field: 'order', direction: 'asc' },
-      ],
+      title: 'Display Order',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
     },
   ],
   preview: {
     select: {
       title: 'name',
-      tier: 'tier',
-      active: 'active',
       media: 'logo',
+      active: 'active',
     },
     prepare(selection) {
-      const { title, tier, active, media } = selection
-      const tierLabels: Record<string, string> = {
-        title: '⭐ Title Sponsor',
-        gold: '🥇 Gold',
-        silver: '🥈 Silver',
-        bronze: '🥉 Bronze',
-      }
+      const { title, media, active } = selection
       return {
-        title: `${title}${active ? '' : ' (Inactive)'}`,
-        subtitle: tierLabels[tier] || tier,
+        title: `${title}${active ? '' : ' (Hidden)'}`,
         media,
       }
     },
