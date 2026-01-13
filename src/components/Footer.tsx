@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { siteConfig } from '@/lib/config'
 const footerLinks = {
   explore: [
-    { name: 'Team USA', href: '/team' },
+    { name: 'National Team', href: '/team' },
     { name: 'Events', href: '/events' },
     { name: 'Disciplines', href: '/disciplines' },
     { name: 'News', href: '/news' },

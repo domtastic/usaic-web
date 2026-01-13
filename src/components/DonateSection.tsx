@@ -4,7 +4,7 @@ export default function DonateSection() {
   return (
     <section className="relative py-20 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-ice-gradient-dark" />
+      <div className="absolute inset-0 bg-usa-navy" />
       <div className="absolute inset-0 bg-black/40" />
       
       {/* Decorative elements */}
