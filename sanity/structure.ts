@@ -29,4 +29,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('event').title('Events'),
       S.documentTypeListItem('article').title('News Articles'),
       S.documentTypeListItem('sponsor').title('Sponsors'),
+      S.documentTypeListItem('medalCount').title('Medal Count'),
+
     ])
