@@ -27,6 +27,7 @@ const navItems: NavItem[] = [
     ],
   },
   { label: 'Events', href: '/events' },
+  { label: 'Results', href: '/results' },
   { label: 'About', href: '/about' },
 ]
 

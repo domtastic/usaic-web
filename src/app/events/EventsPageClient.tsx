@@ -208,29 +208,29 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                     )}
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-2 shrink-0">
-                    {event.eventLink && (
-                      <a
-                        href={event.eventLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-secondary text-sm px-4 py-2"
-                      >
-                        Event Info
-                      </a>
-                    )}
-                    {isEventStartedOrCompleted(event) && event.resultsLink && (
-                      <a
-                        href={event.resultsLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary text-sm px-4 py-2"
-                      >
-                        Results
-                      </a>
-                    )}
-                  </div>
+               {/* Actions */}
+<div className="flex gap-2 shrink-0">
+  {event.eventLink && (
+    <a
+      href={event.eventLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn-secondary text-sm px-4 py-2"
+    >
+      Event Info
+    </a>
+  )}
+  {isEventStartedOrCompleted(event) && (event.resultsLink || event.resultsPdf) && (
+    <a
+      href={event.resultsPdf?.url || event.resultsLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn-primary text-sm px-4 py-2"
+    >
+      Results
+    </a>
+  )}
+</div>
                 </div>
               </div>
             ))}

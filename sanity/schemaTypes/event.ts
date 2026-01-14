@@ -92,6 +92,15 @@ export default defineType({
       type: 'url',
       description: 'Add after event is complete',
     }),
+    defineField({
+      name: 'resultsPdf',
+      title: 'Results PDF',
+      type: 'file',
+      options: {
+        accept: '.pdf',
+      },
+      description: 'Upload PDF of competition results (for US Circuit events)',
+    }),
   ],
   orderings: [
     {

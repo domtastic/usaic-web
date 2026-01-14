@@ -18,6 +18,9 @@ export interface Event {
   description?: string
   eventLink?: string
   resultsLink?: string
+  resultsPdf?: {
+    url: string
+  }
 }
 
 async function getEvents(): Promise<Event[]> {
@@ -32,7 +35,10 @@ async function getEvents(): Promise<Event[]> {
     location,
     description,
     eventLink,
-    resultsLink
+    resultsLink,
+    "resultsPdf": resultsPdf {
+      "url": asset->url
+    }
   }`
   
   return client.fetch(query)
