@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import HeroCarousel from '@/components/HeroCarousel'
+import DiscoverSection from '@/components/DiscoverSection'
+import GrowthSection from '@/components/GrowthSection'
 import OlympicBidSection from '@/components/OlympicBidSection'
 import TeamPreview from '@/components/TeamPreview'
-import MedalCount from '@/components/MedalCount'
-import DonateSection from '@/components/DonateSection'
+import MedalDonateSection from '@/components/MedalDonateSection'
 import SponsorsSection from '@/components/SponsorsSection'
 
 export default function HomePage() {
@@ -12,19 +12,22 @@ export default function HomePage() {
       {/* Hero Carousel */}
       <HeroCarousel />
       
-      {/* Olympic Bid Section */}
+      {/* Discover the Sport */}
+      <DiscoverSection />
+
+      {/* Why Ice Climbing is Growing */}
+      <GrowthSection />
+      
+      {/* Olympic Bid / Future of the Sport */}
       <OlympicBidSection />
       
-      {/* Team USA Preview */}
+      {/* Meet Our Athletes */}
       <TeamPreview />
 
-      {/* Medal Count */}
-      <MedalCount />
+      {/* Medal Count + Donate (Split Screen) */}
+      <MedalDonateSection />
       
-      {/* Donate Section */}
-      <DonateSection />
-      
-      {/* Sponsors Section */}
+      {/* Sponsors */}
       <SponsorsSection />
     </>
   )

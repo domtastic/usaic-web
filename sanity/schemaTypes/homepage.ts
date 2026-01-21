@@ -4,7 +4,34 @@ export default defineType({
   name: 'homepage',
   title: 'Homepage',
   type: 'document',
-  fields: [
+  fields: [defineField({
+    name: 'welcomeSlide',
+    title: 'Welcome Slide',
+    type: 'object',
+    fields: [
+      {
+        name: 'image',
+        title: 'Background Image',
+        type: 'image',
+        options: { hotspot: true },
+        description: 'Background image for the welcome slide',
+      },
+    ],
+  }),
+  defineField({
+    name: 'getStartedSlide',
+    title: 'Get Started Slide',
+    type: 'object',
+    fields: [
+      {
+        name: 'image',
+        title: 'Background Image',
+        type: 'image',
+        options: { hotspot: true },
+        description: 'Background image for the Get Started slide',
+      },
+    ],
+  }),
     defineField({
       name: 'eventSlide',
       title: 'Event Slide Settings',

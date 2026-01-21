@@ -2,7 +2,14 @@ import { client, urlFor } from '@/lib/sanity'
 import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
+  welcomeSlide?: {
+    image?: { asset: { _ref: string } }
+  }
+  getStartedSlide?: {
+    image?: { asset: { _ref: string } }
+  }
   eventSlide?: {
+    // ... rest of existing fields
     enabled: boolean
     youtubeLink?: string
     fallbackImage?: { asset: { _ref: string } }
@@ -121,9 +128,34 @@ export default async function HeroCarousel() {
   const { homepage, events, latestArticle } = await getCarouselData()
 
   // Build slides array
-  const slides: any[] = []
+const slides: any[] = []
 
-  // 1. Event Slides (multiple if same weekend)
+// 1. Welcome Slide (always first)
+slides.push({
+  type: 'welcome',
+  title: 'Welcome to USA Ice Climbing',
+  subtitle: 'The national governing body for competitive ice climbing, mixed climbing, and drytooling in the United States',
+  image: homepage.welcomeSlide?.image,
+  ctaText: 'Meet the Team',
+  ctaLink: '/team',
+  isExternal: false,
+  secondaryCtaText: 'Upcoming Events',
+  secondaryCtaLink: '/events',
+})
+// 2. Get Started Slide
+slides.push({
+  type: 'getStarted',
+  title: 'Get Started Ice Climbing',
+  subtitle: 'Whether at a gym, ice festival, or with a guide—your journey into ice climbing starts here',
+  image: homepage.getStartedSlide?.image,
+  ctaText: 'Learn How',
+  ctaLink: '/get-started/learn',
+  isExternal: false,
+  secondaryCtaText: 'Find a Gym',
+  secondaryCtaLink: '/get-started/gyms',
+})
+
+// 2. Event Slides (World Cup only)
 const WORLD_CUP_YOUTUBE = 'https://www.youtube.com/playlist?list=PL0DMtATwEZ0jR6KC7LcrqljP-nZZGpqZG'
 
 if (homepage.eventSlide?.enabled !== false && events.length > 0) {
@@ -138,52 +170,51 @@ if (homepage.eventSlide?.enabled !== false && events.length > 0) {
       ctaText: 'Event Details',
       ctaLink: event.eventLink || '/events',
       isExternal: !!event.eventLink,
-      secondaryCtaText: isWorldCup ? '▶ Watch' : undefined,
+      secondaryCtaText: isWorldCup ? '▶ Watch Live' : undefined,
       secondaryCtaLink: isWorldCup ? WORLD_CUP_YOUTUBE : undefined,
     })
   })
 }
 
-  // 2. Latest Article Slide
-  if (homepage.articleSlide?.enabled !== false && latestArticle) {
+// 3. Latest Article Slide
+if (homepage.articleSlide?.enabled !== false && latestArticle) {
+  slides.push({
+    type: 'article',
+    title: latestArticle.title,
+    subtitle: latestArticle.excerpt,
+    image: latestArticle.featuredImage || homepage.articleSlide?.fallbackImage,
+    ctaText: 'Read More',
+    ctaLink: `/news/${latestArticle.slug.current}`,
+    isExternal: false,
+  })
+}
+
+// 4. Donate Slide
+if (homepage.donateSlide?.enabled !== false) {
+  slides.push({
+    type: 'donate',
+    title: homepage.donateSlide?.title || 'Support USA Ice Climbing',
+    subtitle: homepage.donateSlide?.subtitle || 'Help grow the sport and support our athletes on the world stage',
+    image: homepage.donateSlide?.image,
+    ctaText: homepage.donateSlide?.ctaText || 'Donate Now',
+    ctaLink: '/donate',
+    isExternal: false,
+  })
+}
+
+// 5. Static Slides
+if (homepage.staticSlides) {
+  homepage.staticSlides.forEach((slide) => {
     slides.push({
-      type: 'article',
-      title: latestArticle.title,
-      subtitle: latestArticle.excerpt,
-      image: latestArticle.featuredImage || homepage.articleSlide?.fallbackImage,
-      ctaText: 'Read More',
-      ctaLink: `/news/${latestArticle.slug.current}`,
-      isExternal: false,
+      type: 'static',
+      title: slide.title,
+      subtitle: slide.subtitle,
+      image: slide.image,
+      ctaText: slide.ctaText,
+      ctaLink: slide.ctaLink,
+      isExternal: slide.isExternal,
     })
-  }
-
-  // 3. Donate Slide
-  if (homepage.donateSlide?.enabled !== false) {
-    slides.push({
-      type: 'donate',
-      title: homepage.donateSlide?.title || 'Support USA Ice CLimbing',
-      subtitle: homepage.donateSlide?.subtitle || 'USA Ice Climbing is prouldy funded by fans like you!',
-      image: homepage.donateSlide?.image,
-      ctaText: homepage.donateSlide?.ctaText || 'Donate Now',
-      ctaLink: '/donate',
-      isExternal: false,
-    })
-  }
-
-  // 4. Static Slides
-  if (homepage.staticSlides) {
-    homepage.staticSlides.forEach((slide) => {
-      slides.push({
-        type: 'static',
-        title: slide.title,
-        subtitle: slide.subtitle,
-        image: slide.image,
-        ctaText: slide.ctaText,
-        ctaLink: slide.ctaLink,
-        isExternal: slide.isExternal,
-      })
-    })
-  }
-
+  })
+}
   return <HeroCarouselClient slides={slides} />
 }

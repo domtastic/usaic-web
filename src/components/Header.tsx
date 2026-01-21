@@ -16,20 +16,32 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'National Team', href: '/team' },
-  { label: 'News', href: '/news' },
   {
-    label: 'Climb',
-    href: '/disciplines',
+    label: 'National Team',
+    href: '/team',
     children: [
-      { label: 'Disciplines', href: '/disciplines' },
-      { label: 'Find a Gym', href: '/gyms' },
+      { label: 'Athletes', href: '/team' },
+      { label: 'Competition Disciplines', href: '/team/disciplines' },
+      { label: 'Resources', href: '/team/resources' },
     ],
   },
+  {
+    label: 'Get Started',
+    href: '/get-started',
+    children: [
+      { label: 'What is Drytooling?', href: '/get-started/what-is-drytooling' },
+      { label: 'Learn to Ice Climb', href: '/get-started/learn' },
+      { label: 'Get Your Gym Involved', href: '/get-started/gym-involvement' },
+      { label: 'Find a Gym', href: '/get-started/gyms' },
+    ],
+  },
+  
   { label: 'Events', href: '/events' },
   { label: 'Results', href: '/results' },
+  { label: 'News', href: '/news' },
   { label: 'About', href: '/about' },
 ]
+
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -90,6 +102,7 @@ export default function Header() {
             {siteConfig.nonprofit}
           </p>
           <div className="flex items-center gap-4 ml-auto">
+            Follow us:
             {siteConfig.socialLinks.facebook && (
               <a
                 href={siteConfig.socialLinks.facebook}

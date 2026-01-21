@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity'
 
 interface Slide {
-  type: 'event' | 'article' | 'donate' | 'static'
+  type: 'welcome' | 'event' | 'article' | 'donate' | 'static'
   title: string
   subtitle?: string
   image?: { asset: { _ref: string } }
@@ -23,17 +23,42 @@ interface HeroCarouselClientProps {
 
 export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [autoPlay, setAutoPlay] = useState(true)
+  const autoPlayRef = useRef(autoPlay)
 
-  // Auto-advance slides
+  // Keep ref in sync with state
+  useEffect(() => {
+    autoPlayRef.current = autoPlay
+  }, [autoPlay])
+
+  // Auto-advance slides (only if autoPlay is true)
   useEffect(() => {
     if (slides.length <= 1) return
     
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
+      if (autoPlayRef.current) {
+        setCurrentSlide((prev) => (prev + 1) % slides.length)
+      }
     }, 6000)
 
     return () => clearInterval(timer)
   }, [slides.length])
+
+  // Stop auto-play when user manually changes slide
+  const handleSlideChange = (index: number) => {
+    setAutoPlay(false)
+    setCurrentSlide(index)
+  }
+
+  const handlePrevSlide = () => {
+    setAutoPlay(false)
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+  }
+
+  const handleNextSlide = () => {
+    setAutoPlay(false)
+    setCurrentSlide((prev) => (prev + 1) % slides.length)
+  }
 
   if (slides.length === 0) {
     return (
@@ -68,8 +93,8 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
 
       {/* Content */}
       <div className="relative h-full flex items-end pb-20 md:pb-24">
-  <div className="section-container">
-    <div className="max-w-2xl">
+        <div className="section-container">
+          <div className="max-w-2xl">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-4">
               {slide.title}
             </h1>
@@ -99,14 +124,23 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
               )}
               
               {slide.secondaryCtaText && slide.secondaryCtaLink && (
-                <a
-                  href={slide.secondaryCtaLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
-                >
-                  {slide.secondaryCtaText}
-                </a>
+                slide.isExternal === false && !slide.secondaryCtaLink.startsWith('http') ? (
+                  <Link
+                    href={slide.secondaryCtaLink}
+                    className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
+                  >
+                    {slide.secondaryCtaText}
+                  </Link>
+                ) : (
+                  <a
+                    href={slide.secondaryCtaLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
+                  >
+                    {slide.secondaryCtaText}
+                  </a>
+                )
               )}
             </div>
           </div>
@@ -119,7 +153,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
           {slides.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => handleSlideChange(index)}
               className={`w-3 h-3 rounded-full transition-all ${
                 index === currentSlide 
                   ? 'bg-white w-8' 
@@ -135,7 +169,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
       {slides.length > 1 && (
         <>
           <button
-            onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+            onClick={handlePrevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors"
             aria-label="Previous slide"
           >
@@ -144,7 +178,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
             </svg>
           </button>
           <button
-            onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
+            onClick={handleNextSlide}
             className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors"
             aria-label="Next slide"
           >
@@ -153,6 +187,20 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
             </svg>
           </button>
         </>
+      )}
+
+      {/* Auto-play indicator (optional - shows when paused) */}
+      {!autoPlay && slides.length > 1 && (
+        <button
+          onClick={() => setAutoPlay(true)}
+          className="absolute bottom-8 right-8 p-2 rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors"
+          aria-label="Resume auto-play"
+          title="Resume auto-play"
+        >
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
       )}
     </section>
   )

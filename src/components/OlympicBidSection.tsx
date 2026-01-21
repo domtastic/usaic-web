@@ -4,9 +4,9 @@ import Image from 'next/image'
 export default function OlympicBidSection() {
   return (
     <section className="w-full bg-white overflow-hidden">
-      <div className="grid lg:grid-cols-2 min-h-[80vh] lg:min-h-[90vh]">
+      <div className="grid lg:grid-cols-2 min-h-[70vh] lg:min-h-[80vh]">
         {/* Left: Full-bleed photo */}
-        <div className="relative lg:order-1 h-[60vh] lg:h-auto">
+        <div className="relative lg:order-1 h-[50vh] lg:h-auto">
           <Image
             src="/FrenchAlps2030-Photo.JPEG"
             alt="Stunning French Alps landscape – potential 2030 Winter Olympics venue for ice climbing"
@@ -20,7 +20,7 @@ export default function OlympicBidSection() {
         </div>
 
         {/* Right: Content – centered vertically with fixed background */}
-        <div className="relative flex items-center justify-center px-6 py-16 md:px-12 lg:px-16 lg:py-0 overflow-hidden">
+        <div className="relative flex items-center justify-center px-6 py-16 md:px-12 lg:px-16 lg:py-0">
           {/* Fixed Background Image - stays in place while content scrolls */}
           <div 
             className="absolute inset-0 z-0"
@@ -37,12 +37,19 @@ export default function OlympicBidSection() {
 
           {/* Content */}
           <div className="relative z-10 max-w-xl">
-            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-usa-navy leading-tight mb-6">
-              Ice Climbing on Path to the Winter Olympics 2030
+            <span className="inline-block px-3 py-1 bg-usa-red text-white text-sm font-semibold rounded-full mb-4">
+              The Future of the Sport
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-usa-navy leading-tight mb-6">
+              On the Path to the 2030 Winter Olympics
             </h2>
 
-            <p className="text-lg md:text-xl text-slate-700 leading-relaxed mb-10">
-              Ice climbing stands on the threshold of history with its bid for inclusion in the 2030 French Alps Winter Olympics. Support the movement and help bring this visionary discipline to the global stage.
+            <p className="text-lg md:text-xl text-slate-700 leading-relaxed mb-6">
+              Ice climbing is gaining global recognition with its bid for inclusion in the 2030 French Alps Winter Olympics. This milestone would bring our sport to the world's biggest stage.
+            </p>
+            
+            <p className="text-lg text-slate-600 leading-relaxed mb-10">
+              By growing participation and building competitive excellence, we're proving that ice climbing belongs among the world's premier winter sports.
             </p>
 
             <Link
@@ -56,7 +63,7 @@ export default function OlympicBidSection() {
                 shadow-md
               `}
             >
-              Support Team USA
+              Support the Movement
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
