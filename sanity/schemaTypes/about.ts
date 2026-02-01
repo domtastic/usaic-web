@@ -87,10 +87,50 @@ export default defineType({
       validation: (Rule) => Rule.max(6),
     }),
     defineField({
-      name: 'uiaaText',
-      title: 'UIAA Section Text',
-      type: 'text',
-      rows: 4,
+      name: 'uiaaImage',
+      title: 'UIAA Logo/Image',
+      type: 'image',
+      description: 'Displayed to the left of the UIAA Associate Member heading',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'uiaaContent',
+      title: 'UIAA Section Content',
+      type: 'array',
+      description: 'Rich text content for the UIAA section (supports paragraphs, bullet lists, and links)',
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                    validation: (Rule) => Rule.uri({
+                      scheme: ['http', 'https', 'mailto', 'tel'],
+                    }),
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
     }),
     defineField({
       name: 'contactEmail',

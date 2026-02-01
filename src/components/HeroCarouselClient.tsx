@@ -62,7 +62,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
 
   if (slides.length === 0) {
     return (
-      <section className="relative h-[70vh] bg-usa-navy flex items-center justify-center">
+      <section className="relative h-[50vh] bg-usa-navy flex items-center justify-center">
         <div className="text-center text-white">
           <h1 className="font-display text-4xl mb-4">USA Ice Climbing</h1>
           <p className="text-white/80">Configure hero slides in Sanity Studio</p>
@@ -74,7 +74,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
   const slide = slides[currentSlide]
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+    <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         {slide.image ? (

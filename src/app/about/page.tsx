@@ -1,4 +1,5 @@
-import { client } from '@/lib/sanity'
+import Image from 'next/image'
+import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
 
 interface AboutData {
@@ -10,7 +11,12 @@ interface AboutData {
     description: string
     icon: string
   }[]
-  uiaaText?: string
+  uiaaImage?: {
+    asset: {
+      _ref: string
+    }
+  }
+  uiaaContent?: any[]
   contactEmail?: string
   contactDescription?: string
 }
@@ -21,11 +27,12 @@ async function getAboutData(): Promise<AboutData> {
     aboutHeading,
     aboutContent,
     values,
-    uiaaText,
+    uiaaImage,
+    uiaaContent,
     contactEmail,
     contactDescription
   }`
-  
+
   return await client.fetch(query) || {}
 }
 
@@ -71,7 +78,6 @@ const defaults = {
     { title: 'Community', description: 'We build and support a welcoming community of climbers at all skill levels and backgrounds.', icon: 'people' },
     { title: 'Growth', description: 'We champion the growth of ice climbing and its recognition as an Olympic sport.', icon: 'globe' },
   ],
-  uiaaText: "USA Ice Climbing is proudly affiliated with the International Climbing and Mountaineering Federation (UIAA), the international governing body for ice climbing competitions. This affiliation allows our athletes to compete in World Cup events and represent the United States on the global stage.",
   contactEmail: "usaiceclimbing@gmail.com",
   contactDescription: "Have questions about USA Ice Climbing, interested in sponsorship opportunities, or want to learn more about how you can get involved?",
 }
@@ -82,7 +88,6 @@ export default async function AboutPage() {
   const mission = data.missionStatement || defaults.missionStatement
   const aboutHeading = data.aboutHeading || defaults.aboutHeading
   const values = data.values?.length ? data.values : defaults.values
-  const uiaaText = data.uiaaText || defaults.uiaaText
   const contactEmail = data.contactEmail || defaults.contactEmail
   const contactDescription = data.contactDescription || defaults.contactDescription
 
@@ -180,13 +185,70 @@ export default async function AboutPage() {
       {/* UIAA */}
       <section className="section-padding">
         <div className="section-container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl md:text-4xl text-usa-navy mb-6 text-center">
-              UIAA Affiliated
-            </h2>
-            <p className="text-lg text-slate-600 text-center mb-8">
-              {uiaaText}
-            </p>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-center gap-6 mb-8">
+              {data.uiaaImage && (
+                <div className="w-24 h-24 md:w-32 md:h-32 relative shrink-0">
+                  <Image
+                    src={urlFor(data.uiaaImage).width(256).url()}
+                    alt="UIAA Logo"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              )}
+              <h2 className="font-display text-3xl md:text-4xl text-usa-navy">
+                UIAA Associate Member
+              </h2>
+            </div>
+            {data.uiaaContent ? (
+              <div className="prose prose-lg max-w-none">
+                <PortableText
+                  value={data.uiaaContent}
+                  components={{
+                    block: {
+                      normal: ({ children }) => (
+                        <p className="text-lg text-slate-600 leading-relaxed mb-4">{children}</p>
+                      ),
+                    },
+                    list: {
+                      bullet: ({ children }) => (
+                        <ul className="text-lg text-slate-600 leading-relaxed list-disc pl-8 mb-4 space-y-2">{children}</ul>
+                      ),
+                    },
+                    listItem: {
+                      bullet: ({ children }) => <li>{children}</li>,
+                    },
+                    marks: {
+                      link: ({ children, value }) => (
+                        <a
+                          href={value?.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-ice-600 hover:text-ice-700 underline"
+                        >
+                          {children}
+                        </a>
+                      ),
+                    },
+                  }}
+                />
+              </div>
+            ) : (
+              <p className="text-lg text-slate-600 text-center">
+                USA Ice Climbing is proudly affiliated with the International Climbing and Mountaineering Federation (UIAA), the international governing body for ice climbing competitions. This affiliation allows our athletes to compete in World Cup events and represent the United States on the global stage.
+              </p>
+            )}
+            <div className="text-center mt-8">
+              <a
+                href="https://www.theuiaa.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary inline-flex items-center gap-2"
+              >
+                Learn more about UIAA
+              </a>
+            </div>
           </div>
         </div>
       </section>

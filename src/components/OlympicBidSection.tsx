@@ -33,13 +33,10 @@ export default function OlympicBidSection() {
           />
           
           {/* Very transparent overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-ice-50/95 to-white/90 z-[1]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-ice-50/95 to-white/20 z-[1]" />
 
           {/* Content */}
           <div className="relative z-10 max-w-xl">
-            <span className="inline-block px-3 py-1 bg-usa-red text-white text-sm font-semibold rounded-full mb-4">
-              The Future of the Sport
-            </span>
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-usa-navy leading-tight mb-6">
               On the Path to the 2030 Winter Olympics
             </h2>

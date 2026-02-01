@@ -15,9 +15,7 @@ export default function HomePage() {
       {/* Discover the Sport */}
       <DiscoverSection />
 
-      {/* Why Ice Climbing is Growing */}
-      <GrowthSection />
-      
+
       {/* Olympic Bid / Future of the Sport */}
       <OlympicBidSection />
       

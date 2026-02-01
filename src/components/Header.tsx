@@ -221,7 +221,7 @@ export default function Header() {
                                   'after:absolute after:bottom-2 after:left-4 after:right-4 after:h-0.5',
                                   'after:bg-usa-red after:origin-left',
                                   'after:transition-transform after:duration-300 after:ease-out',
-                                  isActive(child.href)
+                                  pathname === child.href
                                     ? 'after:scale-x-100 bg-slate-50'
                                     : 'after:scale-x-0 hover:after:scale-x-100 hover:bg-slate-50'
                                 )}

@@ -3,10 +3,22 @@ import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
   welcomeSlide?: {
+    title?: string
+    subtitle?: string
     image?: { asset: { _ref: string } }
+    ctaText?: string
+    ctaLink?: string
+    secondaryCtaText?: string
+    secondaryCtaLink?: string
   }
   getStartedSlide?: {
+    title?: string
+    subtitle?: string
     image?: { asset: { _ref: string } }
+    ctaText?: string
+    ctaLink?: string
+    secondaryCtaText?: string
+    secondaryCtaLink?: string
   }
   eventSlide?: {
     // ... rest of existing fields
@@ -133,26 +145,26 @@ const slides: any[] = []
 // 1. Welcome Slide (always first)
 slides.push({
   type: 'welcome',
-  title: 'Welcome to USA Ice Climbing',
-  subtitle: 'The national governing body for competitive ice climbing, mixed climbing, and drytooling in the United States',
+  title: homepage.welcomeSlide?.title || 'Welcome to USA Ice Climbing',
+  subtitle: homepage.welcomeSlide?.subtitle || 'The national governing body for competitive ice climbing, mixed climbing, and drytooling in the United States',
   image: homepage.welcomeSlide?.image,
-  ctaText: 'Meet the Team',
-  ctaLink: '/team',
+  ctaText: homepage.welcomeSlide?.ctaText || 'Meet the Team',
+  ctaLink: homepage.welcomeSlide?.ctaLink || '/team',
   isExternal: false,
-  secondaryCtaText: 'Upcoming Events',
-  secondaryCtaLink: '/events',
+  secondaryCtaText: homepage.welcomeSlide?.secondaryCtaText || 'Upcoming Events',
+  secondaryCtaLink: homepage.welcomeSlide?.secondaryCtaLink || '/events',
 })
 // 2. Get Started Slide
 slides.push({
   type: 'getStarted',
-  title: 'Get Started Ice Climbing',
-  subtitle: 'Whether at a gym, ice festival, or with a guide—your journey into ice climbing starts here',
+  title: homepage.getStartedSlide?.title || 'Get Started Ice Climbing',
+  subtitle: homepage.getStartedSlide?.subtitle || 'Whether at a gym, ice festival, or with a guide—your journey into ice climbing starts here',
   image: homepage.getStartedSlide?.image,
-  ctaText: 'Learn How',
-  ctaLink: '/get-started/learn',
+  ctaText: homepage.getStartedSlide?.ctaText || 'Learn How',
+  ctaLink: homepage.getStartedSlide?.ctaLink || '/get-started/learn',
   isExternal: false,
-  secondaryCtaText: 'Find a Gym',
-  secondaryCtaLink: '/get-started/gyms',
+  secondaryCtaText: homepage.getStartedSlide?.secondaryCtaText || 'Find a Gym',
+  secondaryCtaLink: homepage.getStartedSlide?.secondaryCtaLink || '/get-started/gyms',
 })
 
 // 2. Event Slides (World Cup only)
