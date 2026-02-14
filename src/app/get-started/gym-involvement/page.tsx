@@ -73,7 +73,7 @@ export default function GymInvolvementPage() {
               </div>
               <h3 className="font-display text-lg text-usa-navy mb-2">Competition Host</h3>
               <p className="text-slate-600 text-sm">
-                Opportunity to host USA Circuit competitions and events.
+                Opportunity to host ice climbing competitions and events.
               </p>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function GymInvolvementPage() {
               </div>
               <h3 className="font-display text-xl text-usa-navy mb-2">Events</h3>
               <p className="text-slate-600">
-                Opportunity to host USA Circuit competitions
+                Opportunity to host ice climbing competitions
               </p>
             </div>
           </div>

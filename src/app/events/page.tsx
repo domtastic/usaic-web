@@ -6,7 +6,7 @@ export interface Event {
   title: string
   slug: { current: string }
   eventType: 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition'
-  isUsaCircuit?: boolean
+  season: string
   startDate: string
   endDate?: string
   location: {
@@ -29,7 +29,7 @@ async function getEvents(): Promise<Event[]> {
     title,
     slug,
     eventType,
-    isUsaCircuit,
+    season,
     startDate,
     endDate,
     location,
@@ -40,7 +40,7 @@ async function getEvents(): Promise<Event[]> {
       "url": asset->url
     }
   }`
-  
+
   return client.fetch(query)
 }
 

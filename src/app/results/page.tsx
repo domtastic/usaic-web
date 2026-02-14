@@ -5,7 +5,6 @@ export interface EventResult {
     _id: string
     title: string
     eventType: string
-    isUsaCircuit: boolean
     startDate: string
     endDate?: string
     location: {
@@ -25,7 +24,6 @@ async function getResultsEvents(): Promise<EventResult[]> {
     _id,
     title,
     eventType,
-    isUsaCircuit,
     startDate,
     endDate,
     location,
@@ -34,7 +32,7 @@ async function getResultsEvents(): Promise<EventResult[]> {
       "url": asset->url
     }
   }`
-  
+
   return client.fetch(query)
 }
 

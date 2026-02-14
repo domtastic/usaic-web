@@ -1,0 +1,26 @@
+/* Hide site header and footer on Sanity Studio pages */
+body {
+  padding-top: 0 !important;
+}
+
+/* Hide the site header */
+body > header,
+header:first-of-type {
+  display: none !important;
+}
+
+/* Hide the site footer */
+body > footer,
+footer:last-of-type {
+  display: none !important;
+}
+
+/* Make the studio take full height */
+.sanity-studio-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}

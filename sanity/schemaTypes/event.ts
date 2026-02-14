@@ -37,11 +37,21 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'isUsaCircuit',
-      title: 'USA Circuit Event',
-      type: 'boolean',
-      description: 'Check if this event is part of the official USA Ice Climbing Circuit',
-      initialValue: false,
+      name: 'season',
+      title: 'Season',
+      type: 'string',
+      description: 'Ice climbing season (Oct-Apr), e.g., 2025-26',
+      options: {
+        list: [
+          { title: '2025-26', value: '2025-26' },
+          { title: '2024-25', value: '2024-25' },
+          { title: '2023-24', value: '2023-24' },
+          { title: '2022-23', value: '2022-23' },
+          { title: '2021-22', value: '2021-22' },
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'startDate',
@@ -99,7 +109,7 @@ export default defineType({
       options: {
         accept: '.pdf',
       },
-      description: 'Upload PDF of competition results (for US Circuit events)',
+      description: 'Upload PDF of competition results',
     }),
   ],
   orderings: [
@@ -119,11 +129,11 @@ export default defineType({
       title: 'title',
       date: 'startDate',
       eventType: 'eventType',
-      isUsaCircuit: 'isUsaCircuit',
+      season: 'season',
       media: 'featuredImage',
     },
     prepare(selection) {
-      const { title, date, eventType, isUsaCircuit, media } = selection
+      const { title, date, eventType, season, media } = selection
       const typeLabels: Record<string, string> = {
         'world-cup': '🏆 World Cup',
         'continental-cup': '🌎 Continental Cup',
@@ -131,8 +141,8 @@ export default defineType({
         'local-competition': '📍 Local Competition',
       }
       return {
-        title: `${title}${isUsaCircuit ? ' 🇺🇸' : ''}`,
-        subtitle: `${typeLabels[eventType] || eventType} • ${date}`,
+        title,
+        subtitle: `${season || ''} • ${typeLabels[eventType] || eventType} • ${date}`,
         media,
       }
     },

@@ -153,16 +153,9 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
                         >
                           <span className="font-medium text-usa-navy">{athlete.name}</span>
                           {athlete.disciplines && athlete.disciplines.length > 0 && (
-                            <div className="flex gap-1.5 ml-3">
-                              {athlete.disciplines.map((d, i) => (
-                                <span
-                                  key={i}
-                                  className="px-2 py-0.5 bg-ice-100 text-ice-700 text-xs font-medium rounded"
-                                >
-                                  {d}
-                                </span>
-                              ))}
-                            </div>
+                            <span className="text-slate-500 text-sm ml-3">
+                              {athlete.disciplines.join(', ')}
+                            </span>
                           )}
                         </div>
                       ))}

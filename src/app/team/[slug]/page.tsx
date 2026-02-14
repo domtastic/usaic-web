@@ -115,12 +115,19 @@ export default async function AthletePage({ params }: PageProps) {
 
               {/* Details */}
               <div className="space-y-4 mb-8">
-              {athlete.dateOfBirth && (
-  <div className="flex items-start gap-4">
-    <div className="w-32 text-slate-500 font-medium">D.O.B.</div>
-    <div className="text-usa-navy">{athlete.dateOfBirth}</div>
-  </div>
-)}
+              {athlete.dateOfBirth && (() => {
+                const today = new Date()
+                const birth = new Date(athlete.dateOfBirth!)
+                let age = today.getFullYear() - birth.getFullYear()
+                const m = today.getMonth() - birth.getMonth()
+                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+                return (
+                  <div className="flex items-start gap-4">
+                    <div className="w-32 text-slate-500 font-medium">Age</div>
+                    <div className="text-usa-navy">{age}</div>
+                  </div>
+                )
+              })()}
                 {athlete.residence && (
                   <div className="flex items-start gap-4">
                     <div className="w-32 text-slate-500 font-medium">Residence</div>
@@ -129,15 +136,8 @@ export default async function AthletePage({ params }: PageProps) {
                 )}
                 <div className="flex items-start gap-4">
                   <div className="w-32 text-slate-500 font-medium">Discipline</div>
-                  <div className="flex gap-2 flex-wrap">
-                    {athlete.discipline?.map((d) => (
-                      <span 
-                        key={d}
-                        className="px-3 py-1 bg-usa-red text-white text-sm font-medium rounded-full"
-                      >
-                        {d.charAt(0).toUpperCase() + d.slice(1)}
-                      </span>
-                    ))}
+                  <div className="text-usa-navy">
+                    {athlete.discipline?.map((d) => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
                   </div>
                 </div>
               </div>

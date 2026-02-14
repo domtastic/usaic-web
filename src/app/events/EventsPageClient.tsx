@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import type { Event } from './page'
 
 type TimeFilter = 'upcoming' | 'past'
-type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'usa-circuit'
+type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition'
 
 const eventTypeLabels: Record<EventTypeFilter, string> = {
   'all': 'All Events',
@@ -12,7 +12,6 @@ const eventTypeLabels: Record<EventTypeFilter, string> = {
   'continental-cup': 'Continental Cup',
   'ice-festival': 'Ice Festival',
   'local-competition': 'Local Competition',
-  'usa-circuit': 'USA Circuit',
 }
 
 const eventTypeBadgeColors: Record<string, string> = {
@@ -22,28 +21,31 @@ const eventTypeBadgeColors: Record<string, string> = {
   'local-competition': 'bg-slate-500 text-white',
 }
 
-// 2025/26 Ice Climbing Season: Oct 1, 2025 - Apr 30, 2026
-const SEASON_START = new Date('2025-10-01')
-const SEASON_END = new Date('2026-04-30')
-
 export default function EventsPageClient({ events }: { events: Event[] }) {
+  // Get available seasons from events
+  const availableSeasons = useMemo(() => {
+    const seasons = new Set<string>()
+    events.forEach(event => {
+      if (event.season) seasons.add(event.season)
+    })
+    return Array.from(seasons).sort().reverse()
+  }, [events])
+
+  const [selectedSeason, setSelectedSeason] = useState(availableSeasons[0] || '2025-26')
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('upcoming')
   const [typeFilter, setTypeFilter] = useState<EventTypeFilter>('all')
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  // Filter by season (Oct 2025 - Apr 2026)
-  const seasonEvents = events.filter(event => {
-    const eventDate = new Date(event.startDate)
-    return eventDate >= SEASON_START && eventDate <= SEASON_END
-  })
+  // Filter by season
+  const seasonEvents = events.filter(event => event.season === selectedSeason)
 
   // Filter by upcoming/past
   const timeFilteredEvents = seasonEvents.filter(event => {
     const eventEndDate = event.endDate ? new Date(event.endDate) : new Date(event.startDate)
     eventEndDate.setHours(23, 59, 59, 999)
-    
+
     if (timeFilter === 'upcoming') {
       return eventEndDate >= today
     } else {
@@ -54,7 +56,6 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   // Filter by event type
   const filteredEvents = (() => {
     if (typeFilter === 'all') return timeFilteredEvents
-    if (typeFilter === 'usa-circuit') return timeFilteredEvents.filter(e => e.isUsaCircuit)
     return timeFilteredEvents.filter(e => e.eventType === typeFilter)
   })()
 
@@ -68,7 +69,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   const formatDate = (start: string, end?: string) => {
     const startDate = new Date(start)
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }
-    
+
     if (end && end !== start) {
       const endDate = new Date(end)
       if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
@@ -96,6 +97,9 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
     return today >= eventStart
   }
 
+  // Format season for display (e.g., "2025-26" -> "2025/26")
+  const formatSeasonDisplay = (season: string) => season.replace('-', '/')
+
   return (
     <>
       <section className="relative py-20 md:py-28 bg-usa-navy">
@@ -105,13 +109,31 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
             Events
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            2025/26 Ice Climbing Season
+            {formatSeasonDisplay(selectedSeason)} Ice Climbing Season
           </p>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="section-container">
+          {/* Season Selector */}
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-3">
+              <span className="text-slate-600 font-medium">Season:</span>
+              <select
+                value={selectedSeason}
+                onChange={(e) => setSelectedSeason(e.target.value)}
+                className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-usa-navy font-semibold focus:outline-none focus:ring-2 focus:ring-ice-500"
+              >
+                {availableSeasons.map((season) => (
+                  <option key={season} value={season}>
+                    {formatSeasonDisplay(season)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Time Filter Toggle */}
           <div className="flex justify-center mb-6">
             <div className="inline-flex bg-slate-100 rounded-lg p-1">
@@ -146,13 +168,11 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                 onClick={() => setTypeFilter(type)}
                 className={`px-4 py-2 rounded-full font-medium transition-all ${
                   typeFilter === type
-                    ? type === 'usa-circuit' 
-                      ? 'bg-usa-red text-white'
-                      : 'bg-usa-navy text-white'
+                    ? 'bg-usa-navy text-white'
                     : 'bg-slate-100 text-usa-navy hover:bg-slate-200'
                 }`}
               >
-                {type === 'usa-circuit' && '🇺🇸 '}{eventTypeLabels[type]}
+                {eventTypeLabels[type]}
               </button>
             ))}
           </div>
@@ -160,7 +180,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
           {/* Events List */}
           <div className="space-y-4">
             {sortedEvents.map((event) => (
-              <div 
+              <div
                 key={event._id}
                 className="card p-6"
               >
@@ -192,11 +212,6 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                       <span className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[event.eventType]}`}>
                         {eventTypeLabels[event.eventType]}
                       </span>
-                      {event.isUsaCircuit && (
-                        <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-usa-red text-white">
-                          🇺🇸 USA Circuit
-                        </span>
-                      )}
                     </div>
                     <p className="text-slate-500 text-sm mb-2">
                       {formatLocation(event.location)}
@@ -208,29 +223,29 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                     )}
                   </div>
 
-               {/* Actions */}
-<div className="flex gap-2 shrink-0">
-  {event.eventLink && (
-    <a
-      href={event.eventLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="btn-secondary text-sm px-4 py-2"
-    >
-      Event Info
-    </a>
-  )}
-  {isEventStartedOrCompleted(event) && (event.resultsLink || event.resultsPdf) && (
-    <a
-      href={event.resultsPdf?.url || event.resultsLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="btn-primary text-sm px-4 py-2"
-    >
-      Results
-    </a>
-  )}
-</div>
+                  {/* Actions */}
+                  <div className="flex gap-2 shrink-0">
+                    {event.eventLink && (
+                      <a
+                        href={event.eventLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-secondary text-sm px-4 py-2"
+                      >
+                        Event Info
+                      </a>
+                    )}
+                    {isEventStartedOrCompleted(event) && (event.resultsLink || event.resultsPdf) && (
+                      <a
+                        href={event.resultsPdf?.url || event.resultsLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary text-sm px-4 py-2"
+                      >
+                        Results
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -238,7 +253,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
           {sortedEvents.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-slate-500">No {timeFilter} events found for this category.</p>
+              <p className="text-slate-500">No {timeFilter} events found for this season and category.</p>
               <p className="text-sm text-slate-400 mt-2">Add events in the Sanity Studio at /studio</p>
             </div>
           )}

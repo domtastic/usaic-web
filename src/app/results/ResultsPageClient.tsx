@@ -67,7 +67,7 @@ export default function ResultsPageClient({ events }: { events: EventResult[] })
             US Competition Results
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            Results from USA Circuit and local ice climbing competitions
+            Results from local ice climbing competitions
           </p>
         </div>
       </section>
@@ -75,23 +75,19 @@ export default function ResultsPageClient({ events }: { events: EventResult[] })
       {/* Season Filter */}
       <section className="py-8 bg-slate-50 border-b">
         <div className="section-container">
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-3">
             <span className="text-slate-600 font-medium">Season:</span>
-            <div className="flex flex-wrap gap-2">
+            <select
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+              className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-usa-navy font-semibold focus:outline-none focus:ring-2 focus:ring-ice-500"
+            >
               {seasons.map((season) => (
-                <button
-                  key={season}
-                  onClick={() => setSelectedSeason(season)}
-                  className={`px-5 py-2 rounded-full font-semibold transition-all ${
-                    selectedSeason === season
-                      ? 'bg-usa-navy text-white shadow-md'
-                      : 'bg-white text-usa-navy hover:bg-slate-100 border border-slate-200'
-                  }`}
-                >
+                <option key={season} value={season}>
                   {season}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
         </div>
       </section>
@@ -122,16 +118,9 @@ export default function ResultsPageClient({ events }: { events: EventResult[] })
 
                       {/* Event Info */}
                       <div className="flex-grow">
-                        <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="font-display text-xl text-usa-navy">
-                            {event.title}
-                          </h3>
-                          {event.isUsaCircuit && (
-                            <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-usa-red text-white">
-                              🇺🇸 USA Circuit
-                            </span>
-                          )}
-                        </div>
+                        <h3 className="font-display text-xl text-usa-navy mb-1">
+                          {event.title}
+                        </h3>
                         <p className="text-slate-500">
                           {event.location.venue && `${event.location.venue} • `}
                           {formatLocation(event.location)}
