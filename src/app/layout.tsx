@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-<body className="min-h-screen flex flex-col pt-[148px] md:pt-[160px]">
+<body className="min-h-screen flex flex-col pt-[120px] md:pt-[132px]">
 <Header />
         <main className="flex-grow">
           {children}
