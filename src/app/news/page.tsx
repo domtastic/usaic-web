@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import { client, urlFor } from '@/lib/sanity'
 import Link from 'next/link'
 import Image from 'next/image'
+
+export const metadata: Metadata = {
+  title: 'News',
+  description: 'Latest news and updates from USA Ice Climbing.',
+}
 
 interface Article {
   _id: string

@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
+
+export const metadata: Metadata = {
+  title: 'Disciplines',
+  description: 'Explore ice climbing disciplines including lead climbing, speed climbing, and boulder.',
+}
 
 interface DisciplinesData {
   heroHeading?: string

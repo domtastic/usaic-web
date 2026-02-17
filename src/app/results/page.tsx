@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
 import ResultsPageClient from './ResultsPageClient'
+
+export const metadata: Metadata = {
+  title: 'Results',
+  description: 'Competition results for USA Ice Climbing athletes in domestic and international events.',
+}
 
 export interface EventResult {
     _id: string

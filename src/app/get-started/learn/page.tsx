@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Learn to Ice Climb',
+  description: 'Everything you need to know to start ice climbing — find gyms, festivals, guides, and courses.',
+}
 
 export default function LearnToIceClimbPage() {
   return (

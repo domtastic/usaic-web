@@ -1,5 +1,11 @@
+import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
+
+export const metadata: Metadata = {
+  title: 'Team Resources',
+  description: 'Resources and information for USA Ice Climbing team members and athletes.',
+}
 
 // Custom components for PortableText rendering
 const portableTextComponents = {

@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: '2030 Olympics',
+  description: "Ice climbing's path to the 2030 Winter Olympics and USAIC's role in the Olympic bid.",
+}
 
 const timeline = [
   {

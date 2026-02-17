@@ -1,4 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Donate',
+  description: 'Support USA Ice Climbing and help grow the sport of ice climbing in America.',
+}
 
 export default function DonatePage() {
   return (

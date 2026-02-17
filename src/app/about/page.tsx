@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Learn about USA Ice Climbing (USAIC), our mission to grow ice climbing in America, and our journey toward Olympic inclusion.',
+}
 
 interface AboutData {
   missionStatement?: string

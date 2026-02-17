@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Find a Gym',
+  description: 'Find climbing gyms that offer drytooling and ice climbing training near you.',
+}
+
 export default function FindGymsPage() {
   return (
     <>
