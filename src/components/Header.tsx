@@ -27,10 +27,10 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Get Started',
-    href: '/get-started',
+    href: '/get-started/learn',
     children: [
-      { label: 'What is Drytooling?', href: '/get-started/what-is-drytooling' },
       { label: 'Learn to Ice Climb', href: '/get-started/learn' },
+      { label: 'What is Drytooling?', href: '/get-started/what-is-drytooling' },
       { label: 'Get Your Gym Involved', href: '/get-started/gym-involvement' },
       { label: 'Find a Gym', href: '/get-started/gyms' },
     ],

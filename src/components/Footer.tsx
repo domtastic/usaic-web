@@ -5,8 +5,15 @@ const footerLinks = {
   explore: [
     { name: 'National Team', href: '/team' },
     { name: 'Events', href: '/events' },
-    { name: 'Disciplines', href: '/disciplines' },
+    { name: 'Results', href: '/results' },
+    { name: 'Disciplines', href: '/team/disciplines' },
     { name: 'News', href: '/news' },
+  ],
+  getStarted: [
+    { name: 'Learn to Ice Climb', href: '/get-started/learn' },
+    { name: 'What is Drytooling?', href: '/get-started/what-is-drytooling' },
+    { name: 'Get Your Gym Involved', href: '/get-started/gym-involvement' },
+    { name: 'Find a Gym', href: '/get-started/gyms' },
   ],
   organization: [
     { name: 'About Us', href: '/about' },
@@ -41,7 +48,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-950 text-white">
       <div className="section-container section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12">
           {/* Brand */}
           <div className="md:col-span-1">
           <Link href="/" className="inline-block mb-4">
@@ -70,6 +77,23 @@ export default function Footer() {
               {footerLinks.explore.map((link) => (
                 <li key={link.name}>
                   <Link 
+                    href={link.href}
+                    className="text-slate-400 hover:text-usa-red transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get Started Links */}
+          <div>
+            <h3 className="font-display text-lg mb-4">Get Started</h3>
+            <ul className="space-y-2">
+              {footerLinks.getStarted.map((link) => (
+                <li key={link.name}>
+                  <Link
                     href={link.href}
                     className="text-slate-400 hover:text-usa-red transition-colors"
                   >
