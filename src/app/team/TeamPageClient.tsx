@@ -142,7 +142,7 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
               {youthRoster && youthRoster.athletes?.length > 0 ? (
                 <div className="max-w-md mx-auto text-center">
                   <p className="text-slate-500 text-sm mb-8">
-                    {youthRoster.season} Season · {youthRoster.athletes.length} athletes
+                    {youthRoster.season} Season
                   </p>
                   <div className="space-y-3">
                     {youthRoster.athletes.map((athlete, index) => (
@@ -217,7 +217,7 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
                   {filteredHistoricalAthletes.length > 0 ? (
                     <div className="max-w-md mx-auto text-center">
                       <p className="text-slate-500 text-sm mb-8">
-                        {selectedHistoricalRoster?.season} {historicalCategory === 'youth' ? 'Youth' : 'Adult'} Roster · {filteredHistoricalAthletes.length} athletes
+                        {selectedHistoricalRoster?.season} {historicalCategory === 'youth' ? 'Youth' : 'Adult'} Roster
                       </p>
                       <div className="space-y-3">
                         {filteredHistoricalAthletes.map((athlete, index) => (
