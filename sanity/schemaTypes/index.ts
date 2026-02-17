@@ -12,7 +12,9 @@ import disciplines from './disciplines'
 import whatIsDrytooling from './whatIsDrytooling'
 import youthRoster from './youthRoster'
 import historicalRoster from './historicalRoster'
+import gymResources from './gymResources'
+import indoorGuidelines from './indoorGuidelines'
 
 export const schema = {
-  types: [athlete, event, sponsor, article, homepage, about, medalCount, resource, growthMetrics, teamResources, disciplines, whatIsDrytooling, youthRoster, historicalRoster],
+  types: [athlete, event, sponsor, article, homepage, about, medalCount, resource, growthMetrics, teamResources, disciplines, whatIsDrytooling, youthRoster, historicalRoster, gymResources, indoorGuidelines],
 }

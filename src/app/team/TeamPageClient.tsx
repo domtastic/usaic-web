@@ -140,28 +140,21 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
           {activeTab === 'youth' && (
             <>
               {youthRoster && youthRoster.athletes?.length > 0 ? (
-                <>
-                  <p className="text-slate-600 mb-6">
+                <div className="max-w-md mx-auto text-center">
+                  <p className="text-slate-500 text-sm mb-8">
                     {youthRoster.season} Season · {youthRoster.athletes.length} athletes
                   </p>
-                  <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                    <div className="divide-y divide-slate-100">
-                      {youthRoster.athletes.map((athlete, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center px-6 py-3 hover:bg-slate-50 transition-colors"
-                        >
-                          <span className="font-medium text-usa-navy">{athlete.name}</span>
-                          {athlete.disciplines && athlete.disciplines.length > 0 && (
-                            <span className="text-slate-500 text-sm ml-3">
-                              {athlete.disciplines.join(', ')}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                  <div className="space-y-3">
+                    {youthRoster.athletes.map((athlete, index) => (
+                      <div key={index}>
+                        <span className="font-medium text-usa-navy">{athlete.name}</span>
+                        {athlete.disciplines && athlete.disciplines.length > 0 && (
+                          <span className="text-slate-400 text-sm"> · {athlete.disciplines.join(', ')}</span>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                </>
+                </div>
               ) : (
                 <div className="text-center py-12">
                   <p className="text-slate-500">Youth roster not yet available.</p>
@@ -222,41 +215,21 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
                   </div>
 
                   {filteredHistoricalAthletes.length > 0 ? (
-                    <>
-                      <div className="text-center mb-8">
-                        <h2 className="font-display text-2xl text-usa-navy mb-2">
-                          {selectedHistoricalRoster?.season} {historicalCategory === 'youth' ? 'Youth' : 'Adult'} Roster
-                        </h2>
-                        <p className="text-slate-600">
-                          {filteredHistoricalAthletes.length} athletes
-                        </p>
+                    <div className="max-w-md mx-auto text-center">
+                      <p className="text-slate-500 text-sm mb-8">
+                        {selectedHistoricalRoster?.season} {historicalCategory === 'youth' ? 'Youth' : 'Adult'} Roster · {filteredHistoricalAthletes.length} athletes
+                      </p>
+                      <div className="space-y-3">
+                        {filteredHistoricalAthletes.map((athlete, index) => (
+                          <div key={index}>
+                            <span className="font-medium text-usa-navy">{athlete.name}</span>
+                            {athlete.disciplines && athlete.disciplines.length > 0 && (
+                              <span className="text-slate-400 text-sm"> · {athlete.disciplines.join(', ')}</span>
+                            )}
+                          </div>
+                        ))}
                       </div>
-
-                      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                        <div className="divide-y divide-slate-100">
-                          {filteredHistoricalAthletes.map((athlete, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center px-6 py-3 hover:bg-slate-50 transition-colors"
-                            >
-                              <span className="font-medium text-usa-navy">{athlete.name}</span>
-                              {athlete.disciplines && athlete.disciplines.length > 0 && (
-                                <div className="flex gap-1.5 ml-3">
-                                  {athlete.disciplines.map((d, i) => (
-                                    <span
-                                      key={i}
-                                      className="px-2 py-0.5 bg-ice-100 text-ice-700 text-xs font-medium rounded"
-                                    >
-                                      {d}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </>
+                    </div>
                   ) : (
                     <div className="text-center py-12">
                       <p className="text-slate-500">No {historicalCategory} athletes found for this season.</p>

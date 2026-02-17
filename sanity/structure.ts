@@ -28,6 +28,12 @@ export const structure: StructureResolver = (S) =>
               S.listItem()
                 .title('What is Drytooling Page')
                 .child(S.document().schemaType('whatIsDrytooling').documentId('whatIsDrytooling')),
+              S.listItem()
+                .title('Gym Resources Page')
+                .child(S.document().schemaType('gymResources').documentId('gymResources')),
+              S.listItem()
+                .title('Indoor Guidelines Page')
+                .child(S.document().schemaType('indoorGuidelines').documentId('indoorGuidelines')),
             ])
         ),
       S.divider(),

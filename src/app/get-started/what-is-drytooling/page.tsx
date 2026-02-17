@@ -254,64 +254,6 @@ export default async function WhatIsDrytoolingPage() {
         </div>
       </section>
 
-      {/* Why Drytooling Matters */}
-      <section className="section-padding">
-        <div className="section-container">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl text-usa-navy mb-4">
-              {data?.whyDrytoolingMatters?.heading || 'Why Drytooling Matters'}
-            </h2>
-            <p className="text-lg text-slate-600">
-              {data?.whyDrytoolingMatters?.subheading || 'Drytooling is the key to growing ice climbing as a sport'}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {data?.whyDrytoolingMatters?.benefits && data.whyDrytoolingMatters.benefits.length > 0 ? (
-              data.whyDrytoolingMatters.benefits.map((benefit, index) => (
-                <div key={index} className="bg-white p-8 rounded-xl shadow-md text-center">
-                  <div className="w-16 h-16 bg-ice-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    {benefitIcons[index] || benefitIcons[0]}
-                  </div>
-                  <h3 className="font-display text-xl text-usa-navy mb-3">{benefit.title}</h3>
-                  <p className="text-slate-600">{benefit.description}</p>
-                </div>
-              ))
-            ) : (
-              <>
-                <div className="bg-white p-8 rounded-xl shadow-md text-center">
-                  <div className="w-16 h-16 bg-ice-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    {benefitIcons[0]}
-                  </div>
-                  <h3 className="font-display text-xl text-usa-navy mb-3">Year-Round Access</h3>
-                  <p className="text-slate-600">
-                    Unlike ice climbing, drytooling can be practiced any time of year at indoor climbing gyms.
-                  </p>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-md text-center">
-                  <div className="w-16 h-16 bg-ice-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    {benefitIcons[1]}
-                  </div>
-                  <h3 className="font-display text-xl text-usa-navy mb-3">Geographic Reach</h3>
-                  <p className="text-slate-600">
-                    Gyms across the country can offer drytooling, bringing the sport to regions without natural ice.
-                  </p>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-md text-center">
-                  <div className="w-16 h-16 bg-ice-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    {benefitIcons[2]}
-                  </div>
-                  <h3 className="font-display text-xl text-usa-navy mb-3">Pathway to Competition</h3>
-                  <p className="text-slate-600">
-                    Drytooling is the format for international competitions, including the push for Olympic inclusion.
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="section-padding bg-ice-50">
         <div className="section-container text-center">
