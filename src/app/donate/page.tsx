@@ -95,7 +95,7 @@ export default function DonatePage() {
               Become a Sponsor
             </Link>
             <a 
-              href="https://instagram.com/usaiceclimbing" 
+              href="https://instagram.com/usaiceclimbing_" 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn-secondary"
