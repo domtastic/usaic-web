@@ -127,48 +127,6 @@ export default function LearnToIceClimbPage() {
         </div>
       </section>
 
-      {/* What to Expect */}
-      <section className="section-padding">
-        <div className="section-container max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl text-usa-navy text-center mb-12">
-            What to Expect Your First Time
-          </h2>
-
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Step 1</h3>
-              <h4 className="font-display text-xl text-usa-navy mb-2">Gear Introduction</h4>
-              <p className="text-slate-600 pl-4 border-l-2 border-slate-200">
-                You'll be introduced to ice tools, crampons (for ice) or approach shoes (for drytooling), a helmet, and harness. Don't worry — instruction is always provided on proper use.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Step 2</h3>
-              <h4 className="font-display text-xl text-usa-navy mb-2">Basic Technique</h4>
-              <p className="text-slate-600 pl-4 border-l-2 border-slate-200">
-                Learn how to swing and place your tools, position your body, and move efficiently. Most people are surprised how quickly they pick up the fundamentals.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Step 3</h3>
-              <h4 className="font-display text-xl text-usa-navy mb-2">Top-Rope Climbing</h4>
-              <p className="text-slate-600 pl-4 border-l-2 border-slate-200">
-                Beginners climb on top-rope, meaning you're always connected to a rope from above. It's safe, and you can focus on technique without worrying about falls.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-2">Step 4</h3>
-              <h4 className="font-display text-xl text-usa-navy mb-2">The Pump</h4>
-              <p className="text-slate-600 pl-4 border-l-2 border-slate-200">
-                Your forearms will get tired — that's normal! Ice climbing is a full-body workout. Take breaks, shake out your arms, and enjoy the process of building strength.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ */}
       <section className="section-padding bg-slate-50">
