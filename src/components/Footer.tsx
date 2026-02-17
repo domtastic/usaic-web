@@ -17,7 +17,6 @@ const footerLinks = {
   ],
   organization: [
     { name: 'About Us', href: '/about' },
-    { name: '2030 Olympics', href: '/olympics-2030' },
     { name: 'Donate', href: '/donate' },
   ],
 }
