@@ -292,7 +292,7 @@ export default async function TeamResourcesPage() {
 
                 {data.tryoutsSection.tryoutDocument && (
                   <a
-                    href={data.tryoutsSection.tryoutDocument.url}
+                    href={data.tryoutsSection.tryoutDocument.asset.url}
                     download
                     target="_blank"
                     rel="noopener noreferrer"
