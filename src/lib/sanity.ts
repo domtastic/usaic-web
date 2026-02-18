@@ -11,5 +11,5 @@ export const client = createClient({
 const builder = imageUrlBuilder(client)
 
 export function urlFor(source: { asset: { _ref: string } }) {
-  return builder.image(source)
+  return builder.image(source).auto('format').quality(80)
 }

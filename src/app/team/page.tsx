@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
 import TeamPageClient from './TeamPageClient'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Team USA',
   description: 'Meet the athletes representing the United States in international ice climbing competitions.',

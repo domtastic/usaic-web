@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Indoor Drytooling Guidelines',
   description: 'Comprehensive guidelines for setting up indoor drytooling — safety, wall protection, route setting, and equipment.',

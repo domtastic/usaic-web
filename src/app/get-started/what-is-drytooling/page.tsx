@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { client, urlFor } from '@/lib/sanity'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'What is Drytooling?',
   description: 'Learn about drytooling — climbing with ice tools on rock or artificial holds — and how it connects to ice climbing.',

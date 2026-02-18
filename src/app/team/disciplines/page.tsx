@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Disciplines',
   description: 'Explore ice climbing disciplines including lead climbing, speed climbing, and boulder.',

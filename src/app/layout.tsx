@@ -25,6 +25,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
 <body className="min-h-screen flex flex-col pt-[120px] md:pt-[132px]">
 <Header />
         <main className="flex-grow">

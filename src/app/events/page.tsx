@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
 import EventsPageClient from './EventsPageClient'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Events',
   description: 'Upcoming and past ice climbing events, competitions, and festivals.',

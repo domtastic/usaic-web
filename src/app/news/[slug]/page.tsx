@@ -4,6 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
+export const revalidate = 60
+
 interface Article {
   _id: string
   title: string

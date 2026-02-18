@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { client } from '@/lib/sanity'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Gym Resources',
   description: 'Resources for climbing gyms looking to add drytooling and ice climbing to their offerings.',
