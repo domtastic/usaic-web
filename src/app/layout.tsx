@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
   title: {
@@ -31,6 +32,7 @@ export default function RootLayout({
       </head>
 <body className="min-h-screen flex flex-col pt-[120px] md:pt-[132px]">
 <Header />
+        <ScrollToTop />
         <main className="flex-grow">
           {children}
         </main>
