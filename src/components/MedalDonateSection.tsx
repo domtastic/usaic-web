@@ -29,7 +29,7 @@ export default async function MedalDonateSection() {
     <section className="bg-slate-900">
       <div className="grid lg:grid-cols-2">
         {/* Left: Medal Count */}
-        <div className="section-padding text-white">
+        <div className="section-padding px-6 text-white">
           <div className="max-w-lg mx-auto lg:ml-auto lg:mr-12">
             <h2 className="font-display text-3xl md:text-4xl mb-6">
               US Athletes Making History
@@ -78,7 +78,7 @@ export default async function MedalDonateSection() {
         </div>
 
         {/* Right: Donate */}
-        <div className="section-padding bg-usa-red text-white">
+        <div className="section-padding px-6 bg-usa-red text-white">
           <div className="max-w-lg mx-auto lg:mr-auto lg:ml-12">
             <h2 className="font-display text-3xl md:text-4xl mb-6">
               Help Grow the Sport
