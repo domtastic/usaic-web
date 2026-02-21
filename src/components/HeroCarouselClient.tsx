@@ -95,7 +95,7 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
       <div className="relative h-full flex items-end pb-20 md:pb-24">
         <div className="section-container">
           <div className="max-w-2xl">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl leading-tight text-white mb-4">
               {slide.title}
             </h1>
             
