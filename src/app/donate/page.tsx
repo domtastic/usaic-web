@@ -33,7 +33,7 @@ export default function DonatePage() {
             </h2>
             <p className="text-slate-500 mb-8 text-sm">
               Scan the QR code to send your donation to
-              <span className="font-semibold text-usa-navy"> Kendra Stritch</span> at USA Ice Climbing.
+              <span className="font-semibold text-usa-navy"> Kendra Stritch, 612-306-4353, </span> at USA Ice Climbing.
             </p>
 
             <Image
