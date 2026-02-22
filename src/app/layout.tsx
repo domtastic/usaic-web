@@ -6,7 +6,7 @@ import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
   title: {
-    default: 'USA Ice Climbing | Team USA',
+    default: 'USA Ice Climbing',
     template: '%s | USA Ice Climbing',
   },
   description: 'USA Ice Climbing (USAIC) - Promoting ice climbing in America, supporting Team USA athletes, and championing the sport\'s inclusion in the 2030 Winter Olympics.',
