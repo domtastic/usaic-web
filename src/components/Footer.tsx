@@ -17,6 +17,7 @@ const footerLinks = {
   ],
   organization: [
     { name: 'About Us', href: '/about' },
+    { name: 'Contact', href: '/contact' },
     { name: 'Donate', href: '/donate' },
   ],
 }

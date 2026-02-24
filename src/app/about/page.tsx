@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
@@ -96,7 +97,6 @@ export default async function AboutPage() {
   const mission = data.missionStatement || defaults.missionStatement
   const aboutHeading = data.aboutHeading || defaults.aboutHeading
   const values = data.values?.length ? data.values : defaults.values
-  const contactEmail = data.contactEmail || defaults.contactEmail
   const contactDescription = data.contactDescription || defaults.contactDescription
 
   return (
@@ -271,15 +271,9 @@ export default async function AboutPage() {
             <p className="text-lg text-slate-300 mb-8">
               {contactDescription}
             </p>
-            <a 
-              href={`mailto:${contactEmail}`}
-              className="inline-flex items-center gap-2 text-xl text-ice-400 hover:text-ice-300 transition-colors"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              {contactEmail}
-            </a>
+            <Link href="/contact" className="btn-primary">
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>

@@ -15,6 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/news',
     '/about',
     '/donate',
+    '/contact',
     '/get-started/learn',
     '/get-started/gyms',
     '/get-started/what-is-drytooling',
