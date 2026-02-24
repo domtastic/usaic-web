@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 
@@ -241,8 +242,6 @@ export default async function IndoorGuidelinesPage() {
   const gymsList = data.gymsList?.length ? data.gymsList : defaults.gymsList
   const ctaTitle = data.ctaTitle || defaults.ctaTitle
   const ctaText = data.ctaText || defaults.ctaText
-  const ctaEmail = data.ctaEmail || defaults.ctaEmail
-
   const usaGyms = gymsList.filter((g) => g.country === 'USA')
   const canadaGyms = gymsList.filter((g) => g.country === 'Canada')
 
@@ -737,12 +736,9 @@ export default async function IndoorGuidelinesPage() {
           <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
             {ctaText}
           </p>
-          <a
-            href={`mailto:${ctaEmail}?subject=Indoor%20Drytooling%20Guidelines%20Inquiry`}
-            className="btn-primary"
-          >
+          <Link href="/contact" className="btn-primary">
             Get in Touch
-          </a>
+          </Link>
         </div>
       </section>
     </>
