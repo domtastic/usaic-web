@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
     await resend.emails.send({
       from: 'USAIC Contact Form <noreply@usaiceclimbing.org>',
-      to: process.env.CONTACT_EMAIL!,
+      to: [process.env.CONTACT_EMAIL!, process.env.CONTACT_EMAIL_CC!].filter(Boolean),
       replyTo: email,
       subject: subject ? `[USAIC Contact] ${subject}` : `[USAIC Contact] Message from ${name}`,
       html: `
