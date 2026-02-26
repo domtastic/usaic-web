@@ -83,8 +83,6 @@ export default async function GymInvolvementPage() {
   const supportItems = data.supportItems?.length ? data.supportItems : defaults.supportItems
   const ctaTitle = data.ctaTitle || defaults.ctaTitle
   const ctaText = data.ctaText || defaults.ctaText
-  const ctaEmail = data.ctaEmail || defaults.ctaEmail
-
   return (
     <>
       {/* Hero Section */}
@@ -184,12 +182,9 @@ export default async function GymInvolvementPage() {
           <p className="text-lg text-white/90 max-w-2xl mx-auto mb-8">
             {ctaText}
           </p>
-          <a
-            href={`mailto:${ctaEmail}?subject=Gym%20Drytooling%20Inquiry`}
-            className="btn-primary"
-          >
+          <Link href="/contact" className="btn-primary">
             Contact Us
-          </a>
+          </Link>
         </div>
       </section>
     </>

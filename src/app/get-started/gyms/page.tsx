@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Find a Gym',
@@ -52,10 +53,10 @@ export default function FindGymsPage() {
                 Click on the markers to see gym details and contact information
               </p>
               <p className="text-slate-500 text-sm">
-                Know of a gym that should be listed? Contact us at{' '}
-                <a href="mailto:usaiceclimbing@gmail.com" className="text-usa-red hover:underline">
-                  usaiceclimbing@gmail.com
-                </a>
+                Know of a gym that should be listed?{' '}
+                <Link href="/contact" className="text-usa-red hover:underline">
+                  Contact us
+                </Link>
               </p>
             </div>
           </div>
