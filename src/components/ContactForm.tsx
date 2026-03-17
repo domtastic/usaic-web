@@ -1,12 +1,8 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
-import Script from 'next/script'
+import { useState, useEffect, useRef } from 'react'
 
-const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const grecaptcha: any
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -19,45 +15,82 @@ export default function ContactForm() {
   })
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
-  const recaptchaReady = useRef(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [scriptReady, setScriptReady] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const widgetIdRef = useRef<string | null>(null)
+
+  // Step 1: Load the Turnstile script
+  useEffect(() => {
+    if (document.querySelector('script[data-turnstile]')) {
+      setScriptReady(true)
+      return
+    }
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.defer = true
+    script.dataset.turnstile = 'true'
+    script.onload = () => setScriptReady(true)
+    document.body.appendChild(script)
+  }, [])
+
+  // Step 2: Render the widget once the script is ready and container is mounted
+  useEffect(() => {
+    if (!scriptReady || !containerRef.current) return
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const turnstile = (window as any).turnstile
+    if (!turnstile) return
+
+    widgetIdRef.current = turnstile.render(containerRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      callback: (token: string) => setTurnstileToken(token),
+      'error-callback': () => setTurnstileToken(''),
+      'expired-callback': () => setTurnstileToken(''),
+    })
+  }, [scriptReady])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault()
-      setStatus('submitting')
-      setErrorMessage('')
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
 
-      try {
-        if (!recaptchaReady.current) {
-          throw new Error('reCAPTCHA not loaded yet. Please try again.')
-        }
+    if (!turnstileToken) {
+      setStatus('error')
+      setErrorMessage('Please complete the verification checkbox.')
+      return
+    }
 
-        const token = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact' })
+    setStatus('submitting')
+    setErrorMessage('')
 
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...formData, recaptchaToken: token }),
-        })
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, turnstileToken }),
+      })
 
-        if (!response.ok) {
-          const data = await response.json()
-          throw new Error(data.error || 'Failed to send')
-        }
-
-        setStatus('success')
-        setFormData({ name: '', email: '', subject: '', message: '' })
-      } catch (err) {
-        setStatus('error')
-        setErrorMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Failed to send')
       }
-    },
-    [formData]
-  )
+
+      setStatus('success')
+      setFormData({ name: '', email: '', subject: '', message: '' })
+    } catch (err) {
+      setStatus('error')
+      setErrorMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      // Reset the widget so the user can verify again
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const turnstile = (window as any).turnstile
+      if (turnstile && widgetIdRef.current) {
+        turnstile.reset(widgetIdRef.current)
+      }
+      setTurnstileToken('')
+    }
+  }
 
   if (status === 'success') {
     return (
@@ -82,111 +115,84 @@ export default function ContactForm() {
   }
 
   return (
-    <>
-      <Script
-        src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
-        strategy="afterInteractive"
-        onLoad={() => {
-          grecaptcha.ready(() => {
-            recaptchaReady.current = true
-          })
-        }}
-      />
-      <style jsx global>{`
-        .grecaptcha-badge {
-          visibility: hidden;
-        }
-      `}</style>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
-              Name <span className="text-usa-red">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400"
-              placeholder="Your name"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-              Email <span className="text-usa-red">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400"
-              placeholder="your@email.com"
-            />
-          </div>
-        </div>
-
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1">
-            Subject
+          <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+            Name <span className="text-usa-red">*</span>
           </label>
           <input
             type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
+            id="name"
+            name="name"
+            required
+            value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400"
-            placeholder="What is this regarding?"
+            placeholder="Your name"
           />
         </div>
-
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
-            Message <span className="text-usa-red">*</span>
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+            Email <span className="text-usa-red">*</span>
           </label>
-          <textarea
-            id="message"
-            name="message"
+          <input
+            type="email"
+            id="email"
+            name="email"
             required
-            rows={6}
-            value={formData.message}
+            value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400 resize-vertical"
-            placeholder="Your message..."
+            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400"
+            placeholder="your@email.com"
           />
         </div>
+      </div>
 
-        {status === 'error' && (
-          <p className="text-usa-red text-sm">{errorMessage}</p>
-        )}
+      <div>
+        <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1">
+          Subject
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400"
+          placeholder="What is this regarding?"
+        />
+      </div>
 
-        <button
-          type="submit"
-          disabled={status === 'submitting'}
-          className="btn-primary w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {status === 'submitting' ? 'Sending...' : 'Send Message'}
-        </button>
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
+          Message <span className="text-usa-red">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={6}
+          value={formData.message}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400 resize-vertical"
+          placeholder="Your message..."
+        />
+      </div>
 
-        <p className="text-slate-400 text-xs">
-          This site is protected by reCAPTCHA and the Google{' '}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline">
-            Privacy Policy
-          </a>{' '}
-          and{' '}
-          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline">
-            Terms of Service
-          </a>{' '}
-          apply.
-        </p>
-      </form>
-    </>
+      <div ref={containerRef} />
+
+      {status === 'error' && (
+        <p className="text-usa-red text-sm">{errorMessage}</p>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="btn-primary w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {status === 'submitting' ? 'Sending...' : 'Send Message'}
+      </button>
+    </form>
   )
 }
