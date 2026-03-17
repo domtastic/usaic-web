@@ -4,22 +4,22 @@ import { Resend } from 'resend'
 export async function POST(request: Request) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
-    const { name, email, subject, message, recaptchaToken } = await request.json()
+    const { name, email, subject, message, turnstileToken } = await request.json()
 
-    if (!name || !email || !message || !recaptchaToken) {
+    if (!name || !email || !message || !turnstileToken) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Verify reCAPTCHA v3 token
-    const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    // Verify Cloudflare Turnstile token
+    const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+      body: `secret=${process.env.TURNSTILE_SECRET_KEY}&response=${turnstileToken}`,
     })
-    const recaptchaData = await recaptchaResponse.json()
+    const turnstileData = await turnstileResponse.json()
 
-    if (!recaptchaData.success || recaptchaData.score < 0.5) {
-      return NextResponse.json({ error: 'reCAPTCHA verification failed' }, { status: 403 })
+    if (!turnstileData.success) {
+      return NextResponse.json({ error: 'Bot verification failed' }, { status: 403 })
     }
 
     await resend.emails.send({
@@ -38,7 +38,8 @@ export async function POST(request: Request) {
     })
 
     return NextResponse.json({ success: true })
-  } catch {
+  } catch (err) {
+    console.error('Contact API error:', err)
     return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })
   }
 }
