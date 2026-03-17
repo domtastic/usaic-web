@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 
 const GA_ID = 'G-EY1RQHRMTN'
 
@@ -40,6 +41,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Analytics />
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">{`
           window.dataLayer = window.dataLayer || [];
