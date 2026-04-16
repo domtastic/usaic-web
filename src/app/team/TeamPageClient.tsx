@@ -25,7 +25,7 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
 
   const tabs: { id: TabType; label: string }[] = [
     { id: 'national', label: 'National Team' },
-    { id: 'youth', label: 'Youth Team' },
+    { id: 'youth', label: 'Youth National Team' },
     { id: 'historical', label: 'Past Rosters' },
   ]
 
