@@ -275,7 +275,7 @@ export default function Header() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="lg:hidden bg-white border-t border-slate-200 overflow-y-auto max-h-[calc(100vh-120px)] md:max-h-[calc(100vh-132px)]"
           >
-            <div className="container-wide py-6 space-y-2">
+            <div className="container-wide py-6 pb-16 space-y-2">
               {navItems.map((item, index) => (
                 <motion.div
                   key={item.href}
