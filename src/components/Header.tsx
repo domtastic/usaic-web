@@ -273,7 +273,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden bg-white border-t border-slate-200"
+            className="lg:hidden bg-white border-t border-slate-200 overflow-y-auto max-h-[calc(100vh-120px)] md:max-h-[calc(100vh-132px)]"
           >
             <div className="container-wide py-6 space-y-2">
               {navItems.map((item, index) => (
