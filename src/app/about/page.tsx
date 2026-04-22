@@ -261,6 +261,36 @@ export default async function AboutPage() {
         </div>
       </section>
 
+      {/* Board of Directors */}
+      <section className="section-padding bg-ice-50">
+        <div className="section-container">
+          <h2 className="font-display text-3xl md:text-4xl text-usa-navy text-center mb-12">
+            Board of Directors
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { title: 'President', name: 'Daniel Plinska' },
+              { title: 'Treasurer', name: 'Matt Lankford' },
+              { title: 'Secretary', name: 'Tessie Bailey' },
+              { title: 'Board Member', name: 'Chris Whitley' },
+              { title: 'Board Member', name: 'Dominic Gonzalez-Padron' },
+            ].map((member) => (
+              <div
+                key={member.name}
+                className="bg-white rounded-xl shadow-md p-6 border-l-2 border-usa-red"
+              >
+                <p className="text-sm font-semibold uppercase tracking-wide text-usa-red mb-1">
+                  {member.title}
+                </p>
+                <p className="font-display text-xl text-usa-navy">
+                  {member.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact */}
       <section id="contact" className="section-padding bg-slate-900 text-white">
         <div className="section-container">
