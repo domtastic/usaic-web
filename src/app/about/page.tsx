@@ -261,8 +261,8 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Board of Directors */}
-      <section className="section-padding bg-ice-50">
+      {/* Board of Directors — hidden until ready to publish */}
+      {false && <section className="section-padding bg-ice-50">
         <div className="section-container">
           <h2 className="font-display text-3xl md:text-4xl text-usa-navy text-center mb-12">
             Board of Directors
@@ -289,7 +289,7 @@ export default async function AboutPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Contact */}
       <section id="contact" className="section-padding bg-slate-900 text-white">
