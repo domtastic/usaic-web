@@ -28,7 +28,7 @@ export default function CookieBanner() {
           onClick={handleAccept}
           className="shrink-0 px-6 py-2 bg-usa-red text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors"
         >
-          OK
+          OK, I understand
         </button>
       </div>
     </div>
