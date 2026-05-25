@@ -53,12 +53,12 @@ export default function TeamPageClient({ athletes, youthRoster, historicalRoster
       {/* Tabs */}
       <section className="bg-white border-b sticky top-16 z-30">
         <div className="section-container">
-          <div className="flex justify-center gap-1 overflow-x-auto">
+          <div className="flex w-full md:justify-center md:gap-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-4 font-semibold text-sm whitespace-nowrap transition-colors relative ${
+                className={`flex-1 md:flex-none px-2 sm:px-4 md:px-6 py-3 md:py-4 font-semibold text-xs sm:text-sm text-center leading-snug transition-colors relative ${
                   activeTab === tab.id
                     ? 'text-usa-navy'
                     : 'text-slate-500 hover:text-slate-700'
