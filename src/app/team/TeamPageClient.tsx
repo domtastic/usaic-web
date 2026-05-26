@@ -4,17 +4,16 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
-import type { Athlete, YouthRoster, HistoricalRoster } from './page'
+import type { Athlete, HistoricalRoster } from './page'
 
 interface TeamPageClientProps {
   athletes: Athlete[]
-  youthRoster: YouthRoster | null
   historicalRosters: HistoricalRoster[]
 }
 
 type TabType = 'national' | 'youth' | 'historical'
 
-export default function TeamPageClient({ athletes, youthRoster, historicalRosters }: TeamPageClientProps) {
+export default function TeamPageClient({ athletes, historicalRosters }: TeamPageClientProps) {
   const [activeTab, setActiveTab] = useState<TabType>('national')
   const [selectedSeason, setSelectedSeason] = useState<string>(
     historicalRosters[0]?.season || ''

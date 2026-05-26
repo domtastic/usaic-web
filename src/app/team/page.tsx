@@ -22,16 +22,6 @@ export interface Athlete {
   category: 'adult' | 'youth'
 }
 
-export interface YouthAthlete {
-  name: string
-  disciplines?: string[]
-}
-
-export interface YouthRoster {
-  season: string
-  athletes: YouthAthlete[]
-}
-
 export interface HistoricalAthlete {
   name: string
   disciplines?: string[]
@@ -57,18 +47,6 @@ async function getAthletes(): Promise<Athlete[]> {
   return client.fetch(query)
 }
 
-async function getYouthRoster(): Promise<YouthRoster | null> {
-  const query = `*[_type == "youthRoster"][0] {
-    season,
-    athletes[] {
-      name,
-      disciplines
-    }
-  }`
-
-  return client.fetch(query)
-}
-
 async function getHistoricalRosters(): Promise<HistoricalRoster[]> {
   const query = `*[_type == "historicalRoster"] | order(season desc) {
     _id,
@@ -84,16 +62,14 @@ async function getHistoricalRosters(): Promise<HistoricalRoster[]> {
 }
 
 export default async function TeamPage() {
-  const [athletes, youthRoster, historicalRosters] = await Promise.all([
+  const [athletes, historicalRosters] = await Promise.all([
     getAthletes(),
-    getYouthRoster(),
     getHistoricalRosters()
   ])
 
   return (
     <TeamPageClient
       athletes={athletes}
-      youthRoster={youthRoster}
       historicalRosters={historicalRosters}
     />
   )
