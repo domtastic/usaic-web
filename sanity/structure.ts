@@ -38,9 +38,6 @@ export const structure: StructureResolver = (S) =>
         ),
       S.divider(),
       S.documentTypeListItem('athlete').title('Athletes'),
-      S.listItem()
-        .title('Youth Roster')
-        .child(S.document().schemaType('youthRoster').documentId('youthRoster')),
       S.documentTypeListItem('historicalRoster').title('Historical Rosters'),
       S.divider(),
       S.listItem()
@@ -85,6 +82,7 @@ export const structure: StructureResolver = (S) =>
             ])
         ),
       S.documentTypeListItem('article').title('News Articles'),
+      S.documentTypeListItem('pressArticle').title('Press Coverage'),
       S.documentTypeListItem('sponsor').title('Sponsors'),
       S.documentTypeListItem('medalCount').title('Medal Count'),
 
