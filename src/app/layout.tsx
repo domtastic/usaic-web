@@ -14,8 +14,8 @@ export const metadata: Metadata = {
     default: 'USA Ice Climbing',
     template: '%s | USA Ice Climbing',
   },
-  description: 'USA Ice Climbing (USAIC) - Promoting ice climbing in America, supporting Team USA athletes, and championing the sport\'s inclusion in the 2030 Winter Olympics.',
-  keywords: ['ice climbing', 'Team USA', 'winter sports', '2030 Olympics', 'lead climbing', 'speed climbing'],
+  description: 'USA Ice Climbing (USAIC) - Promoting ice climbing in America and supporting Team USA athletes competing on the world stage.',
+  keywords: ['ice climbing', 'Team USA', 'winter sports', 'lead climbing', 'speed climbing', 'UIAA'],
   authors: [{ name: 'USA Ice Climbing' }],
   openGraph: {
     type: 'website',
