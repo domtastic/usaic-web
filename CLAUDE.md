@@ -97,6 +97,18 @@ Applied in `next.config.ts` to all routes except `/studio`:
 
 ---
 
+## Frontend Design
+
+Always invoke the `frontend-design` skill before making any UI or frontend changes — components, pages, layouts, or styling. It ensures design quality, avoids generic AI aesthetics, and keeps the site visually cohesive.
+
+```
+/frontend-design
+```
+
+This applies to: new components, page updates, layout changes, Tailwind styling work, and anything visible in the browser.
+
+---
+
 ## Code Patterns
 
 ### Sanity data fetching

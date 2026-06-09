@@ -19,10 +19,7 @@ export const structure: StructureResolver = (S) =>
               S.listItem()
                 .title('Disciplines Page')
                 .child(S.document().schemaType('disciplines').documentId('disciplines')),
-              S.listItem()
-                .title('Olympic Bid Page')
-                .child(S.document().schemaType('olympicBid').documentId('olympicBid')),
-              S.listItem()
+S.listItem()
                 .title('Team Resources')
                 .child(S.document().schemaType('teamResources').documentId('teamResources')),
               S.listItem()
