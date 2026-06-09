@@ -6,7 +6,13 @@ export const metadata: Metadata = {
   description: 'Get in touch with USA Ice Climbing. Ask questions, explore sponsorship opportunities, or learn how to get involved.',
 }
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ subject?: string }>
+}) {
+  const { subject } = await searchParams
+
   return (
     <>
       {/* Hero Section */}
@@ -26,7 +32,7 @@ export default function ContactPage() {
       <section className="section-padding">
         <div className="section-container">
           <div className="max-w-2xl mx-auto">
-            <ContactForm />
+            <ContactForm defaultSubject={subject} />
           </div>
         </div>
       </section>
