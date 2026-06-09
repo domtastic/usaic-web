@@ -6,11 +6,11 @@ const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
-export default function ContactForm() {
+export default function ContactForm({ defaultSubject = '' }: { defaultSubject?: string }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    subject: defaultSubject,
     message: '',
   })
   const [status, setStatus] = useState<FormStatus>('idle')

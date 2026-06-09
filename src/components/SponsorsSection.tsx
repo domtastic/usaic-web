@@ -33,12 +33,10 @@ export default async function SponsorsSection() {
     <section className="section-padding bg-black">
       <div className="section-container">
         <div className="text-center mb-10">
-          <h2 className="font-display text-2xl md:text-3xl text-white mb-3">
-            Our Sponsors
+          <div className="w-8 h-0.5 bg-usa-red mx-auto mb-5" />
+          <h2 className="font-display text-xl md:text-2xl text-white leading-snug">
+            Partners who make our mission possible
           </h2>
-          <p className="text-slate-400">
-            Thank you to our partners who make our mission possible
-          </p>
         </div>
 
         {/* Sponsors Grid */}
@@ -51,11 +49,11 @@ export default async function SponsorsSection() {
                     href={sponsor.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`block w-40 h-24 rounded-lg shadow-sm p-4 transition-all hover:shadow-lg hover:scale-105 ${getBackgroundClass(sponsor.logoBackground)}`}
+                    className={`block w-56 h-32 rounded-lg shadow-sm p-4 transition-all hover:shadow-lg hover:scale-105 ${getBackgroundClass(sponsor.logoBackground)}`}
                   >
                     <div className="relative w-full h-full">
                       <Image
-                        src={urlFor(sponsor.logo).width(300).height(180).url()}
+                        src={urlFor(sponsor.logo).width(400).fit('max').url()}
                         alt={sponsor.name}
                         fill
                         className="object-contain"
@@ -63,10 +61,10 @@ export default async function SponsorsSection() {
                     </div>
                   </a>
                 ) : (
-                  <div className={`w-40 h-24 rounded-lg shadow-sm p-4 ${getBackgroundClass(sponsor.logoBackground)}`}>
+                  <div className={`w-56 h-32 rounded-lg shadow-sm p-4 ${getBackgroundClass(sponsor.logoBackground)}`}>
                     <div className="relative w-full h-full">
                       <Image
-                        src={urlFor(sponsor.logo).width(300).height(180).url()}
+                        src={urlFor(sponsor.logo).width(400).fit('max').url()}
                         alt={sponsor.name}
                         fill
                         className="object-contain"
@@ -88,8 +86,8 @@ export default async function SponsorsSection() {
           <p className="text-slate-400 mb-4">
             Interested in partnering with USA Ice Climbing?
           </p>
-          <Link 
-            href="/about#contact" 
+          <Link
+            href="/contact?subject=USAIC - Sponsorship / Partnership"
             className="text-ice-400 hover:text-usa-red font-semibold transition-colors"
           >
             Become a Sponsor →
