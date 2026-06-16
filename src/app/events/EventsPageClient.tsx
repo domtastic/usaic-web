@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import type { Event } from './page'
 
 type TimeFilter = 'upcoming' | 'past'
-type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition'
+type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
 
 const eventTypeLabels: Record<EventTypeFilter, string> = {
   'all': 'All Events',
@@ -12,6 +12,7 @@ const eventTypeLabels: Record<EventTypeFilter, string> = {
   'continental-cup': 'Continental Cup',
   'ice-festival': 'Ice Festival',
   'local-competition': 'Local Competition',
+  'clinic': 'Clinic',
 }
 
 const eventTypeBadgeColors: Record<string, string> = {
@@ -19,6 +20,7 @@ const eventTypeBadgeColors: Record<string, string> = {
   'continental-cup': 'bg-ice-600 text-white',
   'ice-festival': 'bg-purple-600 text-white',
   'local-competition': 'bg-slate-500 text-white',
+  'clinic': 'bg-emerald-600 text-white',
 }
 
 export default function EventsPageClient({ events }: { events: Event[] }) {
@@ -97,8 +99,10 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
     return today >= eventStart
   }
 
-  // Format season for display (e.g., "2025-26" -> "2025/26")
-  const formatSeasonDisplay = (season: string) => season.replace('-', '/')
+  const formatSeasonDisplay = (season: string) => {
+    if (season.startsWith('summer-')) return `Summer ${season.replace('summer-', '')}`
+    return season.replace('-', '/')
+  }
 
   return (
     <>
@@ -109,7 +113,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
             Events
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            {formatSeasonDisplay(selectedSeason)} Ice Climbing Season
+            {formatSeasonDisplay(selectedSeason)}{selectedSeason.startsWith('summer-') ? '' : ' Ice Climbing Season'}
           </p>
         </div>
       </section>

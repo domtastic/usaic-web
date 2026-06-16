@@ -1,4 +1,4 @@
-import { client, urlFor } from '@/lib/sanity'
+import { client } from '@/lib/sanity'
 import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
@@ -55,6 +55,7 @@ interface Event {
   location: { city: string; state?: string; country: string }
   eventLink?: string
   featuredImage?: { asset: { _ref: string } }
+  featured?: boolean
 }
 
 interface Article {
@@ -76,19 +77,24 @@ async function getCarouselData() {
   const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
   const nextWeekStr = nextWeek.toISOString().split('T')[0]
   
-  const eventsQuery = `*[_type == "event" && 
-  eventType == "world-cup" &&
-  ((startDate <= $today && endDate >= $today) || (startDate >= $today && startDate <= $nextWeek))
-] | order(startDate asc) {
+  const in90Days = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000)
+  const in90DaysStr = in90Days.toISOString().split('T')[0]
+
+  const eventsQuery = `*[_type == "event" && (
+    (eventType == "world-cup" && ((startDate <= $today && endDate >= $today) || (startDate >= $today && startDate <= $nextWeek)))
+    ||
+    (featured == true && startDate >= $today && startDate <= $in90Days)
+  )] | order(startDate asc) {
     title,
     eventType,
     startDate,
     endDate,
     location,
     eventLink,
+    featured,
     featuredImage
   }`
-  const upcomingEvents: Event[] = await client.fetch(eventsQuery, { today: todayStr, nextWeek: nextWeekStr })
+  const upcomingEvents: Event[] = await client.fetch(eventsQuery, { today: todayStr, nextWeek: nextWeekStr, in90Days: in90DaysStr })
 
   // Sort by priority: world-cup > continental-cup > ice-festival
   const eventPriority: Record<string, number> = {
