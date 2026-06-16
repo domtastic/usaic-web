@@ -31,6 +31,7 @@ export default defineType({
           { title: 'Continental Cup', value: 'continental-cup' },
           { title: 'Ice Festival', value: 'ice-festival' },
           { title: 'Local Competition', value: 'local-competition' },
+          { title: 'Clinic', value: 'clinic' },
         ],
         layout: 'radio',
       },
@@ -43,7 +44,9 @@ export default defineType({
       description: 'Ice climbing season (Oct-Apr), e.g., 2025-26',
       options: {
         list: [
+          { title: 'Summer 2026', value: 'summer-2026' },
           { title: '2025-26', value: '2025-26' },
+          { title: 'Summer 2025', value: 'summer-2025' },
           { title: '2024-25', value: '2024-25' },
           { title: '2023-24', value: '2023-24' },
           { title: '2022-23', value: '2022-23' },
@@ -81,6 +84,13 @@ export default defineType({
       title: 'Description',
       type: 'text',
       rows: 4,
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Feature on Homepage',
+      type: 'boolean',
+      description: 'Show this event in the homepage carousel (displays up to 90 days before start date)',
+      initialValue: false,
     }),
     defineField({
       name: 'featuredImage',
@@ -139,6 +149,7 @@ export default defineType({
         'continental-cup': '🌎 Continental Cup',
         'ice-festival': '🎪 Ice Festival',
         'local-competition': '📍 Local Competition',
+        'clinic': '🎓 Clinic',
       }
       return {
         title,

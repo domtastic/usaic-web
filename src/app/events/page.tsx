@@ -13,7 +13,8 @@ export interface Event {
   _id: string
   title: string
   slug: { current: string }
-  eventType: 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition'
+  eventType: 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
+  featured?: boolean
   season: string
   startDate: string
   endDate?: string
@@ -43,6 +44,7 @@ async function getEvents(): Promise<Event[]> {
     location,
     description,
     eventLink,
+    featured,
     resultsLink,
     "resultsPdf": resultsPdf {
       "url": asset->url
