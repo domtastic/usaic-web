@@ -138,7 +138,7 @@ export default function YouthCampPage() {
               evening or Friday morning for a bonus "Durango day" — river tubing, lake time, and more.
             </p>
             <p>
-              The camp's home base is at Jessica Reed's home, where everyone can stay. Accommodations
+              The camp's home base is at Jessica Reed's home — Jessica is a parent of one of the USA Youth Ice Climbing Team athletes. Accommodations
               include shared rooms, couches, and floor space — a fun, team-oriented setup. Athletes and
               families may also choose nearby accommodations.
             </p>
