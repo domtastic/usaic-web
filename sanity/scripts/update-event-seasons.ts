@@ -18,10 +18,10 @@ function getSeasonFromDate(dateStr: string): string {
   // Oct-Dec = start of season, Jan-Sep = end of season
   if (month >= 9) {
     // Oct (9), Nov (10), Dec (11) -> start of new season
-    return `${year}-${(year + 1).toString().slice(-2)}`
+    return `${year}-${year + 1}`
   } else {
     // Jan-Sep -> end of previous season
-    return `${year - 1}-${year.toString().slice(-2)}`
+    return `${year - 1}-${year}`
   }
 }
 

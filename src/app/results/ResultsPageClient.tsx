@@ -3,23 +3,23 @@
 import { useState } from 'react'
 import type { EventResult } from './page'
 
-// Generate season options (e.g., "2025-26", "2024-25")
+// Generate season options (e.g., "2025-2026", "2024-2025")
 function getSeasons(events: EventResult[]): string[] {
   const seasons = new Set<string>()
-  
+
   events.forEach(event => {
     const date = new Date(event.startDate)
     const year = date.getFullYear()
     const month = date.getMonth()
-    
+
     // Season runs Oct - Apr, so Oct-Dec is start of season, Jan-Apr is end
     if (month >= 9) { // Oct-Dec
-      seasons.add(`${year}-${(year + 1).toString().slice(-2)}`)
+      seasons.add(`${year}-${year + 1}`)
     } else { // Jan-Sept
-      seasons.add(`${year - 1}-${year.toString().slice(-2)}`)
+      seasons.add(`${year - 1}-${year}`)
     }
   })
-  
+
   return Array.from(seasons).sort().reverse()
 }
 
@@ -27,11 +27,11 @@ function getSeasonFromDate(dateStr: string): string {
   const date = new Date(dateStr)
   const year = date.getFullYear()
   const month = date.getMonth()
-  
+
   if (month >= 9) {
-    return `${year}-${(year + 1).toString().slice(-2)}`
+    return `${year}-${year + 1}`
   } else {
-    return `${year - 1}-${year.toString().slice(-2)}`
+    return `${year - 1}-${year}`
   }
 }
 
@@ -51,7 +51,7 @@ function formatLocation(location: EventResult['location']): string {
 
 export default function ResultsPageClient({ events }: { events: EventResult[] }) {
   const seasons = getSeasons(events)
-  const [selectedSeason, setSelectedSeason] = useState(seasons[0] || '2025-26')
+  const [selectedSeason, setSelectedSeason] = useState(seasons[0] || '2025-2026')
   
   const filteredEvents = events.filter(
     event => getSeasonFromDate(event.startDate) === selectedSeason
