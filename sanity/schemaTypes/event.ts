@@ -45,7 +45,6 @@ export default defineType({
       options: {
         list: [
           { title: '2026-2027', value: '2026-2027' },
-          { title: 'Summer 2026', value: 'summer-2026' },
           { title: '2025-2026', value: '2025-2026' },
           { title: 'Summer 2025', value: 'summer-2025' },
           { title: '2024-2025', value: '2024-2025' },
