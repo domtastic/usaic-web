@@ -33,7 +33,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
     return Array.from(seasons).sort().reverse()
   }, [events])
 
-  const [selectedSeason, setSelectedSeason] = useState(availableSeasons[0] || '2025-26')
+  const [selectedSeason, setSelectedSeason] = useState(availableSeasons[0] || '2025-2026')
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('upcoming')
   const [typeFilter, setTypeFilter] = useState<EventTypeFilter>('all')
 
