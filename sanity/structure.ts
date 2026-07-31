@@ -47,27 +47,35 @@ S.listItem()
             .title('Events by Season')
             .items([
               S.listItem()
-                .title('2025-26 Season')
+                .title('2026-2027 Season')
                 .child(
                   S.documentList()
-                    .title('2025-26 Events')
-                    .filter('_type == "event" && season == "2025-26"')
+                    .title('2026-2027 Events')
+                    .filter('_type == "event" && season == "2026-2027"')
                     .defaultOrdering([{ field: 'startDate', direction: 'asc' }])
                 ),
               S.listItem()
-                .title('2024-25 Season')
+                .title('2025-2026 Season')
                 .child(
                   S.documentList()
-                    .title('2024-25 Events')
-                    .filter('_type == "event" && season == "2024-25"')
+                    .title('2025-2026 Events')
+                    .filter('_type == "event" && season == "2025-2026"')
                     .defaultOrdering([{ field: 'startDate', direction: 'asc' }])
                 ),
               S.listItem()
-                .title('2023-24 Season')
+                .title('2024-2025 Season')
                 .child(
                   S.documentList()
-                    .title('2023-24 Events')
-                    .filter('_type == "event" && season == "2023-24"')
+                    .title('2024-2025 Events')
+                    .filter('_type == "event" && season == "2024-2025"')
+                    .defaultOrdering([{ field: 'startDate', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('2023-2024 Season')
+                .child(
+                  S.documentList()
+                    .title('2023-2024 Events')
+                    .filter('_type == "event" && season == "2023-2024"')
                     .defaultOrdering([{ field: 'startDate', direction: 'asc' }])
                 ),
               S.divider(),
