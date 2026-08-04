@@ -2,9 +2,24 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'boardMember',
-  title: 'Board Member',
+  title: 'Leadership Member',
   type: 'document',
   fields: [
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      description: 'Executive Leadership = staff (e.g. Co-Executive Director). Board of Directors = governance.',
+      options: {
+        list: [
+          { title: 'Executive Leadership', value: 'executive' },
+          { title: 'Board of Directors', value: 'board' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'board',
+      validation: (Rule) => Rule.required(),
+    }),
     defineField({
       name: 'name',
       title: 'Full Name',
@@ -15,7 +30,7 @@ export default defineType({
       name: 'role',
       title: 'Role / Title',
       type: 'string',
-      description: 'e.g. President, Treasurer, Board Member',
+      description: 'e.g. Co-Executive Director, President, Treasurer',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -58,6 +73,15 @@ export default defineType({
       title: 'name',
       subtitle: 'role',
       media: 'photo',
+      category: 'category',
+    },
+    prepare({ title, subtitle, media, category }) {
+      const categoryLabel = category === 'executive' ? 'Executive Leadership' : 'Board of Directors'
+      return {
+        title,
+        subtitle: `${subtitle} • ${categoryLabel}`,
+        media,
+      }
     },
   },
 })
