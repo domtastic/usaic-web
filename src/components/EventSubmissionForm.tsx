@@ -5,8 +5,6 @@ import { useState, useEffect, useRef } from 'react'
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!
 
 const EVENT_TYPES = [
-  { value: 'world-cup', label: 'World Cup' },
-  { value: 'continental-cup', label: 'Continental Cup' },
   { value: 'ice-festival', label: 'Ice Festival' },
   { value: 'local-competition', label: 'Local Competition' },
   { value: 'clinic', label: 'Clinic' },

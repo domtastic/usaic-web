@@ -4,6 +4,9 @@ import { createClient } from '@sanity/client'
 
 const MAX_POSTER_SIZE = 4 * 1024 * 1024 // 4MB
 
+// World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly.
+const ALLOWED_EVENT_TYPES = ['ice-festival', 'local-competition', 'clinic']
+
 const writeClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
@@ -43,6 +46,10 @@ export async function POST(request: Request) {
       !turnstileToken
     ) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    if (!ALLOWED_EVENT_TYPES.includes(eventType)) {
+      return NextResponse.json({ error: 'Invalid event type' }, { status: 400 })
     }
 
     let posterFile: File | null = null

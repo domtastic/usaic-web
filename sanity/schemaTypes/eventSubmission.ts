@@ -35,14 +35,13 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'World Cup', value: 'world-cup' },
-          { title: 'Continental Cup', value: 'continental-cup' },
           { title: 'Ice Festival', value: 'ice-festival' },
           { title: 'Local Competition', value: 'local-competition' },
           { title: 'Clinic', value: 'clinic' },
         ],
         layout: 'radio',
       },
+      description: 'World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
