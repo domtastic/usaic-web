@@ -54,6 +54,8 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
   - `CONTACT_EMAIL_CC` — CC recipient for contact form
   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` — Cloudflare Turnstile (public)
   - `TURNSTILE_SECRET_KEY` — Cloudflare Turnstile (server-side only)
+  - `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` — Sanity project/dataset (public, read-only client)
+  - `SANITY_WRITE_TOKEN` — Sanity write token (server-side only). Used by the event submission API route and the one-off scripts under `scripts/`/`sanity/scripts/` — never expose client-side
 
 ### Security headers
 Applied in `next.config.ts` to all routes except `/studio`:

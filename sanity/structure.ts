@@ -81,6 +81,47 @@ S.listItem()
                 ),
             ])
         ),
+      S.listItem()
+        .title('Event Submissions')
+        .child(
+          S.list()
+            .title('Event Submissions')
+            .items([
+              S.listItem()
+                .title('Needs Review')
+                .child(
+                  S.documentList()
+                    .title('Needs Review')
+                    .filter('_type == "eventSubmission" && status == "pending"')
+                    .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('Approved')
+                .child(
+                  S.documentList()
+                    .title('Approved Submissions')
+                    .filter('_type == "eventSubmission" && status == "approved"')
+                    .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])
+                ),
+              S.listItem()
+                .title('Rejected')
+                .child(
+                  S.documentList()
+                    .title('Rejected Submissions')
+                    .filter('_type == "eventSubmission" && status == "rejected"')
+                    .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])
+                ),
+              S.divider(),
+              S.listItem()
+                .title('All Submissions')
+                .child(
+                  S.documentList()
+                    .title('All Submissions')
+                    .filter('_type == "eventSubmission"')
+                    .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])
+                ),
+            ])
+        ),
       S.documentTypeListItem('article').title('News Articles'),
       S.documentTypeListItem('pressArticle').title('Press Coverage'),
       S.documentTypeListItem('sponsor').title('Sponsors'),
