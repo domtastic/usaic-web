@@ -15,6 +15,8 @@ const EVENT_TYPES = [
 const inputClasses =
   'w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400'
 
+const MAX_POSTER_SIZE = 4 * 1024 * 1024 // 4MB
+
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
 export default function EventSubmissionForm() {
@@ -36,8 +38,10 @@ export default function EventSubmissionForm() {
   const [errorMessage, setErrorMessage] = useState('')
   const [turnstileToken, setTurnstileToken] = useState('')
   const [scriptReady, setScriptReady] = useState(false)
+  const [posterImage, setPosterImage] = useState<File | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Step 1: Load the Turnstile script
   useEffect(() => {
@@ -74,6 +78,27 @@ export default function EventSubmissionForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+
+    if (file && !file.type.startsWith('image/')) {
+      setStatus('error')
+      setErrorMessage('Poster must be an image file.')
+      e.target.value = ''
+      setPosterImage(null)
+      return
+    }
+    if (file && file.size > MAX_POSTER_SIZE) {
+      setStatus('error')
+      setErrorMessage('Poster image must be under 4MB.')
+      e.target.value = ''
+      setPosterImage(null)
+      return
+    }
+
+    setPosterImage(file)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -87,10 +112,14 @@ export default function EventSubmissionForm() {
     setErrorMessage('')
 
     try {
+      const submitData = new FormData()
+      Object.entries(formData).forEach(([key, value]) => submitData.set(key, value))
+      submitData.set('turnstileToken', turnstileToken)
+      if (posterImage) submitData.set('posterImage', posterImage)
+
       const response = await fetch('/api/submit-event', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, turnstileToken }),
+        body: submitData,
       })
 
       if (!response.ok) {
@@ -113,6 +142,8 @@ export default function EventSubmissionForm() {
         submitterName: '',
         submitterEmail: '',
       })
+      setPosterImage(null)
+      if (fileInputRef.current) fileInputRef.current.value = ''
     } catch (err) {
       setStatus('error')
       setErrorMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
@@ -304,6 +335,22 @@ export default function EventSubmissionForm() {
           className={inputClasses}
           placeholder="https://..."
         />
+      </div>
+
+      <div>
+        <label htmlFor="posterImage" className="block text-sm font-medium text-slate-700 mb-1">
+          Event Poster / Image
+        </label>
+        <input
+          type="file"
+          id="posterImage"
+          name="posterImage"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handlePosterChange}
+          className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-ice-50 file:text-ice-700 file:font-medium hover:file:bg-ice-100"
+        />
+        <p className="text-xs text-slate-500 mt-1">Optional — flyer or poster image, up to 4MB</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-200">

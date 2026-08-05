@@ -81,6 +81,12 @@ export default defineType({
       description: "Link to the organizer's event page",
     }),
     defineField({
+      name: 'posterImage',
+      title: 'Event Poster / Image',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'submitterName',
       title: 'Submitted By',
       type: 'string',
@@ -97,8 +103,9 @@ export default defineType({
       title: 'Published Event',
       type: 'reference',
       to: [{ type: 'event' }],
+      weak: true,
       readOnly: true,
-      description: 'Set automatically when this submission is approved.',
+      description: 'Set automatically when this submission is approved. Weak reference so the event can still be deleted freely.',
     }),
   ],
   orderings: [

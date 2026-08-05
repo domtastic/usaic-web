@@ -33,6 +33,7 @@ export async function approveSubmission(client: SanityClient, doc: SanityDocumen
     location: doc.location,
     description: doc.description,
     eventLink: doc.eventLink,
+    featuredImage: doc.posterImage,
     featured: false,
   })
 
@@ -40,7 +41,11 @@ export async function approveSubmission(client: SanityClient, doc: SanityDocumen
     .patch(doc._id)
     .set({
       status: 'approved',
-      createdEventRef: { _type: 'reference', _ref: newEvent._id },
+      // _weak must be set on the reference value itself — the schema's
+      // `weak: true` only affects the Studio form UI, not references built
+      // programmatically here, and without it Sanity blocks deleting the
+      // event later ("cannot be deleted as there are references to it").
+      createdEventRef: { _type: 'reference', _ref: newEvent._id, _weak: true },
     })
     .commit()
 }

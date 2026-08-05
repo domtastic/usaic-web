@@ -60,7 +60,7 @@ function SubmissionCard({
   return (
     <Card padding={4} radius={3} shadow={1} border>
       <Stack space={3}>
-        <Flex justify="space-between" align="flex-start">
+        <Flex justify="space-between" align="flex-start" gap={3}>
           <Stack space={2}>
             <Text size={2} weight="semibold">
               {doc.title as string}
@@ -72,6 +72,14 @@ function SubmissionCard({
               </Text>
             </Flex>
           </Stack>
+          {(doc.posterImageUrl as string) && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={`${doc.posterImageUrl as string}?w=160&h=160&fit=crop`}
+              alt=""
+              style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 6, flexShrink: 0 }}
+            />
+          )}
         </Flex>
 
         <Text size={1} muted>
@@ -127,7 +135,10 @@ function ReviewSubmissionsTool() {
 
   const load = useCallback(async () => {
     const docs = await client.fetch<SanityDocument[]>(
-      `*[_type == "eventSubmission" && status == "pending"] | order(_createdAt desc)`
+      `*[_type == "eventSubmission" && status == "pending"] | order(_createdAt desc) {
+        ...,
+        "posterImageUrl": posterImage.asset->url
+      }`
     )
     setSubmissions(docs)
   }, [client])
