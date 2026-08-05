@@ -65,8 +65,12 @@ function SubmissionCard({
             <Text size={2} weight="semibold">
               {doc.title as string}
             </Text>
-            <Flex gap={2} align="center">
-              <Badge tone="primary">{EVENT_TYPE_LABELS[doc.eventType as string] || (doc.eventType as string)}</Badge>
+            <Flex gap={2} align="center" wrap="wrap">
+              {((doc.eventType as string[]) || []).map((t) => (
+                <Badge key={t} tone="primary">
+                  {EVENT_TYPE_LABELS[t] || t}
+                </Badge>
+              ))}
               <Text size={1} muted>
                 {formatDates(doc.startDate as string, doc.endDate as string)}
               </Text>

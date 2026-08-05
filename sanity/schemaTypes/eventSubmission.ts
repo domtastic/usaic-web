@@ -31,18 +31,19 @@ export default defineType({
     }),
     defineField({
       name: 'eventType',
-      title: 'Event Type',
-      type: 'string',
+      title: 'Event Type(s)',
+      type: 'array',
+      of: [{ type: 'string' }],
       options: {
         list: [
           { title: 'Ice Festival', value: 'ice-festival' },
           { title: 'Local Competition', value: 'local-competition' },
           { title: 'Clinic', value: 'clinic' },
         ],
-        layout: 'radio',
+        layout: 'grid',
       },
-      description: 'World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly.',
-      validation: (Rule) => Rule.required(),
+      description: 'World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly. An event can be more than one type.',
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'startDate',

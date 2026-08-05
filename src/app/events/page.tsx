@@ -13,7 +13,7 @@ export interface Event {
   _id: string
   title: string
   slug: { current: string }
-  eventType: 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
+  eventType: ('world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic')[]
   featured?: boolean
   season: string
   startDate: string

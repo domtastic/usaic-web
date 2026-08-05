@@ -23,8 +23,9 @@ export default defineType({
     }),
     defineField({
       name: 'eventType',
-      title: 'Event Type',
-      type: 'string',
+      title: 'Event Type(s)',
+      type: 'array',
+      of: [{ type: 'string' }],
       options: {
         list: [
           { title: 'World Cup', value: 'world-cup' },
@@ -33,9 +34,10 @@ export default defineType({
           { title: 'Local Competition', value: 'local-competition' },
           { title: 'Clinic', value: 'clinic' },
         ],
-        layout: 'radio',
+        layout: 'grid',
       },
-      validation: (Rule) => Rule.required(),
+      description: 'An event can be more than one type — e.g. an Ice Festival that also includes a Clinic.',
+      validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
       name: 'season',
@@ -151,9 +153,12 @@ export default defineType({
         'local-competition': '📍 Local Competition',
         'clinic': '🎓 Clinic',
       }
+      const typesLabel = ((eventType as string[]) || [])
+        .map((t) => typeLabels[t] || t)
+        .join(', ')
       return {
         title,
-        subtitle: `${season || ''} • ${typeLabels[eventType] || eventType} • ${date}`,
+        subtitle: `${season || ''} • ${typesLabel} • ${date}`,
         media,
       }
     },
