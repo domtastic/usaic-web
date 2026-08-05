@@ -38,11 +38,15 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('upcoming')
   const [typeFilter, setTypeFilter] = useState<EventTypeFilter>('all')
 
+  // Season only applies to World Cup / Continental Cup events — everything
+  // else just uses upcoming/past, no season concept to filter by.
+  const isCompFilter = typeFilter === 'world-cup' || typeFilter === 'continental-cup'
+
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  // Filter by season
-  const seasonEvents = events.filter(event => event.season === selectedSeason)
+  // Filter by season (only when viewing competitive event types)
+  const seasonEvents = isCompFilter ? events.filter(event => event.season === selectedSeason) : events
 
   // Filter by upcoming/past
   const timeFilteredEvents = seasonEvents.filter(event => {
@@ -114,30 +118,34 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
             Events
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            {formatSeasonDisplay(selectedSeason)}{selectedSeason.startsWith('summer-') ? '' : ' Ice Climbing Season'}
+            {isCompFilter
+              ? `${formatSeasonDisplay(selectedSeason)} Ice Climbing Season`
+              : 'Upcoming and past ice climbing events, competitions, and festivals'}
           </p>
         </div>
       </section>
 
       <section className="section-padding">
         <div className="section-container">
-          {/* Season Selector */}
-          <div className="flex justify-center mb-4">
-            <div className="flex items-center gap-3">
-              <span className="text-slate-600 font-medium">Season:</span>
-              <select
-                value={selectedSeason}
-                onChange={(e) => setSelectedSeason(e.target.value)}
-                className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-usa-navy font-semibold focus:outline-none focus:ring-2 focus:ring-ice-500"
-              >
-                {availableSeasons.map((season) => (
-                  <option key={season} value={season}>
-                    {formatSeasonDisplay(season)}
-                  </option>
-                ))}
-              </select>
+          {/* Season Selector — only relevant for World Cup / Continental Cup */}
+          {isCompFilter && (
+            <div className="flex justify-center mb-4">
+              <div className="flex items-center gap-3">
+                <span className="text-slate-600 font-medium">Season:</span>
+                <select
+                  value={selectedSeason}
+                  onChange={(e) => setSelectedSeason(e.target.value)}
+                  className="px-4 py-2 rounded-lg border border-slate-200 bg-white text-usa-navy font-semibold focus:outline-none focus:ring-2 focus:ring-ice-500"
+                >
+                  {availableSeasons.map((season) => (
+                    <option key={season} value={season}>
+                      {formatSeasonDisplay(season)}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="text-center mb-6">
             <Link

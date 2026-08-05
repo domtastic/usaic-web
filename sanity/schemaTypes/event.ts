@@ -1,5 +1,12 @@
 import { defineField, defineType } from 'sanity'
 
+// World Cups and Continental Cups run on the UIAA's Oct-Apr competitive
+// season; everything else (ice festivals, local comps, clinics) happens
+// year-round and uses a plain year instead.
+function isCompetitive(eventType: unknown): boolean {
+  return Array.isArray(eventType) && eventType.some((t) => t === 'world-cup' || t === 'continental-cup')
+}
+
 export default defineType({
   name: 'event',
   title: 'Event',
@@ -43,12 +50,11 @@ export default defineType({
       name: 'season',
       title: 'Season',
       type: 'string',
-      description: 'Ice climbing season (Oct-Apr), e.g., 2025-2026',
+      description: 'Ice climbing season (Oct-Apr), e.g., 2025-2026. Only applies to World Cup / Continental Cup events.',
       options: {
         list: [
           { title: '2026-2027', value: '2026-2027' },
           { title: '2025-2026', value: '2025-2026' },
-          { title: 'Summer 2025', value: 'summer-2025' },
           { title: '2024-2025', value: '2024-2025' },
           { title: '2023-2024', value: '2023-2024' },
           { title: '2022-2023', value: '2022-2023' },
@@ -56,7 +62,28 @@ export default defineType({
         ],
         layout: 'dropdown',
       },
-      validation: (Rule) => Rule.required(),
+      hidden: ({ document }) => !isCompetitive(document?.eventType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (isCompetitive(context.document?.eventType) && !value) {
+            return 'Season is required for World Cup / Continental Cup events'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'number',
+      description: 'Ice festivals, local competitions, and clinics happen year-round — just the calendar year, not a competitive season.',
+      hidden: ({ document }) => isCompetitive(document?.eventType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!isCompetitive(context.document?.eventType) && !value) {
+            return 'Year is required for non-competitive events'
+          }
+          return true
+        }),
     }),
     defineField({
       name: 'startDate',
@@ -142,10 +169,11 @@ export default defineType({
       date: 'startDate',
       eventType: 'eventType',
       season: 'season',
+      year: 'year',
       media: 'featuredImage',
     },
     prepare(selection) {
-      const { title, date, eventType, season, media } = selection
+      const { title, date, eventType, season, year, media } = selection
       const typeLabels: Record<string, string> = {
         'world-cup': '🏆 World Cup',
         'continental-cup': '🌎 Continental Cup',
@@ -158,7 +186,7 @@ export default defineType({
         .join(', ')
       return {
         title,
-        subtitle: `${season || ''} • ${typesLabel} • ${date}`,
+        subtitle: `${season || year || ''} • ${typesLabel} • ${date}`,
         media,
       }
     },

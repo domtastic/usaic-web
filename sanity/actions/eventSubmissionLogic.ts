@@ -9,25 +9,17 @@ export function createSlug(title: string): string {
     .replace(/(^-|-$)/g, '')
 }
 
-// The ice climbing season runs Oct-Apr (Oct-Dec is the start of a season,
-// Jan-Apr is the end); May-Sep is the off-season, tracked as "Summer <year>"
-// per the season field's own dropdown options (see sanity/schemaTypes/event.ts).
-export function computeSeason(dateStr: string): string {
-  const date = new Date(dateStr)
-  const year = date.getFullYear()
-  const month = date.getMonth()
-  if (month >= 9) return `${year}-${year + 1}` // Oct-Dec
-  if (month <= 3) return `${year - 1}-${year}` // Jan-Apr
-  return `summer-${year}` // May-Sep
-}
-
 export async function approveSubmission(client: SanityClient, doc: SanityDocument): Promise<void> {
+  // Every submittable event type is non-competitive (World Cup / Continental
+  // Cup are excluded from public submission — see ALLOWED_EVENT_TYPES in
+  // src/app/api/submit-event/route.ts), so approved events always get a
+  // plain year, never a competitive season.
   const newEvent = await client.create({
     _type: 'event',
     title: doc.title,
     slug: { _type: 'slug', current: createSlug(doc.title as string) },
     eventType: doc.eventType,
-    season: computeSeason(doc.startDate as string),
+    year: new Date(doc.startDate as string).getFullYear(),
     startDate: doc.startDate,
     endDate: doc.endDate,
     location: doc.location,
