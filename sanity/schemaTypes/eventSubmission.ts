@@ -19,6 +19,8 @@ export default defineType({
         layout: 'radio',
       },
       initialValue: 'pending',
+      readOnly: true,
+      description: 'Set automatically by the "Approve & Publish Event" / "Reject" buttons above — not editable directly.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
