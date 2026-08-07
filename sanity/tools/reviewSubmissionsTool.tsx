@@ -1,16 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Badge, Box, Button, Card, Flex, Spinner, Stack, Text } from '@sanity/ui'
+import { Badge, Box, Button, Card, Flex, Spinner, Stack, Text, useToast } from '@sanity/ui'
 import { CloseCircleIcon, InboxIcon, PublishIcon } from '@sanity/icons'
 import { useClient, type SanityDocument, type Tool } from 'sanity'
 import { approveSubmission, rejectSubmission } from '../actions/eventSubmissionLogic'
-
-const EVENT_TYPE_LABELS: Record<string, string> = {
-  'world-cup': 'World Cup',
-  'continental-cup': 'Continental Cup',
-  'ice-festival': 'Ice Festival',
-  'local-competition': 'Local Competition',
-  'clinic': 'Clinic',
-}
+import { EVENT_TYPE_LABELS, toEventTypeArray } from '@/lib/eventTypes'
 
 function formatLocation(location: SanityDocument['location']) {
   if (!location) return ''
@@ -28,9 +21,10 @@ function SubmissionCard({
   onResolved,
 }: {
   doc: SanityDocument
-  onResolved: () => void
+  onResolved: (id: string) => void
 }) {
   const client = useClient({ apiVersion: '2024-01-01' })
+  const toast = useToast()
   const [processing, setProcessing] = useState<'approving' | 'rejecting' | null>(null)
   const [confirmingReject, setConfirmingReject] = useState(false)
 
@@ -38,22 +32,34 @@ function SubmissionCard({
     setProcessing('approving')
     try {
       await approveSubmission(client, doc)
-      onResolved()
+      onResolved(doc._id)
+    } catch (err) {
+      toast.push({
+        status: 'error',
+        title: 'Failed to approve submission',
+        description: err instanceof Error ? err.message : 'Unknown error',
+      })
     } finally {
       setProcessing(null)
     }
-  }, [client, doc, onResolved])
+  }, [client, doc, onResolved, toast])
 
   const handleReject = useCallback(async () => {
     setProcessing('rejecting')
     try {
       await rejectSubmission(client, doc._id)
-      onResolved()
+      onResolved(doc._id)
+    } catch (err) {
+      toast.push({
+        status: 'error',
+        title: 'Failed to reject submission',
+        description: err instanceof Error ? err.message : 'Unknown error',
+      })
     } finally {
       setProcessing(null)
       setConfirmingReject(false)
     }
-  }, [client, doc._id, onResolved])
+  }, [client, doc._id, onResolved, toast])
 
   const isBusy = processing !== null
 
@@ -66,9 +72,9 @@ function SubmissionCard({
               {doc.title as string}
             </Text>
             <Flex gap={2} align="center" wrap="wrap">
-              {((doc.eventType as string[]) || []).map((t) => (
+              {toEventTypeArray(doc.eventType).map((t) => (
                 <Badge key={t} tone="primary">
-                  {EVENT_TYPE_LABELS[t] || t}
+                  {EVENT_TYPE_LABELS[t as keyof typeof EVENT_TYPE_LABELS] || t}
                 </Badge>
               ))}
               <Text size={1} muted>
@@ -151,6 +157,13 @@ function ReviewSubmissionsTool() {
     load()
   }, [load])
 
+  // Approve/reject only ever removes the resolved doc from the pending set —
+  // no need to refetch (and re-join every remaining poster image URL) after
+  // every single action.
+  const handleResolved = useCallback((id: string) => {
+    setSubmissions((prev) => (prev ? prev.filter((d) => d._id !== id) : prev))
+  }, [])
+
   return (
     <Box padding={4} style={{ maxWidth: 720, margin: '0 auto' }}>
       <Stack space={4}>
@@ -171,7 +184,7 @@ function ReviewSubmissionsTool() {
         )}
 
         {submissions !== null &&
-          submissions.map((doc) => <SubmissionCard key={doc._id} doc={doc} onResolved={load} />)}
+          submissions.map((doc) => <SubmissionCard key={doc._id} doc={doc} onResolved={handleResolved} />)}
       </Stack>
     </Box>
   )

@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { EVENT_TYPE_OPTIONS, EVENT_TYPE_LABELS, isCompetitive, toEventTypeArray } from '@/lib/eventTypes'
 
 export default defineType({
   name: 'event',
@@ -27,13 +28,7 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
       options: {
-        list: [
-          { title: 'World Cup', value: 'world-cup' },
-          { title: 'Continental Cup', value: 'continental-cup' },
-          { title: 'Ice Festival', value: 'ice-festival' },
-          { title: 'Local Competition', value: 'local-competition' },
-          { title: 'Clinic', value: 'clinic' },
-        ],
+        list: EVENT_TYPE_OPTIONS,
         layout: 'grid',
       },
       description: 'An event can be more than one type — e.g. an Ice Festival that also includes a Clinic.',
@@ -43,12 +38,11 @@ export default defineType({
       name: 'season',
       title: 'Season',
       type: 'string',
-      description: 'Ice climbing season (Oct-Apr), e.g., 2025-2026',
+      description: 'Ice climbing season (Oct-Apr), e.g., 2025-2026. Only applies to World Cup / Continental Cup events.',
       options: {
         list: [
           { title: '2026-2027', value: '2026-2027' },
           { title: '2025-2026', value: '2025-2026' },
-          { title: 'Summer 2025', value: 'summer-2025' },
           { title: '2024-2025', value: '2024-2025' },
           { title: '2023-2024', value: '2023-2024' },
           { title: '2022-2023', value: '2022-2023' },
@@ -56,7 +50,28 @@ export default defineType({
         ],
         layout: 'dropdown',
       },
-      validation: (Rule) => Rule.required(),
+      hidden: ({ document }) => !isCompetitive(document?.eventType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (isCompetitive(context.document?.eventType) && !value) {
+            return 'Season is required for World Cup / Continental Cup events'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'number',
+      description: 'Ice festivals, local competitions, and clinics happen year-round — just the calendar year, not a competitive season.',
+      hidden: ({ document }) => isCompetitive(document?.eventType),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!isCompetitive(context.document?.eventType) && !value) {
+            return 'Year is required for non-competitive events'
+          }
+          return true
+        }),
     }),
     defineField({
       name: 'startDate',
@@ -142,23 +157,24 @@ export default defineType({
       date: 'startDate',
       eventType: 'eventType',
       season: 'season',
+      year: 'year',
       media: 'featuredImage',
     },
     prepare(selection) {
-      const { title, date, eventType, season, media } = selection
-      const typeLabels: Record<string, string> = {
-        'world-cup': '🏆 World Cup',
-        'continental-cup': '🌎 Continental Cup',
-        'ice-festival': '🎪 Ice Festival',
-        'local-competition': '📍 Local Competition',
-        'clinic': '🎓 Clinic',
+      const { title, date, eventType, season, year, media } = selection
+      const emoji: Record<string, string> = {
+        'world-cup': '🏆',
+        'continental-cup': '🌎',
+        'ice-festival': '🎪',
+        'local-competition': '📍',
+        'clinic': '🎓',
       }
-      const typesLabel = ((eventType as string[]) || [])
-        .map((t) => typeLabels[t] || t)
+      const typesLabel = toEventTypeArray(eventType)
+        .map((t) => `${emoji[t] || ''} ${EVENT_TYPE_LABELS[t as keyof typeof EVENT_TYPE_LABELS] || t}`.trim())
         .join(', ')
       return {
         title,
-        subtitle: `${season || ''} • ${typesLabel} • ${date}`,
+        subtitle: `${season || year || ''} • ${typesLabel} • ${date}`,
         media,
       }
     },

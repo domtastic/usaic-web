@@ -15,7 +15,8 @@ export interface Event {
   slug: { current: string }
   eventType: ('world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic')[]
   featured?: boolean
-  season: string
+  season?: string
+  year?: number
   startDate: string
   endDate?: string
   location: {
@@ -39,6 +40,7 @@ async function getEvents(): Promise<Event[]> {
     slug,
     eventType,
     season,
+    year,
     startDate,
     endDate,
     location,

@@ -1,4 +1,9 @@
 import { defineField, defineType } from 'sanity'
+import { EVENT_TYPE_OPTIONS, SUBMITTABLE_EVENT_TYPES } from '@/lib/eventTypes'
+
+const SUBMITTABLE_EVENT_TYPE_OPTIONS = EVENT_TYPE_OPTIONS.filter((o) =>
+  (SUBMITTABLE_EVENT_TYPES as string[]).includes(o.value)
+)
 
 export default defineType({
   name: 'eventSubmission',
@@ -35,11 +40,7 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
       options: {
-        list: [
-          { title: 'Ice Festival', value: 'ice-festival' },
-          { title: 'Local Competition', value: 'local-competition' },
-          { title: 'Clinic', value: 'clinic' },
-        ],
+        list: SUBMITTABLE_EVENT_TYPE_OPTIONS,
         layout: 'grid',
       },
       description: 'World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly. An event can be more than one type.',

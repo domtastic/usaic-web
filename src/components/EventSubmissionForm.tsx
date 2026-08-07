@@ -1,14 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { EVENT_TYPE_OPTIONS, SUBMITTABLE_EVENT_TYPES } from '@/lib/eventTypes'
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!
 
-const EVENT_TYPES = [
-  { value: 'ice-festival', label: 'Ice Festival' },
-  { value: 'local-competition', label: 'Local Competition' },
-  { value: 'clinic', label: 'Clinic' },
-]
+const EVENT_TYPES = EVENT_TYPE_OPTIONS.filter((o) => (SUBMITTABLE_EVENT_TYPES as string[]).includes(o.value))
 
 const inputClasses =
   'w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ice-600 focus:border-transparent text-slate-700 placeholder-slate-400'
@@ -224,7 +221,7 @@ export default function EventSubmissionForm() {
                 onChange={() => handleEventTypeToggle(type.value)}
                 className="w-4 h-4 rounded border-slate-300 text-ice-600 focus:ring-ice-600"
               />
-              {type.label}
+              {type.title}
             </label>
           ))}
         </div>
