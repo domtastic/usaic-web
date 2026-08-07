@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createClient } from '@sanity/client'
+import { SUBMITTABLE_EVENT_TYPES } from '@/lib/eventTypes'
 
 const MAX_POSTER_SIZE = 4 * 1024 * 1024 // 4MB
-
-// World Cups and Continental Cups are scheduled by USAIC directly, not submitted publicly.
-const ALLOWED_EVENT_TYPES = ['ice-festival', 'local-competition', 'clinic']
 
 const writeClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -48,7 +46,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    if (!eventType.every((t) => ALLOWED_EVENT_TYPES.includes(t))) {
+    if (!eventType.every((t) => (SUBMITTABLE_EVENT_TYPES as string[]).includes(t))) {
       return NextResponse.json({ error: 'Invalid event type' }, { status: 400 })
     }
 
@@ -83,6 +81,10 @@ export async function POST(request: Request) {
       posterImageField = { _type: 'image', asset: { _type: 'reference', _ref: asset._id } }
     }
 
+    // This is the write that matters — once it succeeds, the submission is
+    // saved and the request should report success even if the notification
+    // email below fails, so a submitter never gets an error prompting them
+    // to resubmit (which would create a duplicate pending submission).
     await writeClient.create({
       _type: 'eventSubmission',
       status: 'pending',
@@ -98,24 +100,31 @@ export async function POST(request: Request) {
       submitterEmail,
     })
 
-    await resend.emails.send({
-      from: 'USAIC Event Submissions <noreply@usaiceclimbing.org>',
-      to: [process.env.CONTACT_EMAIL!, process.env.CONTACT_EMAIL_CC!].filter(Boolean),
-      replyTo: submitterEmail,
-      subject: `[USAIC Event Submission] ${title}`,
-      html: `
-        <h2>New Event Submission</h2>
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Type:</strong> ${eventType.join(', ')}</p>
-        <p><strong>Dates:</strong> ${startDate}${endDate ? ` – ${endDate}` : ''}</p>
-        <p><strong>Location:</strong> ${[venue, city, state, country].filter(Boolean).join(', ')}</p>
-        ${description ? `<p><strong>Description:</strong> ${description}</p>` : ''}
-        ${eventLink ? `<p><strong>Event Link:</strong> ${eventLink}</p>` : ''}
-        ${posterFile ? `<p><strong>Poster attached:</strong> yes</p>` : ''}
-        <p><strong>Submitted by:</strong> ${submitterName} (${submitterEmail})</p>
-        <p>Review it in Sanity Studio under "Event Submissions" → "Needs Review."</p>
-      `,
-    })
+    try {
+      await resend.emails.send({
+        from: 'USAIC Event Submissions <noreply@usaiceclimbing.org>',
+        to: [process.env.CONTACT_EMAIL!, process.env.CONTACT_EMAIL_CC!].filter(Boolean),
+        replyTo: submitterEmail,
+        subject: `[USAIC Event Submission] ${title}`,
+        html: `
+          <h2>New Event Submission</h2>
+          <p><strong>Title:</strong> ${title}</p>
+          <p><strong>Type:</strong> ${eventType.join(', ')}</p>
+          <p><strong>Dates:</strong> ${startDate}${endDate ? ` – ${endDate}` : ''}</p>
+          <p><strong>Location:</strong> ${[venue, city, state, country].filter(Boolean).join(', ')}</p>
+          ${description ? `<p><strong>Description:</strong> ${description}</p>` : ''}
+          ${eventLink ? `<p><strong>Event Link:</strong> ${eventLink}</p>` : ''}
+          ${posterFile ? `<p><strong>Poster attached:</strong> yes</p>` : ''}
+          <p><strong>Submitted by:</strong> ${submitterName} (${submitterEmail})</p>
+          <p>Review it in Sanity Studio under "Event Submissions" → "Needs Review."</p>
+        `,
+      })
+    } catch (emailErr) {
+      // Submission already saved — log the notification failure but don't
+      // fail the request over it. Worst case Dan/Tyler check Studio without
+      // a heads-up email instead of the user losing their submission.
+      console.error('Event submission notification email failed:', emailErr)
+    }
 
     return NextResponse.json({ success: true })
   } catch (err) {

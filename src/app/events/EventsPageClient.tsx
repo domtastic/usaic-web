@@ -3,17 +3,14 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import type { Event } from './page'
+import { EVENT_TYPE_LABELS, COMPETITIVE_EVENT_TYPES, toEventTypeArray } from '@/lib/eventTypes'
 
 type TimeFilter = 'upcoming' | 'past'
 type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
 
 const eventTypeLabels: Record<EventTypeFilter, string> = {
   'all': 'All Events',
-  'world-cup': 'World Cup',
-  'continental-cup': 'Continental Cup',
-  'ice-festival': 'Ice Festival',
-  'local-competition': 'Local Competition',
-  'clinic': 'Clinic',
+  ...EVENT_TYPE_LABELS,
 }
 
 const eventTypeBadgeColors: Record<string, string> = {
@@ -40,7 +37,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
   // Season only applies to World Cup / Continental Cup events — everything
   // else just uses upcoming/past, no season concept to filter by.
-  const isCompFilter = typeFilter === 'world-cup' || typeFilter === 'continental-cup'
+  const isCompFilter = (COMPETITIVE_EVENT_TYPES as string[]).includes(typeFilter)
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -63,7 +60,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   // Filter by event type
   const filteredEvents = (() => {
     if (typeFilter === 'all') return timeFilteredEvents
-    return timeFilteredEvents.filter(e => e.eventType.includes(typeFilter))
+    return timeFilteredEvents.filter(e => toEventTypeArray(e.eventType).includes(typeFilter))
   })()
 
   // Sort: upcoming = ascending (soonest first), past = descending (most recent first)
@@ -231,12 +228,12 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                           {event.title}
                         </h3>
                       )}
-                      {event.eventType.map((type) => (
+                      {toEventTypeArray(event.eventType).map((type) => (
                         <span
                           key={type}
                           className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[type]}`}
                         >
-                          {eventTypeLabels[type]}
+                          {eventTypeLabels[type as EventTypeFilter] || type}
                         </span>
                       ))}
                     </div>
@@ -280,7 +277,9 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
           {sortedEvents.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-slate-500">No {timeFilter} events found for this season and category.</p>
+              <p className="text-slate-500">
+                No {timeFilter} events found for this category{isCompFilter ? ' and season' : ''}.
+              </p>
               <p className="text-sm text-slate-400 mt-2">Add events in the Sanity Studio at /studio</p>
             </div>
           )}

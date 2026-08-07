@@ -1,4 +1,5 @@
 import { getCliClient } from 'sanity/cli'
+import { isCompetitive } from '@/lib/eventTypes'
 
 const client = getCliClient()
 
@@ -8,10 +9,6 @@ interface EventDoc {
   eventType?: string[]
   season?: string
   startDate: string
-}
-
-function isCompetitive(eventType?: string[]): boolean {
-  return Array.isArray(eventType) && eventType.some((t) => t === 'world-cup' || t === 'continental-cup')
 }
 
 async function main() {
@@ -31,7 +28,10 @@ async function main() {
       continue
     }
 
-    const year = new Date(event.startDate).getFullYear()
+    // startDate is a date-only string, parsed as UTC midnight — read the
+    // year back in UTC too, or a negative-UTC-offset timezone reads one
+    // year too early for dates near Jan 1.
+    const year = new Date(event.startDate).getUTCFullYear()
 
     try {
       await client.patch(event._id).set({ year }).unset(['season']).commit()

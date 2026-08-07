@@ -1,4 +1,5 @@
 import { client } from '@/lib/sanity'
+import { toEventTypeArray } from '@/lib/eventTypes'
 import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
@@ -104,7 +105,7 @@ async function getCarouselData() {
   }
   
   const bestPriority = (event: Event) =>
-    Math.min(...event.eventType.map((t) => eventPriority[t] ?? Infinity), Infinity)
+    Math.min(...toEventTypeArray(event.eventType).map((t) => eventPriority[t] ?? Infinity), Infinity)
 
   const sortedEvents = upcomingEvents.sort((a, b) => {
     // First by priority
@@ -181,7 +182,7 @@ const WORLD_CUP_YOUTUBE = 'https://www.youtube.com/playlist?list=PL0DMtATwEZ0jR6
 
 if (homepage.eventSlide?.enabled !== false && events.length > 0) {
   events.forEach((event) => {
-    const isWorldCup = event.eventType.includes('world-cup')
+    const isWorldCup = toEventTypeArray(event.eventType).includes('world-cup')
     
     slides.push({
       type: 'event',

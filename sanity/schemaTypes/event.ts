@@ -1,11 +1,5 @@
 import { defineField, defineType } from 'sanity'
-
-// World Cups and Continental Cups run on the UIAA's Oct-Apr competitive
-// season; everything else (ice festivals, local comps, clinics) happens
-// year-round and uses a plain year instead.
-function isCompetitive(eventType: unknown): boolean {
-  return Array.isArray(eventType) && eventType.some((t) => t === 'world-cup' || t === 'continental-cup')
-}
+import { EVENT_TYPE_OPTIONS, EVENT_TYPE_LABELS, isCompetitive, toEventTypeArray } from '@/lib/eventTypes'
 
 export default defineType({
   name: 'event',
@@ -34,13 +28,7 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
       options: {
-        list: [
-          { title: 'World Cup', value: 'world-cup' },
-          { title: 'Continental Cup', value: 'continental-cup' },
-          { title: 'Ice Festival', value: 'ice-festival' },
-          { title: 'Local Competition', value: 'local-competition' },
-          { title: 'Clinic', value: 'clinic' },
-        ],
+        list: EVENT_TYPE_OPTIONS,
         layout: 'grid',
       },
       description: 'An event can be more than one type — e.g. an Ice Festival that also includes a Clinic.',
@@ -174,15 +162,15 @@ export default defineType({
     },
     prepare(selection) {
       const { title, date, eventType, season, year, media } = selection
-      const typeLabels: Record<string, string> = {
-        'world-cup': '🏆 World Cup',
-        'continental-cup': '🌎 Continental Cup',
-        'ice-festival': '🎪 Ice Festival',
-        'local-competition': '📍 Local Competition',
-        'clinic': '🎓 Clinic',
+      const emoji: Record<string, string> = {
+        'world-cup': '🏆',
+        'continental-cup': '🌎',
+        'ice-festival': '🎪',
+        'local-competition': '📍',
+        'clinic': '🎓',
       }
-      const typesLabel = ((eventType as string[]) || [])
-        .map((t) => typeLabels[t] || t)
+      const typesLabel = toEventTypeArray(eventType)
+        .map((t) => `${emoji[t] || ''} ${EVENT_TYPE_LABELS[t as keyof typeof EVENT_TYPE_LABELS] || t}`.trim())
         .join(', ')
       return {
         title,

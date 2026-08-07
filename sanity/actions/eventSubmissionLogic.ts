@@ -1,43 +1,65 @@
 import type { SanityClient, SanityDocument } from 'sanity'
+import { isCompetitive } from '@/lib/eventTypes'
 
 export function createSlug(title: string): string {
-  return title
+  const slug = title
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
+  // Titles with no Latin/numeric characters (e.g. CJK, emoji-only) reduce to
+  // an empty string — fall back to something guaranteed non-empty, since the
+  // programmatic create() below bypasses Studio's slug-uniqueness UI check.
+  return slug || `event-${crypto.randomUUID().slice(0, 8)}`
 }
 
 export async function approveSubmission(client: SanityClient, doc: SanityDocument): Promise<void> {
-  // Every submittable event type is non-competitive (World Cup / Continental
-  // Cup are excluded from public submission — see ALLOWED_EVENT_TYPES in
-  // src/app/api/submit-event/route.ts), so approved events always get a
-  // plain year, never a competitive season.
-  const newEvent = await client.create({
-    _type: 'event',
-    title: doc.title,
-    slug: { _type: 'slug', current: createSlug(doc.title as string) },
-    eventType: doc.eventType,
-    year: new Date(doc.startDate as string).getFullYear(),
-    startDate: doc.startDate,
-    endDate: doc.endDate,
-    location: doc.location,
-    description: doc.description,
-    eventLink: doc.eventLink,
-    featuredImage: doc.posterImage,
-    featured: false,
-  })
+  // Public submission already excludes World Cup/Continental Cup (see
+  // SUBMITTABLE_EVENT_TYPES / the API route's allow-list), but that's
+  // enforced upstream, not here — check it ourselves too, so this function
+  // stays correct even if the allow-list is ever loosened, instead of
+  // silently publishing a competitive event with no season.
+  if (isCompetitive(doc.eventType)) {
+    throw new Error(
+      `"${doc.title}" is tagged as a competitive event type (World Cup/Continental Cup) — refusing to auto-approve. Competitive events aren't accepted via public submission; check this submission's Event Type field.`
+    )
+  }
 
+  const newEventId = crypto.randomUUID()
+
+  // A single transaction: if the patch (marking the submission approved)
+  // fails, the event create is rolled back with it — no orphaned, live,
+  // unreferenced event left behind on a partial failure.
   await client
-    .patch(doc._id)
-    .set({
-      status: 'approved',
-      // _weak must be set on the reference value itself — the schema's
-      // `weak: true` only affects the Studio form UI, not references built
-      // programmatically here, and without it Sanity blocks deleting the
-      // event later ("cannot be deleted as there are references to it").
-      createdEventRef: { _type: 'reference', _ref: newEvent._id, _weak: true },
+    .transaction()
+    .create({
+      _id: newEventId,
+      _type: 'event',
+      title: doc.title,
+      slug: { _type: 'slug', current: createSlug(doc.title as string) },
+      eventType: doc.eventType,
+      // startDate is a date-only string ("YYYY-MM-DD"), which Date parses as
+      // UTC midnight — read the year back in UTC too, or a negative-UTC-offset
+      // timezone (e.g. US) would silently read one year too early near Jan 1.
+      year: new Date(doc.startDate as string).getUTCFullYear(),
+      startDate: doc.startDate,
+      endDate: doc.endDate,
+      location: doc.location,
+      description: doc.description,
+      eventLink: doc.eventLink,
+      featuredImage: doc.posterImage,
+      featured: false,
+    })
+    .patch(doc._id, {
+      set: {
+        status: 'approved',
+        // _weak must be set on the reference value itself — the schema's
+        // `weak: true` only affects the Studio form UI, not references built
+        // programmatically here, and without it Sanity blocks deleting the
+        // event later ("cannot be deleted as there are references to it").
+        createdEventRef: { _type: 'reference', _ref: newEventId, _weak: true },
+      },
     })
     .commit()
 }
