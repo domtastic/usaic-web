@@ -1,5 +1,6 @@
 import athlete from './athlete'
 import event from './event'
+import eventSubmission from './eventSubmission'
 import sponsor from './sponsor'
 import article from './article'
 import homepage from './homepage'
@@ -17,5 +18,5 @@ import indoorGuidelines from './indoorGuidelines'
 import boardMember from './boardMember'
 
 export const schema = {
-  types: [athlete, event, sponsor, article, homepage, about, medalCount, resource, growthMetrics, teamResources, disciplines, whatIsDrytooling, historicalRoster, gymResources, indoorGuidelines, pressArticle, boardMember],
+  types: [athlete, event, eventSubmission, sponsor, article, homepage, about, medalCount, resource, growthMetrics, teamResources, disciplines, whatIsDrytooling, historicalRoster, gymResources, indoorGuidelines, pressArticle, boardMember],
 }

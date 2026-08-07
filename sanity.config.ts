@@ -12,6 +12,8 @@ import {structureTool} from 'sanity/structure'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
+import {ApproveAndPublishAction, RejectSubmissionAction} from './sanity/actions/eventSubmissionActions'
+import {reviewSubmissionsTool} from './sanity/tools/reviewSubmissionsTool'
 
 export default defineConfig({
   basePath: '/studio',
@@ -19,6 +21,13 @@ export default defineConfig({
   dataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
+  document: {
+    actions: (prev, context) =>
+      context.schemaType === 'eventSubmission'
+        ? [ApproveAndPublishAction, RejectSubmissionAction, ...prev]
+        : prev,
+  },
+  tools: [reviewSubmissionsTool],
   plugins: [
     structureTool({structure}),
     // Vision is for querying with GROQ from inside the Studio

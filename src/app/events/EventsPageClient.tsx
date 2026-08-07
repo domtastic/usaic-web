@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import type { Event } from './page'
 
 type TimeFilter = 'upcoming' | 'past'
@@ -121,7 +122,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
       <section className="section-padding">
         <div className="section-container">
           {/* Season Selector */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <div className="flex items-center gap-3">
               <span className="text-slate-600 font-medium">Season:</span>
               <select
@@ -136,6 +137,15 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                 ))}
               </select>
             </div>
+          </div>
+
+          <div className="text-center mb-6">
+            <Link
+              href="/events/submit"
+              className="text-ice-600 hover:text-ice-700 font-medium text-sm transition-colors"
+            >
+              Have an event to add? Submit it →
+            </Link>
           </div>
 
           {/* Time Filter Toggle */}
