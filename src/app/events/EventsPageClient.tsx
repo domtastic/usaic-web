@@ -59,7 +59,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   // Filter by event type
   const filteredEvents = (() => {
     if (typeFilter === 'all') return timeFilteredEvents
-    return timeFilteredEvents.filter(e => e.eventType === typeFilter)
+    return timeFilteredEvents.filter(e => e.eventType.includes(typeFilter))
   })()
 
   // Sort: upcoming = ascending (soonest first), past = descending (most recent first)
@@ -223,9 +223,14 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
                           {event.title}
                         </h3>
                       )}
-                      <span className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[event.eventType]}`}>
-                        {eventTypeLabels[event.eventType]}
-                      </span>
+                      {event.eventType.map((type) => (
+                        <span
+                          key={type}
+                          className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[type]}`}
+                        >
+                          {eventTypeLabels[type]}
+                        </span>
+                      ))}
                     </div>
                     <p className="text-slate-500 text-sm mb-2">
                       {formatLocation(event.location)}

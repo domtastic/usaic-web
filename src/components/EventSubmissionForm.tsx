@@ -20,7 +20,6 @@ type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 export default function EventSubmissionForm() {
   const [formData, setFormData] = useState({
     title: '',
-    eventType: 'local-competition',
     startDate: '',
     endDate: '',
     venue: '',
@@ -32,6 +31,7 @@ export default function EventSubmissionForm() {
     submitterName: '',
     submitterEmail: '',
   })
+  const [eventType, setEventType] = useState<string[]>([])
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [turnstileToken, setTurnstileToken] = useState('')
@@ -76,6 +76,12 @@ export default function EventSubmissionForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
+  const handleEventTypeToggle = (value: string) => {
+    setEventType((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
+    )
+  }
+
   const handlePosterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null
 
@@ -100,6 +106,12 @@ export default function EventSubmissionForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    if (eventType.length === 0) {
+      setStatus('error')
+      setErrorMessage('Please select at least one event type.')
+      return
+    }
+
     if (!turnstileToken) {
       setStatus('error')
       setErrorMessage('Please complete the verification checkbox.')
@@ -112,6 +124,7 @@ export default function EventSubmissionForm() {
     try {
       const submitData = new FormData()
       Object.entries(formData).forEach(([key, value]) => submitData.set(key, value))
+      eventType.forEach((type) => submitData.append('eventType', type))
       submitData.set('turnstileToken', turnstileToken)
       if (posterImage) submitData.set('posterImage', posterImage)
 
@@ -128,7 +141,6 @@ export default function EventSubmissionForm() {
       setStatus('success')
       setFormData({
         title: '',
-        eventType: 'local-competition',
         startDate: '',
         endDate: '',
         venue: '',
@@ -140,6 +152,7 @@ export default function EventSubmissionForm() {
         submitterName: '',
         submitterEmail: '',
       })
+      setEventType([])
       setPosterImage(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
     } catch (err) {
@@ -196,23 +209,25 @@ export default function EventSubmissionForm() {
       </div>
 
       <div>
-        <label htmlFor="eventType" className="block text-sm font-medium text-slate-700 mb-1">
+        <label className="block text-sm font-medium text-slate-700 mb-1">
           Event Type <span className="text-usa-red">*</span>
         </label>
-        <select
-          id="eventType"
-          name="eventType"
-          required
-          value={formData.eventType}
-          onChange={handleChange}
-          className={inputClasses}
-        >
+        <p className="text-xs text-slate-500 mb-2">Select all that apply — e.g. a festival that also includes a clinic.</p>
+        <div className="flex flex-wrap gap-4">
           {EVENT_TYPES.map((type) => (
-            <option key={type.value} value={type.value}>
+            <label key={type.value} className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <input
+                type="checkbox"
+                name="eventType"
+                value={type.value}
+                checked={eventType.includes(type.value)}
+                onChange={() => handleEventTypeToggle(type.value)}
+                className="w-4 h-4 rounded border-slate-300 text-ice-600 focus:ring-ice-600"
+              />
               {type.label}
-            </option>
+            </label>
           ))}
-        </select>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

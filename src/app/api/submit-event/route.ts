@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const formData = await request.formData()
 
     const title = formData.get('title') as string
-    const eventType = formData.get('eventType') as string
+    const eventType = formData.getAll('eventType') as string[]
     const startDate = formData.get('startDate') as string
     const endDate = formData.get('endDate') as string
     const venue = formData.get('venue') as string
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
     if (
       !title ||
-      !eventType ||
+      !eventType.length ||
       !startDate ||
       !city ||
       !country ||
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    if (!ALLOWED_EVENT_TYPES.includes(eventType)) {
+    if (!eventType.every((t) => ALLOWED_EVENT_TYPES.includes(t))) {
       return NextResponse.json({ error: 'Invalid event type' }, { status: 400 })
     }
 
@@ -106,7 +106,7 @@ export async function POST(request: Request) {
       html: `
         <h2>New Event Submission</h2>
         <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Type:</strong> ${eventType}</p>
+        <p><strong>Type:</strong> ${eventType.join(', ')}</p>
         <p><strong>Dates:</strong> ${startDate}${endDate ? ` – ${endDate}` : ''}</p>
         <p><strong>Location:</strong> ${[venue, city, state, country].filter(Boolean).join(', ')}</p>
         ${description ? `<p><strong>Description:</strong> ${description}</p>` : ''}

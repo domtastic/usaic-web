@@ -49,7 +49,7 @@ interface HomepageSettings {
 
 interface Event {
   title: string
-  eventType: string
+  eventType: string[]
   startDate: string
   endDate?: string
   location: { city: string; state?: string; country: string }
@@ -81,7 +81,7 @@ async function getCarouselData() {
   const in90DaysStr = in90Days.toISOString().split('T')[0]
 
   const eventsQuery = `*[_type == "event" && (
-    (eventType == "world-cup" && ((startDate <= $today && endDate >= $today) || (startDate >= $today && startDate <= $nextWeek)))
+    ("world-cup" in eventType && ((startDate <= $today && endDate >= $today) || (startDate >= $today && startDate <= $nextWeek)))
     ||
     (featured == true && startDate >= $today && startDate <= $in90Days)
   )] | order(startDate asc) {
@@ -103,9 +103,12 @@ async function getCarouselData() {
     'ice-festival': 3,
   }
   
+  const bestPriority = (event: Event) =>
+    Math.min(...event.eventType.map((t) => eventPriority[t] ?? Infinity), Infinity)
+
   const sortedEvents = upcomingEvents.sort((a, b) => {
     // First by priority
-    const priorityDiff = eventPriority[a.eventType] - eventPriority[b.eventType]
+    const priorityDiff = bestPriority(a) - bestPriority(b)
     if (priorityDiff !== 0) return priorityDiff
     // Then by date
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
@@ -178,7 +181,7 @@ const WORLD_CUP_YOUTUBE = 'https://www.youtube.com/playlist?list=PL0DMtATwEZ0jR6
 
 if (homepage.eventSlide?.enabled !== false && events.length > 0) {
   events.forEach((event) => {
-    const isWorldCup = event.eventType === 'world-cup'
+    const isWorldCup = event.eventType.includes('world-cup')
     
     slides.push({
       type: 'event',

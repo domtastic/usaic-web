@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export interface EventResult {
     _id: string
     title: string
-    eventType: string
+    eventType: string[]
     startDate: string
     endDate?: string
     location: {
@@ -28,7 +28,7 @@ export interface EventResult {
   }
 
 async function getResultsEvents(): Promise<EventResult[]> {
-  const query = `*[_type == "event" && eventType in ["local-competition", "ice-festival"] && (defined(resultsLink) || defined(resultsPdf))] | order(startDate desc) {
+  const query = `*[_type == "event" && ("local-competition" in eventType || "ice-festival" in eventType) && (defined(resultsLink) || defined(resultsPdf))] | order(startDate desc) {
     _id,
     title,
     eventType,
