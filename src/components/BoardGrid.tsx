@@ -82,7 +82,7 @@ export default function BoardGrid({ members }: { members: BoardMemberCard[] }) {
           onClick={() => setSelected(null)}
         >
           <div
-            className="relative bg-white rounded-2xl overflow-hidden max-w-lg w-full shadow-2xl"
+            className="relative bg-white rounded-2xl overflow-hidden overflow-y-auto max-h-[90vh] max-w-lg w-full shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close */}
