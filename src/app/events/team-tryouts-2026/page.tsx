@@ -1,6 +1,18 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import {
+  MapPin,
+  CalendarDays,
+  Route,
+  Zap,
+  Users,
+  Award,
+  Video,
+  FileText,
+  Ticket,
+  ArrowUpRight,
+} from 'lucide-react'
 
 export const metadata: Metadata = {
   title: '2026 USA Ice Climbing Team Tryouts & Selection',
@@ -8,13 +20,21 @@ export const metadata: Metadata = {
     'Lead, Speed, and Youth Team tryouts for the USA Ice Climbing national team. October 2–4, 2026 at Longmont Climbing Collective, Longmont, CO.',
 }
 
-const quickNav = [
-  { href: '#overview', label: 'Overview' },
-  { href: '#schedule', label: 'Full Schedule' },
-  { href: '#lead', label: 'Lead' },
-  { href: '#speed', label: 'Speed' },
-  { href: '#youth', label: 'Youth' },
-  { href: '#selection', label: 'Selection Ceremony' },
+const quickLinks = [
+  {
+    label: 'Location',
+    desc: 'Longmont Climbing Collective',
+    icon: MapPin,
+    href: 'https://climbingcollective.co/longmont',
+    external: true,
+  },
+  { label: 'Event Schedule', desc: 'Full weekend, day by day', icon: CalendarDays, href: '#schedule' },
+  { label: 'Lead Format', desc: 'Heats & judging criteria', icon: Route, href: '#lead' },
+  { label: 'Speed Format', desc: 'Format & timing', icon: Zap, href: '#speed' },
+  { label: 'Youth Format', desc: 'Schedule & details', icon: Users, href: '#youth' },
+  { label: 'Team Selection', desc: 'How the team is chosen', icon: Award, href: '#selection' },
+  { label: 'Route Preview', desc: 'Coming soon', icon: Video, href: null },
+  { label: 'Technical Meeting Notes', desc: 'Coming soon', icon: FileText, href: null },
 ]
 
 const overviewFacts = [
@@ -158,20 +178,84 @@ export default function TeamTryoutsPage() {
         </div>
       </section>
 
-      {/* ── Quick Nav ── */}
-      <nav className="sticky top-[120px] md:top-[132px] z-30 bg-white border-b border-slate-200 overflow-x-auto">
-        <div className="section-container flex gap-6 py-3 text-sm whitespace-nowrap">
-          {quickNav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="font-semibold text-usa-navy/70 hover:text-usa-red transition-colors uppercase tracking-wide text-xs"
-            >
-              {item.label}
-            </a>
-          ))}
+      {/* ── Quick Links ── */}
+      <section className="bg-white border-b border-slate-200">
+        <div className="section-container py-10 md:py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            {quickLinks.map((item) => {
+              const Icon = item.icon
+              const disabled = !item.href
+
+              const content = (
+                <>
+                  <div className="w-11 h-11 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4 group-hover:bg-usa-red/10 transition-colors">
+                    <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
+                  </div>
+                  <p className="font-display text-base text-usa-navy leading-tight mb-1">{item.label}</p>
+                  <p className="text-xs text-slate-400">{item.desc}</p>
+                  {item.external && (
+                    <ArrowUpRight className="absolute top-4 right-4 w-4 h-4 text-slate-300 group-hover:text-usa-red transition-colors" />
+                  )}
+                </>
+              )
+
+              if (disabled) {
+                return (
+                  <div
+                    key={item.label}
+                    className="relative border border-slate-200 px-5 py-5 opacity-50 cursor-default"
+                  >
+                    {content}
+                  </div>
+                )
+              }
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative border border-slate-200 px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                  >
+                    {content}
+                  </a>
+                )
+              }
+
+              return (
+                <a
+                  key={item.label}
+                  href={item.href!}
+                  className="group relative border border-slate-200 px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                >
+                  {content}
+                </a>
+              )
+            })}
+          </div>
+
+          {/* Register CTA */}
+          <a
+            href="/contact"
+            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
+              </div>
+              <div>
+                <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
+                <p className="text-sm text-white/60">Registration link and payment options coming soon</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-white/80 group-hover:text-white transition-colors shrink-0">
+              Get Notified <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </a>
         </div>
-      </nav>
+      </section>
 
       {/* ── Overview ── */}
       <section className="py-12 md:py-16 bg-white">
