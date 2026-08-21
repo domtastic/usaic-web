@@ -63,7 +63,7 @@ export default function TeamTryoutsHubPage() {
         <div className="relative section-container text-white">
           <Link
             href="/events"
-            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
           >
             ← Events
           </Link>
@@ -72,7 +72,7 @@ export default function TeamTryoutsHubPage() {
             <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
               Team Selection
             </span>
-            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-white/10 text-white/60 border border-white/15">
+            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
               Draft Schedule — Subject to Change
             </span>
           </div>
@@ -83,82 +83,15 @@ export default function TeamTryoutsHubPage() {
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
             <span>October 2–4, 2026</span>
-            <span className="text-white/20">·</span>
+            <span className="text-white/25">·</span>
             <span>Longmont Climbing Collective</span>
-            <span className="text-white/20">·</span>
+            <span className="text-white/25">·</span>
             <span>Lead, Speed &amp; Youth</span>
           </div>
         </div>
       </section>
 
       <TryoutsSubNav />
-
-      {/* ── Quick Links ── */}
-      <section className="bg-white border-b border-slate-200">
-        <div className="section-container py-10 md:py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-            {quickLinks.map((item) => {
-              const Icon = item.icon
-
-              const content = (
-                <>
-                  <div className="w-11 h-11 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4 group-hover:bg-usa-red/10 transition-colors">
-                    <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
-                  </div>
-                  <p className="font-display text-base text-usa-navy leading-tight mb-1">{item.label}</p>
-                  <p className="text-xs text-slate-400">{item.desc}</p>
-                  {item.external && (
-                    <ArrowUpRight className="absolute top-4 right-4 w-4 h-4 text-slate-300 group-hover:text-usa-red transition-colors" />
-                  )}
-                </>
-              )
-
-              if (item.external) {
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative border border-slate-200 px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
-                  >
-                    {content}
-                  </a>
-                )
-              }
-
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="group relative border border-slate-200 px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
-                >
-                  {content}
-                </Link>
-              )
-            })}
-          </div>
-
-          {/* Register CTA */}
-          <Link
-            href="/events/team-tryouts-2026v2/register"
-            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
-              </div>
-              <div>
-                <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-sm text-white/60">Registration opens soon — check back for the link</p>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-white/80 group-hover:text-white transition-colors shrink-0">
-              Learn More <ArrowUpRight className="w-3.5 h-3.5" />
-            </span>
-          </Link>
-        </div>
-      </section>
 
       {/* ── Overview ── */}
       <section className="py-12 md:py-16 bg-white">
@@ -178,7 +111,7 @@ export default function TeamTryoutsHubPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {overviewFacts.map(({ label, value }) => (
               <div key={label} className="border border-slate-200 px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">{label}</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">{label}</p>
                 <p className="font-display text-xl text-usa-navy">{value}</p>
               </div>
             ))}
@@ -186,11 +119,78 @@ export default function TeamTryoutsHubPage() {
         </div>
       </section>
 
+      {/* ── Quick Links ── */}
+      <section className="bg-slate-50 border-y border-slate-200">
+        <div className="section-container py-10 md:py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            {quickLinks.map((item) => {
+              const Icon = item.icon
+
+              const content = (
+                <>
+                  <div className="w-11 h-11 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4 group-hover:bg-usa-red/10 transition-colors">
+                    <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
+                  </div>
+                  <p className="font-display text-base text-usa-navy leading-tight mb-1">{item.label}</p>
+                  <p className="text-xs text-slate-500">{item.desc}</p>
+                  {item.external && (
+                    <ArrowUpRight className="absolute top-4 right-4 w-4 h-4 text-slate-400 group-hover:text-usa-red transition-colors" />
+                  )}
+                </>
+              )
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative border border-slate-200 bg-white px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                  >
+                    {content}
+                  </a>
+                )
+              }
+
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="group relative border border-slate-200 bg-white px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                >
+                  {content}
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Register CTA */}
+          <Link
+            href="/events/team-tryouts-2026v2/register"
+            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
+              </div>
+              <div>
+                <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
+                <p className="text-sm text-white/70">Registration opens soon — check back for the link</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
+              Learn More <ArrowUpRight className="w-3.5 h-3.5" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section className="py-14 md:py-20 bg-usa-red">
         <div className="section-container text-white text-center">
           <h2 className="font-display text-4xl md:text-5xl mb-3">Questions?</h2>
-          <p className="text-white/75 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+          <p className="text-white/85 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
             This schedule is a first draft and will continue to change as tryouts approach. Reach
             out with any questions.
           </p>
