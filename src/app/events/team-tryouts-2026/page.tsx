@@ -236,24 +236,21 @@ export default function TeamTryoutsPage() {
             })}
           </div>
 
-          {/* Register CTA */}
-          <a
-            href="/contact"
-            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
-          >
+          {/* Register CTA — placeholder until a registration/payment link exists */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy/95 px-6 py-6 sm:px-8 sm:py-7 text-white cursor-default">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
+                <Ticket className="w-6 h-6 text-white/70" strokeWidth={1.75} />
               </div>
               <div>
                 <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-sm text-white/60">Registration link and payment options coming soon</p>
+                <p className="text-sm text-white/50">Registration opens soon — check back for the link</p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-white/80 group-hover:text-white transition-colors shrink-0">
-              Get Notified <ArrowUpRight className="w-3.5 h-3.5" />
+            <span className="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/70 border border-white/20 shrink-0">
+              Coming Soon
             </span>
-          </a>
+          </div>
         </div>
       </section>
 
