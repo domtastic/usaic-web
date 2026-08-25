@@ -63,7 +63,7 @@ export default function LeadFormatPage() {
       <SubpageHeader
         eyebrow="Adult Lead"
         title="Lead Tryouts Format"
-        description="Athletes are broken into heats of up to 20 to make scheduling easier and give everyone the rest they need — and to give judges more time to assess each athlete individually. Each heat includes a built-in one-hour lunch break."
+        description="Athletes are broken into heats of up to 20 to make scheduling easier and give everyone the rest they need — and to give judges more time to assess each athlete individually. Heats are randomly assigned for Friday, then randomly assigned again for Saturday. Each heat includes a built-in one-hour lunch break."
       />
       <TryoutsSubNav />
 
@@ -75,7 +75,7 @@ export default function LeadFormatPage() {
                 <span className="absolute top-0 left-0 bg-usa-navy text-white font-display text-sm px-2.5 py-1 leading-none">
                   {h.n}
                 </span>
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Heat</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">Heat</p>
                 <p className="font-display text-lg text-usa-navy tabular-nums">{h.window}</p>
               </div>
             ))}
@@ -96,7 +96,7 @@ export default function LeadFormatPage() {
                   ))}
                 </ul>
                 {d.time && (
-                  <p className="text-xs text-slate-400 pt-4 border-t border-slate-100">{d.time}</p>
+                  <p className="text-xs text-slate-500 pt-4 border-t border-slate-100">{d.time}</p>
                 )}
               </div>
             ))}
