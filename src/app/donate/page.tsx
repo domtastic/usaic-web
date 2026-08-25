@@ -15,7 +15,7 @@ export default function DonatePage() {
         <div className="absolute inset-0 bg-black/30" />
         <div className="relative section-container text-center text-white">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-6">
-            Support Team USA
+            Support USA Ice Climbing
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             Your donation helps our athletes train, travel, and compete at the highest
@@ -28,23 +28,15 @@ export default function DonatePage() {
       <section className="section-padding">
         <div className="section-container">
           <div className="max-w-2xl mx-auto">
-            {/* Placeholder donation area */}
-            <div className="bg-ice-50 rounded-2xl p-8 md:p-12 text-center mb-12">
-              <div className="w-20 h-20 bg-ice-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-ice-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h2 className="font-display text-2xl text-ice-900 mb-4">
-                Donation Portal Coming Soon
-              </h2>
-              <p className="text-slate-600 mb-6">
-                We&apos;re setting up our secure donation system. In the meantime, please
-                reach out to us directly if you&apos;d like to make a contribution.
-              </p>
-              <Link href="/contact" className="btn-primary">
-                Contact Us to Donate
-              </Link>
+            {/* Zeffy donation form */}
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 mb-12">
+              <iframe
+                title="Donate to USA Ice Climbing"
+                src="https://www.zeffy.com/embed/donation-form/donate-to-usa-ice-climbing"
+                className="w-full block"
+                style={{ height: '900px', border: 'none' }}
+                allow="payment"
+              />
             </div>
 
             {/* Impact Section */}
