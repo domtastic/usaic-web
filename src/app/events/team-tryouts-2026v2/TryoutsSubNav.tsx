@@ -13,6 +13,7 @@ const navItems = [
   { href: '/events/team-tryouts-2026v2/selection', label: 'Selection' },
   { href: '/events/team-tryouts-2026v2/route-preview', label: 'Route Preview' },
   { href: '/events/team-tryouts-2026v2/technical-meeting-notes', label: 'Tech Notes' },
+  { href: '/events/team-tryouts-2026v2/faq', label: 'FAQ' },
   { href: '/events/team-tryouts-2026v2/register', label: 'Register' },
 ]
 

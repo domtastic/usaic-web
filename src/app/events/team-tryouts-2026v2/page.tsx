@@ -13,6 +13,7 @@ import {
   Ticket,
   ArrowUpRight,
   Info,
+  HelpCircle,
 } from 'lucide-react'
 import TryoutsSubNav from './TryoutsSubNav'
 
@@ -36,6 +37,7 @@ const quickLinks = [
   { label: 'Team Selection', icon: Award, href: '/events/team-tryouts-2026v2/selection' },
   { label: 'Route Preview', icon: Video, href: '/events/team-tryouts-2026v2/route-preview' },
   { label: 'Technical Meeting Notes', icon: FileText, href: '/events/team-tryouts-2026v2/technical-meeting-notes' },
+  { label: 'FAQ', icon: HelpCircle, href: '/events/team-tryouts-2026v2/faq' },
 ]
 
 const overviewFacts = [
