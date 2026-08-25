@@ -81,17 +81,10 @@ export default function SelectionPage() {
             <h2 className="font-display text-2xl text-usa-navy">Team Announcement</h2>
           </div>
 
-          <p className="text-slate-600 leading-relaxed max-w-2xl mb-6">
+          <p className="text-slate-600 leading-relaxed max-w-2xl">
             Both rosters — World Team and National Team — will be announced together, right
-            before the Picks &amp; Pitons Finals.
+            before the Picks &amp; Pitons Finals. Location TBD.
           </p>
-
-          <div className="border border-slate-200 bg-slate-50 px-5 py-4 max-w-sm">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">When</p>
-            <p className="font-display text-lg text-usa-navy mb-4">Sunday, before Picks &amp; Pitons Finals</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">Where</p>
-            <p className="font-display text-lg text-usa-navy">TBD</p>
-          </div>
         </div>
       </section>
     </>
