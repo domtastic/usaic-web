@@ -12,6 +12,7 @@ import {
   FileText,
   Ticket,
   ArrowUpRight,
+  Info,
 } from 'lucide-react'
 import TryoutsSubNav from './TryoutsSubNav'
 
@@ -100,12 +101,21 @@ export default function TeamTryoutsHubPage() {
             <h2 className="font-display text-3xl text-usa-navy">What&apos;s Happening</h2>
           </div>
 
-          <p className="text-slate-600 leading-relaxed max-w-3xl mb-8">
+          <p className="text-slate-600 leading-relaxed max-w-3xl mb-6">
             Athletes will compete across three days at the Longmont Climbing Collective to earn a
             spot on the USA Ice Climbing national team. Lead and Speed tryouts run on the outdoor
             plywood area, while Speed and the Youth Team Event take place on the ice climbing
             tower. The weekend closes with the Team Selection Ceremony on Sunday.
           </p>
+
+          <div className="flex items-start gap-3 bg-usa-navy/5 border border-usa-navy/10 px-5 py-4 mb-8 max-w-3xl">
+            <Info className="w-5 h-5 text-usa-navy shrink-0 mt-0.5" strokeWidth={1.75} />
+            <p className="text-sm text-usa-navy leading-relaxed">
+              <strong>Open to everyone.</strong> You don&apos;t need to be applying for a spot on
+              the USA World Cup team to take part — all climbers are welcome to register and
+              compete.
+            </p>
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {overviewFacts.map(({ label, value }) => (
