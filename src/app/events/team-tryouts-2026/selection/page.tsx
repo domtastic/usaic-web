@@ -14,7 +14,6 @@ export default function SelectionPage() {
       <SubpageHeader
         eyebrow="Team Selection"
         title="Team Selection"
-        description="Two teams. One weekend to make either of them."
       />
       <TryoutsSubNav />
 
