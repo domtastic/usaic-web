@@ -24,18 +24,17 @@ export const metadata: Metadata = {
 const quickLinks = [
   {
     label: 'Location',
-    desc: 'Longmont Climbing Collective',
     icon: MapPin,
     href: 'https://climbingcollective.co/longmont',
     external: true,
   },
-  { label: 'Event Schedule', desc: 'Full weekend, day by day', icon: CalendarDays, href: '/events/team-tryouts-2026v2/schedule' },
-  { label: 'Lead Format', desc: 'Heats & judging criteria', icon: Route, href: '/events/team-tryouts-2026v2/lead' },
-  { label: 'Speed Format', desc: 'Format & timing', icon: Zap, href: '/events/team-tryouts-2026v2/speed' },
-  { label: 'Youth Format', desc: 'Schedule & details', icon: Users, href: '/events/team-tryouts-2026v2/youth' },
-  { label: 'Team Selection', desc: 'How the team is chosen', icon: Award, href: '/events/team-tryouts-2026v2/selection' },
-  { label: 'Route Preview', desc: 'Video previews', icon: Video, href: '/events/team-tryouts-2026v2/route-preview' },
-  { label: 'Technical Meeting Notes', desc: 'Rules & notes', icon: FileText, href: '/events/team-tryouts-2026v2/technical-meeting-notes' },
+  { label: 'Event Schedule', icon: CalendarDays, href: '/events/team-tryouts-2026v2/schedule' },
+  { label: 'Lead Format', icon: Route, href: '/events/team-tryouts-2026v2/lead' },
+  { label: 'Speed Format', icon: Zap, href: '/events/team-tryouts-2026v2/speed' },
+  { label: 'Youth Format', icon: Users, href: '/events/team-tryouts-2026v2/youth' },
+  { label: 'Team Selection', icon: Award, href: '/events/team-tryouts-2026v2/selection' },
+  { label: 'Route Preview', icon: Video, href: '/events/team-tryouts-2026v2/route-preview' },
+  { label: 'Technical Meeting Notes', icon: FileText, href: '/events/team-tryouts-2026v2/technical-meeting-notes' },
 ]
 
 const overviewFacts = [
@@ -63,16 +62,16 @@ export default function TeamTryoutsHubPage() {
         <div className="relative section-container text-white">
           <Link
             href="/events"
-            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
           >
             ← Events
           </Link>
 
           <div className="flex flex-wrap items-center gap-3 mb-5">
-            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
+            <span className="px-3 py-1.5 text-sm font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
               Team Selection
             </span>
-            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
+            <span className="px-3 py-1.5 text-sm font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
               Draft Schedule — Subject to Change
             </span>
           </div>
@@ -131,8 +130,7 @@ export default function TeamTryoutsHubPage() {
                   <div className="w-11 h-11 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4 group-hover:bg-usa-red/10 transition-colors">
                     <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
                   </div>
-                  <p className="font-display text-base text-usa-navy leading-tight mb-1">{item.label}</p>
-                  <p className="text-xs text-slate-500">{item.desc}</p>
+                  <p className="font-display text-base text-usa-navy leading-tight">{item.label}</p>
                   {item.external && (
                     <ArrowUpRight className="absolute top-4 right-4 w-4 h-4 text-slate-400 group-hover:text-usa-red transition-colors" />
                   )}

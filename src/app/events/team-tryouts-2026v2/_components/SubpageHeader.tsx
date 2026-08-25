@@ -14,7 +14,7 @@ export default function SubpageHeader({
       <div className="section-container">
         <Link
           href="/events/team-tryouts-2026v2"
-          className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
         >
           ← Tryouts Overview
         </Link>
