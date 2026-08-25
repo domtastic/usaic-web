@@ -30,35 +30,40 @@ export default function SelectionPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
-            <div className="border-2 border-usa-navy p-6 md:p-8">
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-12 h-12 rounded-full bg-usa-navy/10 flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-usa-navy" strokeWidth={1.75} />
-                </div>
-                <p className="font-display text-4xl text-usa-navy tabular-nums">6</p>
+          <div className="grid md:grid-cols-2 gap-4 mb-6">
+            <div className="relative overflow-hidden bg-usa-navy p-6 md:p-7">
+              <Trophy
+                className="absolute -right-5 -top-5 w-32 h-32 text-white/5 rotate-12"
+                strokeWidth={1}
+              />
+              <div className="relative flex items-center gap-2 mb-3">
+                <Trophy className="w-4 h-4 text-white/60" strokeWidth={2} />
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/60">World Cup Tour</p>
               </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-usa-navy/60 mb-1">World Cup Tour</p>
-              <h3 className="font-display text-2xl text-usa-navy mb-3">World Team</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <h3 className="relative font-display text-3xl text-white mb-2">World Team</h3>
+              <p className="relative text-sm text-white/75 leading-relaxed">
                 The athletes who carry USA Ice Climbing onto the World Cup circuit — chosen not
                 just for how they climb, but for how they represent the program on and off the
                 wall.
               </p>
             </div>
 
-            <div className="border-2 border-usa-red p-6 md:p-8">
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-12 h-12 rounded-full bg-usa-red/10 flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-usa-red" strokeWidth={1.75} />
+            <div className="relative overflow-hidden bg-usa-red p-6 md:p-7">
+              <TrendingUp
+                className="absolute -right-5 -top-5 w-32 h-32 text-white/10 rotate-12"
+                strokeWidth={1}
+              />
+              <div className="relative flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-white/70" strokeWidth={2} />
+                  <p className="text-xs font-semibold uppercase tracking-widest text-white/70">Developmental Path</p>
                 </div>
-                <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-usa-red/10 text-usa-red">
+                <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-white text-usa-red">
                   New
                 </span>
               </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-usa-red/70 mb-1">Developmental Path</p>
-              <h3 className="font-display text-2xl text-usa-navy mb-3">National Team</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <h3 className="relative font-display text-3xl text-white mb-2">National Team</h3>
+              <p className="relative text-sm text-white/90 leading-relaxed">
                 A brand-new path — for athletes building toward the World Team, and for past
                 World Team athletes staying sharp. National Team athletes compete together at
                 events like Continental Cups, growing the sport in every community they reach.
