@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
@@ -19,9 +20,25 @@ const navItems = [
 
 export default function TryoutsSubNav() {
   const pathname = usePathname()
+  const [headerHeight, setHeaderHeight] = useState(120)
+
+  useEffect(() => {
+    const header = document.querySelector('header')
+    if (!header) return
+
+    const updateHeight = () => setHeaderHeight(header.getBoundingClientRect().height)
+    updateHeight()
+
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(header)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <nav className="sticky top-[120px] md:top-[132px] z-30 bg-white border-b border-slate-200 overflow-x-auto">
+    <nav
+      className="sticky z-30 bg-white border-b border-slate-200 overflow-x-auto"
+      style={{ top: headerHeight }}
+    >
       <div className="section-container flex gap-7 py-3.5 text-base whitespace-nowrap">
         {navItems.map((item) => {
           const active = pathname === item.href
