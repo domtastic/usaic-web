@@ -79,7 +79,7 @@ const faqGroups = [
       },
       {
         q: 'What is the difference between the National Team and the World Team?',
-        a: "This is the first year USA Ice Climbing will select two teams. The World Team is made up of the top-performing athletes who represent USAIC — in both performance and values — at the highest level, on and off the World Cup Tour. The National Team is a developmental path for athletes working toward the World Team, and an outlet for past World Team members to keep their skills sharp. It brings unity to athletes traveling to local and international competitions such as Continental Cups, and builds awareness in the communities athletes come into contact with.",
+        a: "This is the first year USA Ice Climbing will select two teams. The World Team is made up of the top-performing athletes who represent USA Ice Climbing — in both performance and values — at the highest level, on and off the World Cup Tour. The National Team is a developmental path for athletes working toward the World Team, and an outlet for past World Team members to keep their skills sharp. It brings unity to athletes traveling to local and international competitions such as Continental Cups, and builds awareness in the communities athletes come into contact with.",
       },
     ],
   },

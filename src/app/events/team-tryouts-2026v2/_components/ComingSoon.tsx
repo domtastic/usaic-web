@@ -13,11 +13,11 @@ export default function ComingSoon({
   children?: React.ReactNode
 }) {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-14 md:py-20">
       <div className="section-container text-center">
         <Link
           href="/events/team-tryouts-2026v2"
-          className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-slate-500 hover:text-usa-red transition-colors mb-10"
+          className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-slate-500 hover:text-usa-red transition-colors mb-8"
         >
           ← Tryouts Overview
         </Link>
