@@ -5,7 +5,7 @@ import TeamPageClient from './TeamPageClient'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Team USA',
+  title: 'National Team',
   description: 'Meet the athletes representing the United States in international ice climbing competitions.',
 }
 
