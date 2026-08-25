@@ -21,6 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/get-started/what-is-drytooling',
     '/get-started/gym-involvement',
     '/get-started/indoor-guidelines',
+    '/privacy',
+    '/terms',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
