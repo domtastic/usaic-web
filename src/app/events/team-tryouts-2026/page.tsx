@@ -125,7 +125,7 @@ const leadDays = [
 function SectionHeader({ label, title, id }: { label: string; title: string; id?: string }) {
   return (
     <div id={id} className="border-l-2 border-usa-red pl-4 mb-8 scroll-mt-32">
-      <p className="text-xs font-semibold uppercase tracking-widest text-usa-red mb-1">{label}</p>
+      <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">{label}</p>
       <h2 className="font-display text-3xl text-usa-navy">{title}</h2>
     </div>
   )
@@ -150,16 +150,16 @@ export default function TeamTryoutsPage() {
         <div className="relative section-container text-white">
           <Link
             href="/events"
-            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-base uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors mb-6"
           >
             ← Events
           </Link>
 
           <div className="flex flex-wrap items-center gap-3 mb-5">
-            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
+            <span className="px-2.5 py-1 text-base font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
               Team Selection
             </span>
-            <span className="px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-white/10 text-white/60 border border-white/15">
+            <span className="px-2.5 py-1 text-base font-semibold uppercase tracking-widest bg-white/10 text-white/60 border border-white/15">
               Draft Schedule — Subject to Change
             </span>
           </div>
@@ -168,7 +168,7 @@ export default function TeamTryoutsPage() {
             2026 USA Ice Climbing Team Tryouts &amp; Selection
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-white/80">
             <span>October 2–4, 2026</span>
             <span className="text-white/20">·</span>
             <span>Longmont Climbing Collective</span>
@@ -192,7 +192,7 @@ export default function TeamTryoutsPage() {
                     <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
                   </div>
                   <p className="font-display text-base text-usa-navy leading-tight mb-1">{item.label}</p>
-                  <p className="text-xs text-slate-400">{item.desc}</p>
+                  <p className="text-base text-slate-400">{item.desc}</p>
                   {item.external && (
                     <ArrowUpRight className="absolute top-4 right-4 w-4 h-4 text-slate-300 group-hover:text-usa-red transition-colors" />
                   )}
@@ -244,10 +244,10 @@ export default function TeamTryoutsPage() {
               </div>
               <div>
                 <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-sm text-white/50">Registration opens soon — check back for the link</p>
+                <p className="text-base text-white/50">Registration opens soon — check back for the link</p>
               </div>
             </div>
-            <span className="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white/70 border border-white/20 shrink-0">
+            <span className="inline-flex items-center px-3 py-1 text-base font-semibold uppercase tracking-widest text-white/70 border border-white/20 shrink-0">
               Coming Soon
             </span>
           </div>
@@ -269,7 +269,7 @@ export default function TeamTryoutsPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {overviewFacts.map(({ label, value }) => (
               <div key={label} className="border border-slate-200 px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">{label}</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">{label}</p>
                 <p className="font-display text-xl text-usa-navy">{value}</p>
               </div>
             ))}
@@ -287,16 +287,16 @@ export default function TeamTryoutsPage() {
               <div key={day.day}>
                 <div className="mb-4 pb-3 border-b-2 border-usa-navy flex items-baseline gap-3">
                   <p className="font-display text-xl text-usa-navy">{day.day}</p>
-                  <p className="text-sm text-slate-400">{day.date}</p>
+                  <p className="text-base text-slate-400">{day.date}</p>
                 </div>
 
-                <table className="w-full text-sm">
+                <table className="w-full text-base">
                   <tbody>
                     {day.rows.map((r, ri) => (
                       <tr key={ri} className="border-b border-slate-200 last:border-0">
                         <td className="py-2.5 pr-6 text-usa-navy font-medium align-top">{r.event}</td>
-                        <td className="py-2.5 pr-6 text-slate-500 text-xs tabular-nums whitespace-nowrap align-top w-56">{r.time}</td>
-                        <td className="py-2.5 text-slate-400 text-xs align-top">{r.location}</td>
+                        <td className="py-2.5 pr-6 text-slate-500 text-base tabular-nums align-top md:w-56">{r.time}</td>
+                        <td className="py-2.5 text-slate-400 text-base align-top">{r.location}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -305,7 +305,7 @@ export default function TeamTryoutsPage() {
             ))}
           </div>
 
-          <p className="text-xs text-slate-400 mt-8 max-w-2xl">
+          <p className="text-base text-slate-400 mt-8 max-w-2xl">
             This is an early draft of the tryouts schedule and details — including times and
             locations marked TBD — are expected to change before the event. Check back for
             updates.
@@ -327,10 +327,10 @@ export default function TeamTryoutsPage() {
           <div className="grid sm:grid-cols-3 gap-3 mb-14 max-w-2xl">
             {heats.map((h) => (
               <div key={h.n} className="relative border border-slate-200 px-5 py-4 pt-8">
-                <span className="absolute top-0 left-0 bg-usa-navy text-white font-display text-sm px-2.5 py-1 leading-none">
+                <span className="absolute top-0 left-0 bg-usa-navy text-white font-display text-base px-2.5 py-1 leading-none">
                   {h.n}
                 </span>
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Heat</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">Heat</p>
                 <p className="font-display text-lg text-usa-navy tabular-nums">{h.window}</p>
               </div>
             ))}
@@ -339,19 +339,19 @@ export default function TeamTryoutsPage() {
           <div className="grid md:grid-cols-3 gap-px bg-slate-200 border border-slate-200">
             {leadDays.map((d) => (
               <div key={d.tag} className="bg-white p-6 flex flex-col">
-                <p className="text-xs font-semibold uppercase tracking-widest text-usa-red mb-2">{d.tag}</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-2">{d.tag}</p>
                 <h3 className="font-display text-2xl text-usa-navy mb-2">{d.title}</h3>
-                <p className="text-sm text-slate-500 mb-5">{d.goal}</p>
+                <p className="text-base text-slate-500 mb-5">{d.goal}</p>
                 <ul className="space-y-2 mb-5 flex-grow">
                   {d.points.map((p) => (
-                    <li key={p} className="flex items-start gap-3 text-slate-600 text-sm">
+                    <li key={p} className="flex items-start gap-3 text-slate-600 text-base">
                       <span className="mt-[7px] w-1 h-1 rounded-full bg-usa-red shrink-0" />
                       {p}
                     </li>
                   ))}
                 </ul>
                 {d.time && (
-                  <p className="text-xs text-slate-400 pt-4 border-t border-slate-100">{d.time}</p>
+                  <p className="text-base text-slate-400 pt-4 border-t border-slate-100">{d.time}</p>
                 )}
               </div>
             ))}
@@ -377,11 +377,11 @@ export default function TeamTryoutsPage() {
               <p>Best attempt (or the average of the best few) will be taken for scoring.</p>
             </div>
             <div className="border border-slate-200 bg-white px-5 py-4 h-fit">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">When</p>
+              <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">When</p>
               <p className="font-display text-lg text-usa-navy mb-4">Friday, 12:30 – 3:30 PM</p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Where</p>
+              <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">Where</p>
               <p className="font-display text-lg text-usa-navy mb-4">Ice climbing tower</p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Duration</p>
+              <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">Duration</p>
               <p className="font-display text-lg text-usa-navy">~3 hrs, depending on registrations</p>
             </div>
           </div>
@@ -403,9 +403,9 @@ export default function TeamTryoutsPage() {
               <p>Full schedule and format are still being finalized.</p>
             </div>
             <div className="border border-slate-200 bg-slate-50 px-5 py-4 h-fit">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">When</p>
+              <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">When</p>
               <p className="font-display text-lg text-usa-navy mb-4">Saturday &amp; Sunday — time TBD</p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1">Where</p>
+              <p className="text-base font-semibold uppercase tracking-widest text-slate-400 mb-1">Where</p>
               <p className="font-display text-lg text-usa-navy">Ice climbing tower</p>
             </div>
           </div>
@@ -415,7 +415,7 @@ export default function TeamTryoutsPage() {
       {/* ── Team Selection Ceremony ── */}
       <section id="selection" className="py-16 md:py-24 bg-usa-navy scroll-mt-32">
         <div className="section-container text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-usa-red-light mb-3">Sunday</p>
+          <p className="text-base font-semibold uppercase tracking-widest text-usa-red-light mb-3">Sunday</p>
           <h2 className="font-display text-4xl md:text-5xl text-white mb-4">Team Selection Ceremony</h2>
           <p className="text-white/70 max-w-lg mx-auto leading-relaxed">
             The 2026 USA Ice Climbing team will be announced Sunday, right before the Picks and
@@ -428,7 +428,7 @@ export default function TeamTryoutsPage() {
       <section className="py-14 md:py-20 bg-usa-red">
         <div className="section-container text-white text-center">
           <h2 className="font-display text-4xl md:text-5xl mb-3">Questions?</h2>
-          <p className="text-white/75 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+          <p className="text-white/75 max-w-sm mx-auto mb-8 text-base leading-relaxed">
             This schedule is a first draft and will continue to change as tryouts approach. Reach
             out with any questions.
           </p>

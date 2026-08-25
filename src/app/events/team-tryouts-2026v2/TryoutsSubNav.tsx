@@ -22,7 +22,7 @@ export default function TryoutsSubNav() {
 
   return (
     <nav className="sticky top-[120px] md:top-[132px] z-30 bg-white border-b border-slate-200 overflow-x-auto">
-      <div className="section-container flex gap-7 py-3.5 text-sm whitespace-nowrap">
+      <div className="section-container flex gap-7 py-3.5 text-base whitespace-nowrap">
         {navItems.map((item) => {
           const active = pathname === item.href
           return (

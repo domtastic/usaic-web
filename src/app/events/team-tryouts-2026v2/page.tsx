@@ -65,16 +65,16 @@ export default function TeamTryoutsHubPage() {
         <div className="relative section-container text-white">
           <Link
             href="/events"
-            className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-base uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
           >
             ← Events
           </Link>
 
           <div className="flex flex-wrap items-center gap-3 mb-5">
-            <span className="px-3 py-1.5 text-sm font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
+            <span className="px-3 py-1.5 text-base font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
               Team Selection
             </span>
-            <span className="px-3 py-1.5 text-sm font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
+            <span className="px-3 py-1.5 text-base font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
               Draft Schedule — Subject to Change
             </span>
           </div>
@@ -83,7 +83,7 @@ export default function TeamTryoutsHubPage() {
             2026 USA Ice Climbing Team Tryouts &amp; Selection
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/80">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-white/80">
             <span>October 2–4, 2026</span>
             <span className="text-white/25">·</span>
             <span>Longmont Climbing Collective</span>
@@ -99,7 +99,7 @@ export default function TeamTryoutsHubPage() {
       <section className="py-12 md:py-16 bg-white">
         <div className="section-container">
           <div className="border-l-2 border-usa-red pl-4 mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-usa-red mb-1">Overview</p>
+            <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">Overview</p>
             <h2 className="font-display text-3xl text-usa-navy">What&apos;s Happening</h2>
           </div>
 
@@ -112,7 +112,7 @@ export default function TeamTryoutsHubPage() {
 
           <div className="flex items-start gap-3 bg-usa-navy/5 border border-usa-navy/10 px-5 py-4 mb-8 max-w-3xl">
             <Info className="w-5 h-5 text-usa-navy shrink-0 mt-0.5" strokeWidth={1.75} />
-            <p className="text-sm text-usa-navy leading-relaxed">
+            <p className="text-base text-usa-navy leading-relaxed">
               <strong>Open to everyone.</strong> You don&apos;t need to be applying for a spot on
               the USA World Cup team to take part — all climbers are welcome to register and
               compete.
@@ -122,7 +122,7 @@ export default function TeamTryoutsHubPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {overviewFacts.map(({ label, value }) => (
               <div key={label} className="border border-slate-200 px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">{label}</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-1">{label}</p>
                 <p className="font-display text-xl text-usa-navy">{value}</p>
               </div>
             ))}
@@ -186,10 +186,10 @@ export default function TeamTryoutsHubPage() {
               </div>
               <div>
                 <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-sm text-white/70">Registration opens soon — check back for the link</p>
+                <p className="text-base text-white/70">Registration opens soon — check back for the link</p>
               </div>
             </div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
+            <span className="inline-flex items-center gap-1.5 text-base font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
               Learn More <ArrowUpRight className="w-3.5 h-3.5" />
             </span>
           </Link>
@@ -200,7 +200,7 @@ export default function TeamTryoutsHubPage() {
       <section className="py-14 md:py-20 bg-usa-red">
         <div className="section-container text-white text-center">
           <h2 className="font-display text-4xl md:text-5xl mb-3">Questions?</h2>
-          <p className="text-white/85 max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+          <p className="text-white/85 max-w-sm mx-auto mb-8 text-base leading-relaxed">
             This schedule is a first draft and will continue to change as tryouts approach. Reach
             out with any questions.
           </p>

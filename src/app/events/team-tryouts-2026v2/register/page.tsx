@@ -18,7 +18,7 @@ export default function RegisterPage() {
         title="Register for Tryouts"
         message="Registration isn't open yet — check back for the link once it's live."
       >
-        <p className="text-sm text-slate-400">
+        <p className="text-base text-slate-400">
           Questions in the meantime?{' '}
           <Link href="/contact" className="text-usa-red font-semibold hover:text-usa-red-dark">
             Contact us

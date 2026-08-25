@@ -14,12 +14,12 @@ export default function SubpageHeader({
       <div className="section-container">
         <Link
           href="/events/team-tryouts-2026v2"
-          className="inline-flex items-center gap-1.5 text-sm uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-base uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
         >
           ← Tryouts Overview
         </Link>
 
-        <p className="text-xs font-semibold uppercase tracking-widest text-usa-red-light mb-3">{eyebrow}</p>
+        <p className="text-base font-semibold uppercase tracking-widest text-usa-red-light mb-3">{eyebrow}</p>
         <h1 className="font-display text-4xl md:text-5xl text-white leading-tight mb-4 max-w-2xl">{title}</h1>
 
         {description && (

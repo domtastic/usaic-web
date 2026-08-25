@@ -38,10 +38,10 @@ export default function SelectionPage() {
               />
               <div className="relative flex items-center gap-2 mb-3">
                 <Trophy className="w-4 h-4 text-white/60" strokeWidth={2} />
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/60">World Cup Tour</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-white/60">World Cup Tour</p>
               </div>
               <h3 className="relative font-display text-3xl text-white mb-2">World Team</h3>
-              <p className="relative text-sm text-white/75 leading-relaxed">
+              <p className="relative text-base text-white/75 leading-relaxed">
                 The athletes who carry USA Ice Climbing onto the World Cup circuit — chosen not
                 just for how they climb, but for how they represent the program on and off the
                 wall.
@@ -56,14 +56,14 @@ export default function SelectionPage() {
               <div className="relative flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-white/70" strokeWidth={2} />
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/70">Developmental Path</p>
+                  <p className="text-base font-semibold uppercase tracking-widest text-white/70">Developmental Path</p>
                 </div>
-                <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest bg-white text-usa-red">
+                <span className="px-2.5 py-1 text-base font-bold uppercase tracking-widest bg-white text-usa-red">
                   New
                 </span>
               </div>
               <h3 className="relative font-display text-3xl text-white mb-2">National Team</h3>
-              <p className="relative text-sm text-white/90 leading-relaxed">
+              <p className="relative text-base text-white/90 leading-relaxed">
                 A brand-new path — for athletes building toward the World Team, and for past
                 World Team athletes staying sharp. National Team athletes compete together at
                 events like Continental Cups, growing the sport in every community they reach.
@@ -71,13 +71,13 @@ export default function SelectionPage() {
             </div>
           </div>
 
-          <p className="text-sm text-slate-500 max-w-2xl mb-14">
+          <p className="text-base text-slate-500 max-w-2xl mb-14">
             Both teams represent USA Ice Climbing — tryouts this October are your shot at either
             one.
           </p>
 
           <div className="border-l-2 border-usa-red pl-4 mb-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-usa-red mb-1">Sunday</p>
+            <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">Sunday</p>
             <h2 className="font-display text-2xl text-usa-navy">Team Announcement</h2>
           </div>
 

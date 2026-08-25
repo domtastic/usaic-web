@@ -48,16 +48,16 @@ export default function SchedulePage() {
               <div key={day.day}>
                 <div className="mb-4 pb-3 border-b-2 border-usa-navy flex items-baseline gap-3">
                   <p className="font-display text-xl text-usa-navy">{day.day}</p>
-                  <p className="text-sm text-slate-400">{day.date}</p>
+                  <p className="text-base text-slate-400">{day.date}</p>
                 </div>
 
-                <table className="w-full text-sm">
+                <table className="w-full text-base">
                   <tbody>
                     {day.rows.map((r, ri) => (
                       <tr key={ri} className="border-b border-slate-200 last:border-0">
                         <td className="py-2.5 pr-6 text-usa-navy font-medium align-top">{r.event}</td>
-                        <td className="py-2.5 pr-6 text-slate-500 text-xs tabular-nums whitespace-nowrap align-top w-56">{r.time}</td>
-                        <td className="py-2.5 text-slate-400 text-xs align-top">{r.location}</td>
+                        <td className="py-2.5 pr-6 text-slate-500 text-base tabular-nums align-top md:w-56">{r.time}</td>
+                        <td className="py-2.5 text-slate-400 text-base align-top">{r.location}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -66,7 +66,7 @@ export default function SchedulePage() {
             ))}
           </div>
 
-          <p className="text-xs text-slate-400 mt-8 max-w-2xl">
+          <p className="text-base text-slate-400 mt-8 max-w-2xl">
             This is an early draft of the tryouts schedule and details — including times and
             locations marked TBD — are expected to change before the event. Check back for
             updates.

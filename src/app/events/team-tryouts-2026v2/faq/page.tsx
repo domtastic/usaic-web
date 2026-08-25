@@ -112,7 +112,7 @@ export default function FaqPage() {
                 {group.items.map((item) => (
                   <div key={item.q} className="py-5">
                     <p className="font-display text-lg text-usa-navy mb-2">{item.q}</p>
-                    <p className="text-sm text-slate-600 leading-relaxed">{item.a}</p>
+                    <p className="text-base text-slate-600 leading-relaxed">{item.a}</p>
                   </div>
                 ))}
               </div>
