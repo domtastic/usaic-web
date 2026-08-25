@@ -6,16 +6,16 @@ import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { href: '/events/team-tryouts-2026v2', label: 'Overview' },
-  { href: '/events/team-tryouts-2026v2/schedule', label: 'Schedule' },
-  { href: '/events/team-tryouts-2026v2/lead', label: 'Lead' },
-  { href: '/events/team-tryouts-2026v2/speed', label: 'Speed' },
-  { href: '/events/team-tryouts-2026v2/youth', label: 'Youth' },
-  { href: '/events/team-tryouts-2026v2/selection', label: 'Selection' },
-  { href: '/events/team-tryouts-2026v2/route-preview', label: 'Route Preview' },
-  { href: '/events/team-tryouts-2026v2/technical-meeting-notes', label: 'Tech Notes' },
-  { href: '/events/team-tryouts-2026v2/faq', label: 'FAQ' },
-  { href: '/events/team-tryouts-2026v2/register', label: 'Register' },
+  { href: '/events/team-tryouts-2026', label: 'Overview' },
+  { href: '/events/team-tryouts-2026/schedule', label: 'Schedule' },
+  { href: '/events/team-tryouts-2026/lead', label: 'Lead' },
+  { href: '/events/team-tryouts-2026/speed', label: 'Speed' },
+  { href: '/events/team-tryouts-2026/youth', label: 'Youth' },
+  { href: '/events/team-tryouts-2026/selection', label: 'Selection' },
+  { href: '/events/team-tryouts-2026/route-preview', label: 'Route Preview' },
+  { href: '/events/team-tryouts-2026/technical-meeting-notes', label: 'Tech Notes' },
+  { href: '/events/team-tryouts-2026/faq', label: 'FAQ' },
+  { href: '/events/team-tryouts-2026/register', label: 'Register' },
 ]
 
 export default function TryoutsSubNav() {

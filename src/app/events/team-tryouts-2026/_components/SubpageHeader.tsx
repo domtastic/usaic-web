@@ -13,7 +13,7 @@ export default function SubpageHeader({
     <section className="bg-usa-navy py-14 md:py-20">
       <div className="section-container">
         <Link
-          href="/events/team-tryouts-2026v2"
+          href="/events/team-tryouts-2026"
           className="inline-flex items-center gap-1.5 text-base uppercase tracking-widest text-white/50 hover:text-white/80 transition-colors mb-6"
         >
           ← Tryouts Overview

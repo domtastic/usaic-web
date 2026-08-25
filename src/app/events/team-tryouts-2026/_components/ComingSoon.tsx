@@ -16,7 +16,7 @@ export default function ComingSoon({
     <section className="py-14 md:py-20">
       <div className="section-container text-center">
         <Link
-          href="/events/team-tryouts-2026v2"
+          href="/events/team-tryouts-2026"
           className="inline-flex items-center gap-1.5 text-base uppercase tracking-widest text-slate-500 hover:text-usa-red transition-colors mb-8"
         >
           ← Tryouts Overview
