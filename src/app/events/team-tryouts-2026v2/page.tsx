@@ -139,8 +139,8 @@ export default function TeamTryoutsHubPage() {
 
               const content = (
                 <>
-                  <div className="w-11 h-11 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4 group-hover:bg-usa-red/10 transition-colors">
-                    <Icon className="w-5 h-5 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.75} />
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-usa-navy/10 to-usa-navy/[0.03] flex items-center justify-center mb-4 group-hover:from-usa-red/15 group-hover:to-usa-red/5 transition-colors">
+                    <Icon className="w-7 h-7 text-usa-navy group-hover:text-usa-red transition-colors" strokeWidth={1.5} />
                   </div>
                   <p className="font-display text-base text-usa-navy leading-tight">{item.label}</p>
                   {item.external && (
@@ -156,7 +156,7 @@ export default function TeamTryoutsHubPage() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative border border-slate-200 bg-white px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                    className="group relative flex flex-col items-center text-center border border-slate-200 bg-white px-5 py-8 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:border-usa-red/30 transition-all duration-200"
                   >
                     {content}
                   </a>
@@ -167,7 +167,7 @@ export default function TeamTryoutsHubPage() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="group relative border border-slate-200 bg-white px-5 py-5 hover:border-usa-red/40 hover:shadow-sm transition-all"
+                  className="group relative flex flex-col items-center text-center border border-slate-200 bg-white px-5 py-8 shadow-sm hover:shadow-lg hover:-translate-y-0.5 hover:border-usa-red/30 transition-all duration-200"
                 >
                   {content}
                 </Link>
