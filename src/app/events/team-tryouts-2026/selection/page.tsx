@@ -29,7 +29,7 @@ export default function SelectionPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <div className="grid md:grid-cols-2 gap-4 mb-14">
             <div className="relative overflow-hidden bg-usa-navy p-6 md:p-7">
               <Trophy
                 className="absolute -right-5 -top-5 w-32 h-32 text-white/5 rotate-12"
@@ -69,11 +69,6 @@ export default function SelectionPage() {
               </p>
             </div>
           </div>
-
-          <p className="text-base text-slate-500 max-w-2xl mb-14">
-            Both teams represent USA Ice Climbing — tryouts this October are your shot at either
-            one.
-          </p>
 
           <div className="border-l-2 border-usa-red pl-4 mb-6">
             <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">How Athletes Are Chosen</p>
