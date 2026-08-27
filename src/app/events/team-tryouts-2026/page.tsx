@@ -18,7 +18,7 @@ import {
 import TryoutsSubNav from './TryoutsSubNav'
 
 export const metadata: Metadata = {
-  title: '2026 USA Ice Climbing Team Tryouts & Selection',
+  title: '2026 USA Ice Climbing Team Trials',
   description:
     'Lead, Speed, and Youth Team tryouts for the USA Ice Climbing national team. October 2–4, 2026 at Longmont Climbing Collective, Longmont, CO.',
 }
@@ -74,13 +74,10 @@ export default function TeamTryoutsHubPage() {
             <span className="px-3 py-1.5 text-base font-semibold uppercase tracking-widest bg-usa-red/20 text-usa-red-light border border-usa-red/40">
               Team Selection
             </span>
-            <span className="px-3 py-1.5 text-base font-semibold uppercase tracking-widest bg-white/10 text-white/80 border border-white/20">
-              Draft Schedule — Subject to Change
-            </span>
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-white leading-tight mb-5 max-w-3xl">
-            2026 USA Ice Climbing Team Tryouts &amp; Selection
+            2026 USA Ice Climbing Team Trials
           </h1>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-white/80">
@@ -105,9 +102,9 @@ export default function TeamTryoutsHubPage() {
 
           <p className="text-slate-600 leading-relaxed max-w-3xl mb-6">
             Athletes will compete across three days at the Longmont Climbing Collective to earn a
-            spot on the USA Ice Climbing national team. Lead and Speed tryouts run on the outdoor
-            plywood area, while Speed and the Youth Team Event take place on the ice climbing
-            tower. The weekend closes with the Team Selection Ceremony on Sunday.
+            spot on the USA Ice Climbing national team. Lead tryouts run on the outdoor plywood
+            area, while Speed and the Youth Team Event take place on the ice climbing tower. The
+            weekend closes with the Team Selection Ceremony on Sunday.
           </p>
 
           <div className="flex items-start gap-3 bg-usa-navy/5 border border-usa-navy/10 px-5 py-4 mb-8 max-w-3xl">
@@ -201,8 +198,7 @@ export default function TeamTryoutsHubPage() {
         <div className="section-container text-white text-center">
           <h2 className="font-display text-4xl md:text-5xl mb-3">Questions?</h2>
           <p className="text-white/85 max-w-sm mx-auto mb-8 text-base leading-relaxed">
-            This schedule is a first draft and will continue to change as tryouts approach. Reach
-            out with any questions.
+            Have a question about tryouts weekend? Reach out.
           </p>
           <Link
             href="/contact"

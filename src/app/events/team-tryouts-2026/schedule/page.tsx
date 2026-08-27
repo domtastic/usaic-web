@@ -21,7 +21,8 @@ const dailySchedule = [
     date: 'October 3',
     rows: [
       { event: 'Adult Lead Tryouts — Day 2', time: '7:30 AM – 7:30 PM', location: 'Plywood kick wall' },
-      { event: 'Youth Team Event — Day 1', time: 'TBD', location: 'Ice climbing tower' },
+      { event: 'Youth (U16) Qualifiers + Speed', time: '12:00 PM', location: 'Ice climbing tower' },
+      { event: 'Youth (U16) Final', time: '4:00 PM', location: 'Ice climbing tower' },
     ],
   },
   {
@@ -29,7 +30,6 @@ const dailySchedule = [
     date: 'October 4',
     rows: [
       { event: 'Adult Lead Finals', time: '8:00 AM – 3:00 PM', location: 'Plywood kick wall' },
-      { event: 'Youth Team Event — Day 2', time: 'TBD', location: 'Ice climbing tower' },
       { event: 'Team Selection Ceremony', time: 'Before Picks & Pitons Finals', location: 'TBD' },
     ],
   },
@@ -65,12 +65,6 @@ export default function SchedulePage() {
               </div>
             ))}
           </div>
-
-          <p className="text-base text-slate-400 mt-8 max-w-2xl">
-            This is an early draft of the tryouts schedule and details — including times and
-            locations marked TBD — are expected to change before the event. Check back for
-            updates.
-          </p>
         </div>
       </section>
     </>

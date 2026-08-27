@@ -60,10 +60,6 @@ export default function SpeedFormatPage() {
               </p>
             </div>
           </div>
-
-          <p className="text-base text-slate-500 mt-6 max-w-2xl">
-            This format is still being finalized and may change before the event.
-          </p>
         </div>
       </section>
     </>

@@ -20,7 +20,6 @@ const leadDays = [
     goal: 'Assess athletes on their best effort, familiar terrain.',
     points: [
       '2 routes on top rope, progressively difficult',
-      'Marcus and Tyler each judge one route the whole day',
       '2 timed laps per athlete — 2 minute limit each',
       'Beta video mandatory',
       'Best attempt counts; progress is noted',
@@ -34,7 +33,6 @@ const leadDays = [
     goal: 'Assess athletes on a replica of the UIAA qualifier format.',
     points: [
       '2 routes on lead, using roof boxes',
-      'Marcus and Tyler each judge one route the whole day',
       '1 attempt — 4 minute limit',
       'Beta video mandatory',
       'Scored on UIAA ranking per climb',
@@ -47,7 +45,6 @@ const leadDays = [
     goal: 'Assess athletes on onsight ability and collaboration.',
     points: [
       'Top athletes advance to 1 route using roof boxes',
-      'Field size set by natural gaps in prior days’ results',
       '2 attempts — 4 minute limit each',
       '1st attempt: onsight · 2nd attempt: collaboration and correction',
       'Consistent power, high-percentage moves',
