@@ -90,8 +90,8 @@ export default function SelectionPage() {
           </div>
 
           <p className="text-slate-600 leading-relaxed max-w-2xl">
-            Both rosters — World Team and National Team — will be announced together, right
-            before the Picks &amp; Pitons Finals. Location TBD.
+            World Team, National Team, and Youth Team Rosters — will be announced right
+            before the Picks &amp; Pitons Finals.
           </p>
         </div>
       </section>

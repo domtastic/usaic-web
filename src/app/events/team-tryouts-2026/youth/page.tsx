@@ -45,7 +45,7 @@ export default function YouthFormatPage() {
           </div>
 
           <p className="text-slate-600 leading-relaxed max-w-2xl">
-            Athletes U19 and older are encouraged to apply and participate in the Adult Lead and
+            Athletes in the U19 age group are encouraged to apply and participate in the Adult Lead and
             Speed tryouts instead.
           </p>
         </div>

@@ -102,7 +102,7 @@ export default function TeamTryoutsHubPage() {
 
           <p className="text-slate-600 leading-relaxed max-w-3xl mb-6">
             Athletes will compete across three days at the Longmont Climbing Collective to earn a
-            spot on the USA Ice Climbing national team. Lead tryouts run on the outdoor plywood
+            spot on the USA Ice Climbing team. Lead tryouts run on the outdoor plywood
             area, while Speed and the Youth Team Event take place on the ice climbing tower. The
             weekend closes with the Team Selection Ceremony on Sunday.
           </p>
