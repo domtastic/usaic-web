@@ -70,8 +70,8 @@ export default function RegisterPage() {
             </p>
             <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
               <iframe
-                title="USA Ice Climbing Payment"
-                src="https://www.zeffy.com/embed/donation-form/donate-to-usa-ice-climbing"
+                title="2026 USA Ice Climbing Trials Registration"
+                src="https://www.zeffy.com/embed/ticketing/2026-usa-ice-climbing-trials"
                 className="w-full block"
                 style={{ height: '900px', border: 'none' }}
                 allow="payment"
