@@ -45,6 +45,7 @@ const navItems: NavItem[] = [
     children: [
       { label: 'Overview', href: '/about' },
       { label: 'Nonprofit Status', href: '/about/nonprofit-status' },
+      { label: 'Rules & Policies', href: '/about/rules-policies' },
     ],
   },
   { label: 'Contact', href: '/contact' },
