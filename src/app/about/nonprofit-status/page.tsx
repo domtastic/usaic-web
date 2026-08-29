@@ -32,7 +32,7 @@ export default function NonprofitStatusPage() {
               In February 2026, USA Ice Climbing officially received its determination as a
               501(c)(3) public charity from the IRS — a milestone years in the making for an
               organization built by volunteers who wanted a real, lasting home for the sport in
-              America. That status means donations to USAIC are tax-deductible, and it holds us
+              the USA. That status means donations to USAIC are tax-deductible, and it holds us
               to a higher standard of transparency about who we are and how we operate. This
               page is where we keep that information current.
             </p>
