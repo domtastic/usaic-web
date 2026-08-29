@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <div className="relative section-container text-center text-white">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">Privacy Policy</h1>
           <p className="text-white/60 text-sm">
-            Draft — pending Board approval · Last updated August 25, 2026
+            Last updated August 28, 2026
           </p>
         </div>
       </section>
