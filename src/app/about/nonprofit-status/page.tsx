@@ -14,11 +14,8 @@ export default function NonprofitStatusPage() {
       <section className="relative py-20 md:py-28 bg-usa-navy">
         <div className="absolute inset-0 bg-black/30" />
         <div className="relative section-container text-center text-white">
-          <p className="text-base font-semibold uppercase tracking-widest text-white/70 mb-3">
-            About USAIC
-          </p>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
-            Our Nonprofit Status
+            Nonprofit Status
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             USA Ice Climbing is a registered 501(c)(3) tax-exempt organization, recognized by
