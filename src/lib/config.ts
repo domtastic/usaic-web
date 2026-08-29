@@ -3,6 +3,7 @@ export const siteConfig = {
     description: 'Promoting ice climbing in America and supporting our athletes on the world stage.',
     email: 'usaiceclimbing@gmail.com',
     nonprofit: '501(c)(3) Nonprofit Organization',
+    ein: '81-5160708',
     
     socialLinks: {
       instagram: 'https://www.instagram.com/usaiceclimbing_/',

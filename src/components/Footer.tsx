@@ -66,7 +66,7 @@ export default function Footer() {
               Promoting ice climbing in America and supporting our athletes on the world stage.
             </p>
             <p className="text-slate-500 text-xs">
-              501(c)(3) Nonprofit Organization
+              501(c)(3) Nonprofit Organization &middot; EIN 81-5160708
             </p>
           </div>
 

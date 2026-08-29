@@ -39,7 +39,14 @@ const navItems: NavItem[] = [
   { label: 'Events', href: '/events' },
   { label: 'Results', href: '/results' },
   { label: 'News', href: '/news' },
-  { label: 'About', href: '/about' },
+  {
+    label: 'About',
+    href: '/about',
+    children: [
+      { label: 'Overview', href: '/about' },
+      { label: 'Nonprofit Status', href: '/about/nonprofit-status' },
+    ],
+  },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -100,7 +107,7 @@ export default function Header() {
       <div className="bg-usa-navy text-white">
         <div className="container-wide flex items-center justify-between h-10">
           <p className="text-xs text-slate-300 hidden sm:block">
-            {siteConfig.nonprofit}
+            {siteConfig.nonprofit} &middot; EIN {siteConfig.ein}
           </p>
           <div className="flex items-center gap-4 ml-auto">
             Follow us:
