@@ -17,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/about/nonprofit-status',
     '/about/rules-policies',
     '/about/rules-policies/event-media-waiver',
+    '/about/rules-policies/code-of-conduct',
     '/donate',
     '/contact',
     '/get-started/learn',

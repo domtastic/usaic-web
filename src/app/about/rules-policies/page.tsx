@@ -26,6 +26,7 @@ const documents = [
     title: 'Code of Conduct',
     description:
       'Expectations for athletes, coaches, volunteers, and staff at USAIC events and within the broader community.',
+    href: '/about/rules-policies/code-of-conduct',
   },
 ]
 
@@ -64,7 +65,7 @@ export default function RulesPoliciesPage() {
                     href={href}
                     className="text-usa-red font-semibold text-sm hover:underline self-start"
                   >
-                    Read the full waiver →
+                    Read the full document →
                   </Link>
                 ) : (
                   <span className="inline-flex items-center self-start px-2.5 py-1 text-xs font-semibold uppercase tracking-widest bg-usa-red/10 text-usa-red">
@@ -76,8 +77,8 @@ export default function RulesPoliciesPage() {
           </div>
 
           <p className="text-slate-500 text-sm text-center max-w-2xl mx-auto mt-10">
-            The remaining documents are being finalized and will be posted here — check back
-            before registering for an event.
+            The USAIC Waiver is being finalized and will be posted here — check back before
+            registering for an event.
           </p>
         </div>
       </section>
