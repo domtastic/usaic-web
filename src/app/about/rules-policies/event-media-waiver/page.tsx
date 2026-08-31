@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'USAIC Event Media Waiver',
+  title: 'Image Use Attestation',
   description: 'USA Ice Climbing Image Use Attestation — consent for photo, video, and voice use from USAIC events.',
 }
 
@@ -14,10 +14,10 @@ export default function EventMediaWaiverPage() {
         <div className="absolute inset-0 bg-black/30" />
         <div className="relative section-container text-center text-white">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
-            USAIC Event Media Waiver
+            Image Use Attestation
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            USA Ice Climbing Image Use Attestation
+            USAIC Event Media Waiver
           </p>
         </div>
       </section>

@@ -16,7 +16,7 @@ const documents = [
   },
   {
     icon: Camera,
-    title: 'USAIC Event Media Waiver',
+    title: 'Image Use Attestation',
     description:
       'Consent for photo, video, and voice use from USAIC events, including promotional and social media use.',
     href: '/about/rules-policies/event-media-waiver',
