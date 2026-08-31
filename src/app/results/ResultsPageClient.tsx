@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import type { EventResult } from './page'
+import { parseLocalDate } from '@/lib/utils'
 
 // Generate season options (e.g., "2025-2026", "2024-2025")
 function getSeasons(events: EventResult[]): string[] {
   const seasons = new Set<string>()
 
   events.forEach(event => {
-    const date = new Date(event.startDate)
+    const date = parseLocalDate(event.startDate)
     const year = date.getFullYear()
     const month = date.getMonth()
 
@@ -108,10 +109,10 @@ export default function ResultsPageClient({ events }: { events: EventResult[] })
                       <div className="md:w-32 shrink-0">
                         <div className="inline-flex md:flex flex-col items-center justify-center bg-usa-navy text-white rounded-lg px-4 py-2 md:w-full">
                           <span className="text-sm font-medium opacity-80">
-                            {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
+                            {parseLocalDate(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
                           </span>
                           <span className="text-2xl font-display">
-                            {new Date(event.startDate).getDate()}
+                            {parseLocalDate(event.startDate).getDate()}
                           </span>
                         </div>
                       </div>
