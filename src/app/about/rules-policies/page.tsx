@@ -1,19 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { FileSignature, Camera, ShieldCheck } from 'lucide-react'
+import { Camera, ShieldCheck } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Rules & Policies',
-  description: 'USA Ice Climbing waivers, media consent, and code of conduct.',
+  description: 'USA Ice Climbing media consent and code of conduct.',
 }
 
 const documents = [
-  {
-    icon: FileSignature,
-    title: 'USAIC Waiver',
-    description:
-      'Our standard liability waiver, required for all athletes and participants before competing or attending USAIC events.',
-  },
   {
     icon: Camera,
     title: 'Image Use Attestation',
@@ -41,8 +35,8 @@ export default function RulesPoliciesPage() {
             Rules &amp; Policies
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-            Waivers, media consent, and conduct standards for USA Ice Climbing athletes,
-            volunteers, and events.
+            Media consent and conduct standards for USA Ice Climbing athletes, volunteers, and
+            events.
           </p>
         </div>
       </section>
@@ -50,7 +44,7 @@ export default function RulesPoliciesPage() {
       {/* Documents */}
       <section className="section-padding">
         <div className="section-container">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {documents.map(({ icon: Icon, title, description, href }) => (
               <div key={title} className="border border-slate-200 bg-white p-6 flex flex-col">
                 <div className="w-12 h-12 rounded-full bg-usa-navy/5 flex items-center justify-center mb-4">
@@ -75,11 +69,6 @@ export default function RulesPoliciesPage() {
               </div>
             ))}
           </div>
-
-          <p className="text-slate-500 text-sm text-center max-w-2xl mx-auto mt-10">
-            The USAIC Waiver is being finalized and will be posted here — check back before
-            registering for an event.
-          </p>
         </div>
       </section>
     </>
