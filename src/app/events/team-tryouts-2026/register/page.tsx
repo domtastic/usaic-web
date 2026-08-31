@@ -37,8 +37,8 @@ export default function RegisterPage() {
               Team. You&apos;ll be asked to read and acknowledge our{' '}
               <Link href="/about/rules-policies" className="text-usa-red font-semibold hover:underline">
                 Rules &amp; Policies
-              </Link>
-              , including the USAIC Waiver, as part of the form.
+              </Link>{' '}
+              as part of the form.
             </p>
             {GOOGLE_FORM_URL ? (
               <a
