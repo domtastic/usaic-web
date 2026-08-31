@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import type { Event } from './page'
 import { EVENT_TYPE_LABELS, COMPETITIVE_EVENT_TYPES, toEventTypeArray } from '@/lib/eventTypes'
+import { parseLocalDate } from '@/lib/utils'
 
 type TimeFilter = 'upcoming' | 'past'
 type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
@@ -47,7 +48,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
   // Filter by upcoming/past
   const timeFilteredEvents = seasonEvents.filter(event => {
-    const eventEndDate = event.endDate ? new Date(event.endDate) : new Date(event.startDate)
+    const eventEndDate = event.endDate ? parseLocalDate(event.endDate) : parseLocalDate(event.startDate)
     eventEndDate.setHours(23, 59, 59, 999)
 
     if (timeFilter === 'upcoming') {
@@ -65,17 +66,17 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
   // Sort: upcoming = ascending (soonest first), past = descending (most recent first)
   const sortedEvents = [...filteredEvents].sort((a, b) => {
-    const dateA = new Date(a.startDate).getTime()
-    const dateB = new Date(b.startDate).getTime()
+    const dateA = parseLocalDate(a.startDate).getTime()
+    const dateB = parseLocalDate(b.startDate).getTime()
     return timeFilter === 'upcoming' ? dateA - dateB : dateB - dateA
   })
 
   const formatDate = (start: string, end?: string) => {
-    const startDate = new Date(start)
+    const startDate = parseLocalDate(start)
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' }
 
     if (end && end !== start) {
-      const endDate = new Date(end)
+      const endDate = parseLocalDate(end)
       if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
         return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.getDate()}, ${endDate.getFullYear()}`
       }
@@ -96,7 +97,7 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
   }
 
   const isEventStartedOrCompleted = (event: Event) => {
-    const eventStart = new Date(event.startDate)
+    const eventStart = parseLocalDate(event.startDate)
     eventStart.setHours(0, 0, 0, 0)
     return today >= eventStart
   }

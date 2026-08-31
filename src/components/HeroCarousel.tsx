@@ -1,5 +1,6 @@
 import { client } from '@/lib/sanity'
 import { toEventTypeArray } from '@/lib/eventTypes'
+import { parseLocalDate } from '@/lib/utils'
 import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
@@ -112,7 +113,7 @@ async function getCarouselData() {
     const priorityDiff = bestPriority(a) - bestPriority(b)
     if (priorityDiff !== 0) return priorityDiff
     // Then by date
-    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    return parseLocalDate(a.startDate).getTime() - parseLocalDate(b.startDate).getTime()
   })
 
   // Get latest article
@@ -128,10 +129,10 @@ async function getCarouselData() {
 }
 
 function formatEventDate(start: string, end?: string) {
-  const startDate = new Date(start)
+  const startDate = parseLocalDate(start)
   const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' }
   if (end && end !== start) {
-    const endDate = new Date(end)
+    const endDate = parseLocalDate(end)
     return `${startDate.toLocaleDateString('en-US', options)} - ${endDate.toLocaleDateString('en-US', options)}, ${endDate.getFullYear()}`
   }
   return startDate.toLocaleDateString('en-US', { ...options, year: 'numeric' })
