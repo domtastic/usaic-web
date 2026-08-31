@@ -187,7 +187,7 @@ export default function TeamTryoutsHubPage() {
               </div>
               <div>
                 <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-base text-white/70">Registration opens soon — check back for the link</p>
+                <p className="text-base text-white/70">Complete your registration and submit payment</p>
               </div>
             </div>
             <span className="inline-flex items-center gap-1.5 text-base font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
