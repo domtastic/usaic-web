@@ -80,13 +80,17 @@ export default function TeamTryoutsHubPage() {
             2026 USA Ice Climbing Team Trials
           </h1>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-white/80">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-base text-white/80 mb-8">
             <span>October 2–4, 2026</span>
             <span className="text-white/25">·</span>
             <span>Longmont Climbing Collective</span>
             <span className="text-white/25">·</span>
             <span>Lead, Speed &amp; Youth</span>
           </div>
+
+          <Link href="/events/team-tryouts-2026/register" className="btn-primary">
+            Register for Tryouts
+          </Link>
         </div>
       </section>
 
