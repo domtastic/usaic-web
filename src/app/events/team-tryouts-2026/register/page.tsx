@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'Registration for the 2026 USA Ice Climbing team tryouts.',
 }
 
-// Swap in the real Google Form link once the event/member/team application questions are finalized.
-const GOOGLE_FORM_URL = ''
+const GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSeWqE8GPdB2N1fgxIA3TfJ0naCLSRen1T7U5qIsaTFPaE_TEw/viewform?usp=dialog'
 
 export default function RegisterPage() {
   return (
@@ -68,6 +68,37 @@ export default function RegisterPage() {
               After completing the registration form above, submit your registration fee
               below.
             </p>
+
+            <h3 className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-3">
+              Fee Structure
+            </h3>
+            <dl className="bg-slate-50 divide-y divide-slate-200 mb-6">
+              <div className="border-l-2 border-usa-red px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <dt className="text-slate-600">
+                  USAIC Membership <span className="text-slate-400">(plus one group below)</span>
+                </dt>
+                <dd className="text-usa-navy font-display sm:text-right">$75</dd>
+              </div>
+              <div className="border-l-2 border-usa-red px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <dt className="text-slate-600">Team Trial (Lead, Lead &amp; Speed)</dt>
+                <dd className="text-usa-navy font-display sm:text-right">$200</dd>
+              </div>
+              <div className="border-l-2 border-usa-red px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <dt className="text-slate-600">Team Trial (Speed only)</dt>
+                <dd className="text-usa-navy font-display sm:text-right">$50</dd>
+              </div>
+              <div className="border-l-2 border-usa-red px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <dt className="text-slate-600">Team Trial (Youth)</dt>
+                <dd className="text-usa-navy font-display sm:text-right">$100</dd>
+              </div>
+              <div className="border-l-2 border-usa-red px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <dt className="text-slate-600">
+                  Late Fee <span className="text-slate-400">(general registration tier)</span>
+                </dt>
+                <dd className="text-usa-navy font-display sm:text-right">+$75</dd>
+              </div>
+            </dl>
+
             <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
               <iframe
                 title="2026 USA Ice Climbing Trials Registration"
