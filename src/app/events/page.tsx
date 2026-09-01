@@ -31,6 +31,9 @@ export interface Event {
   resultsPdf?: {
     url: string
   }
+  featuredImage?: {
+    asset: { _ref: string }
+  }
 }
 
 async function getEvents(): Promise<Event[]> {
@@ -48,6 +51,7 @@ async function getEvents(): Promise<Event[]> {
     eventLink,
     featured,
     resultsLink,
+    featuredImage,
     "resultsPdf": resultsPdf {
       "url": asset->url
     }
