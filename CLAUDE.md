@@ -33,6 +33,7 @@ git checkout -b feature/your-feature-name
 - Include a summary of what changed and a test plan
 - Merge via GitHub, not via `git merge` locally
 - Delete the branch after merging (on GitHub and locally)
+- **Always ask for explicit confirmation before merging** — even for small or "obviously safe" fixes. Opening the PR doesn't imply approval to merge it.
 
 ### Commit messages
 Write clear, descriptive commit messages. Focus on the "why", not just the "what". Always add:
