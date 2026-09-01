@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Trophy, TrendingUp, ClipboardList } from 'lucide-react'
+import { Trophy, TrendingUp } from 'lucide-react'
 import SubpageHeader from '../_components/SubpageHeader'
 import TryoutsSubNav from '../TryoutsSubNav'
 
@@ -68,20 +68,6 @@ export default function SelectionPage() {
                 events like Continental Cups, growing the sport in every community they reach.
               </p>
             </div>
-          </div>
-
-          <div className="border-l-2 border-usa-red pl-4 mb-6">
-            <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">How Athletes Are Chosen</p>
-            <h2 className="font-display text-2xl text-usa-navy">Selection Criteria</h2>
-          </div>
-
-          <div className="flex items-start gap-3 bg-slate-50 border border-slate-200 px-5 py-4 max-w-2xl mb-14">
-            <ClipboardList className="w-5 h-5 text-usa-navy shrink-0 mt-0.5" strokeWidth={1.75} />
-            <p className="text-base text-slate-600 leading-relaxed">
-              <strong className="text-usa-navy">Selection criteria are still being finalized</strong> and
-              will be posted here soon — covering how tryout results translate into World Team
-              and National Team rosters.
-            </p>
           </div>
 
           <div className="border-l-2 border-usa-red pl-4 mb-6">
