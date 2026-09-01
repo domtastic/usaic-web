@@ -8,8 +8,6 @@ import {
   Zap,
   Users,
   Award,
-  Video,
-  FileText,
   Ticket,
   ArrowUpRight,
   Info,
@@ -35,8 +33,6 @@ const quickLinks = [
   { label: 'Speed Format', icon: Zap, href: '/events/team-tryouts-2026/speed' },
   { label: 'Youth Format', icon: Users, href: '/events/team-tryouts-2026/youth' },
   { label: 'Team Selection', icon: Award, href: '/events/team-tryouts-2026/selection' },
-  { label: 'Route Preview', icon: Video, href: '/events/team-tryouts-2026/route-preview' },
-  { label: 'Technical Meeting Notes', icon: FileText, href: '/events/team-tryouts-2026/technical-meeting-notes' },
   { label: 'FAQ', icon: HelpCircle, href: '/events/team-tryouts-2026/faq' },
 ]
 
