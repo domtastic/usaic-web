@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { Trophy, TrendingUp } from 'lucide-react'
 import SubpageHeader from '../_components/SubpageHeader'
 import TryoutsSubNav from '../TryoutsSubNav'
@@ -28,6 +29,21 @@ export default function SelectionPage() {
               athletes will represent the program than ever before.
             </p>
           </div>
+
+          <figure className="max-w-4xl mx-auto mb-14">
+            <Image
+              src="/USAICTeamPhoto2026.jpg"
+              alt="The USA Ice Climbing team celebrating with medals at the UIAA Ice Climbing World Cup at Longmont Climbing Collective"
+              width={2400}
+              height={1800}
+              className="w-full h-auto"
+              sizes="(min-width: 1024px) 896px, 100vw"
+            />
+            <figcaption className="border-l-2 border-usa-red pl-4 pt-3 mt-3 text-base text-slate-500">
+              The USA Ice Climbing team at the UIAA Ice Climbing World Cup — Longmont Climbing
+              Collective, the same venue hosting this year&apos;s tryouts.
+            </figcaption>
+          </figure>
 
           <div className="grid md:grid-cols-2 gap-4 mb-14">
             <div className="relative overflow-hidden bg-usa-navy p-6 md:p-7">
