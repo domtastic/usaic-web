@@ -12,8 +12,6 @@ const navItems = [
   { href: '/events/team-tryouts-2026/speed', label: 'Speed' },
   { href: '/events/team-tryouts-2026/youth', label: 'Youth' },
   { href: '/events/team-tryouts-2026/selection', label: 'Selection' },
-  { href: '/events/team-tryouts-2026/route-preview', label: 'Route Preview' },
-  { href: '/events/team-tryouts-2026/technical-meeting-notes', label: 'Tech Notes' },
   { href: '/events/team-tryouts-2026/faq', label: 'FAQ' },
   { href: '/events/team-tryouts-2026/register', label: 'Register' },
 ]
