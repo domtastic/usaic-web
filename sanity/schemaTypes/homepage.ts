@@ -5,6 +5,57 @@ export default defineType({
   title: 'Homepage',
   type: 'document',
   fields: [defineField({
+    name: 'heroTakeover',
+    title: 'Hero Takeover',
+    description:
+      'When enabled, this single slide REPLACES the entire homepage hero carousel — no rotation, no other slides. Use this for a major announcement (a big event, a fundraiser push, etc.), then switch it back off when you want the normal rotating hero back. Nothing below is deleted while this is on — it just resumes where it left off.',
+    type: 'object',
+    fields: [
+      {
+        name: 'enabled',
+        title: 'Enabled',
+        type: 'boolean',
+        initialValue: false,
+      },
+      {
+        name: 'title',
+        title: 'Title',
+        type: 'string',
+      },
+      {
+        name: 'subtitle',
+        title: 'Subtitle',
+        type: 'text',
+      },
+      {
+        name: 'image',
+        title: 'Background Image',
+        type: 'image',
+        options: { hotspot: true },
+      },
+      {
+        name: 'ctaText',
+        title: 'Primary Button Text',
+        type: 'string',
+      },
+      {
+        name: 'ctaLink',
+        title: 'Primary Button Link',
+        type: 'string',
+      },
+      {
+        name: 'secondaryCtaText',
+        title: 'Secondary Button Text',
+        type: 'string',
+      },
+      {
+        name: 'secondaryCtaLink',
+        title: 'Secondary Button Link',
+        type: 'string',
+      },
+    ],
+  }),
+  defineField({
     name: 'welcomeSlide',
     title: 'Welcome Slide',
     type: 'object',

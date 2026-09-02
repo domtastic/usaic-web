@@ -4,6 +4,16 @@ import { parseLocalDate } from '@/lib/utils'
 import HeroCarouselClient from './HeroCarouselClient'
 
 interface HomepageSettings {
+  heroTakeover?: {
+    enabled?: boolean
+    title?: string
+    subtitle?: string
+    image?: { asset: { _ref: string } }
+    ctaText?: string
+    ctaLink?: string
+    secondaryCtaText?: string
+    secondaryCtaLink?: string
+  }
   welcomeSlide?: {
     title?: string
     subtitle?: string
@@ -152,6 +162,30 @@ export default async function HeroCarousel() {
 
   // Build slides array
 const slides: any[] = []
+
+// Hero Takeover — when enabled in Studio, this single slide replaces the
+// entire carousel (no welcome/getStarted/event/article/donate/static
+// slides). HeroCarouselClient already renders a single-slide array
+// statically with no arrows/dots/autoplay, so no client changes needed.
+if (homepage.heroTakeover?.enabled) {
+  return (
+    <HeroCarouselClient
+      slides={[
+        {
+          type: 'static',
+          title: homepage.heroTakeover.title || '',
+          subtitle: homepage.heroTakeover.subtitle,
+          image: homepage.heroTakeover.image,
+          ctaText: homepage.heroTakeover.ctaText,
+          ctaLink: homepage.heroTakeover.ctaLink,
+          isExternal: false,
+          secondaryCtaText: homepage.heroTakeover.secondaryCtaText,
+          secondaryCtaLink: homepage.heroTakeover.secondaryCtaLink,
+        },
+      ]}
+    />
+  )
+}
 
 // 1. Welcome Slide (always first)
 slides.push({
