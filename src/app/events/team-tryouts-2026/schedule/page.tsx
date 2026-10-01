@@ -12,7 +12,7 @@ const dailySchedule = [
     day: 'Friday',
     date: 'October 2',
     rows: [
-      { event: 'Adult Lead Tryouts — Day 1', time: '7:30 AM – 7:30 PM', location: 'Plywood kick wall' },
+      { event: 'Adult Lead Tryouts — Day 1', time: '8:30 AM – 7:30 PM', location: 'Plywood kick wall' },
       { event: 'Speed Tryouts', time: '12:30 – 3:30 PM', location: 'Ice climbing tower' },
     ],
   },
@@ -20,7 +20,7 @@ const dailySchedule = [
     day: 'Saturday',
     date: 'October 3',
     rows: [
-      { event: 'Adult Lead Tryouts — Day 2', time: '7:30 AM – 7:30 PM', location: 'Plywood kick wall' },
+      { event: 'Adult Lead Tryouts — Day 2', time: '8:30 AM – 7:30 PM', location: 'Plywood kick wall' },
       { event: 'Youth (U16) Qualifiers + Speed', time: '12:00 PM', location: 'Ice climbing tower' },
       { event: 'Youth (U16) Final', time: '4:00 PM', location: 'Ice climbing tower' },
     ],
