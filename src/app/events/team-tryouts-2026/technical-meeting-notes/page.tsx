@@ -27,6 +27,7 @@ const cohorts = [
       'Dominic Unnasch',
       'Aria Frederickson',
       'Caleb Augustine',
+      'Soren Hotaling',
     ],
     route2: [
       'David Sobek',
