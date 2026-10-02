@@ -54,7 +54,7 @@ const faqGroups = [
       },
       {
         q: 'How will the cohorts/heats be selected?',
-        a: 'Everyone is randomized into Heat 1, 2, or 3 for Friday, then randomized again for Saturday.',
+        a: 'Everyone is randomized into Cohort 1 or 2 for Friday, then randomized again for Saturday.',
       },
       {
         q: 'How many routes will I get to climb, and how are they scored?',
@@ -62,7 +62,7 @@ const faqGroups = [
       },
       {
         q: 'Speed — when will it be?',
-        a: 'Speed tryouts are only on Friday. Athletes trying out for speed will compete in Lead during Heat 1, then in the speed event during Heat 2 — this levels the playing field for dual-sport athletes.',
+        a: 'Speed tryouts are only on Friday. Athletes trying out for speed will compete in Lead during Cohort 1, then in the speed event during Cohort 2 — this levels the playing field for dual-sport athletes.',
       },
       {
         q: 'Speed — what is the format?',
