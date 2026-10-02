@@ -13,48 +13,59 @@ const fridaySchedule = [
   { label: 'Speed', meeting: null, climbing: '2:00 PM', note: 'Running at the same time as Cohort 2' },
 ]
 
-const cohort1 = [
-  'Marc Unnasch',
-  'Mathias Olsen',
-  'Zoe Schiffer',
-  'Alexander Rausch',
-  'Christian Junkar',
-  'Dominic Gonzalez-Padron',
-  'Katarina Black',
-  'Dominic Unnasch',
-  'Aria Frederickson',
-  'Caleb Augustine',
-  'David Sobek',
-  'Matthew Durham',
-  'Conner Bailey',
-  'Molly Denholm',
-  'Alex Mankouski',
-  'Kelsey Beyerly',
-  'Angela Limbach',
-  'Emma Dhimitri',
-  'Matthew Lankford',
-  'Josh Dziubczynski',
-  'Nina Mankouski',
-]
-
-const cohort2 = [
-  'Catalina Shirley',
-  'Daniel Plinska',
-  'Adam Bowen',
-  'Elias Ellis',
-  'Kevin Satterfield',
-  'Matthew Fox',
-  'Anna LaSusa',
-  'Wilson Whitley',
-  'Daniel Carper',
-  'Michael Silger',
-  'Gregory Love',
-  'Carter Schmidt',
-  'Jessica Perez',
-  'Cambyr Sullivan',
-  'Mihael Ashminov',
-  'Jacob Gaylord',
-  'Rio Buenrostro',
+const cohorts = [
+  {
+    label: 'Cohort 1',
+    route1: [
+      'Marc Unnasch',
+      'Mathias Olsen',
+      'Zoe Schiffer',
+      'Alexander Rausch',
+      'Christian Junkar',
+      'Dominic Gonzalez-Padron',
+      'Katarina Black',
+      'Dominic Unnasch',
+      'Aria Frederickson',
+      'Caleb Augustine',
+    ],
+    route2: [
+      'David Sobek',
+      'Matthew Durham',
+      'Conner Bailey',
+      'Molly Denholm',
+      'Alex Mankouski',
+      'Kelsey Beyerly',
+      'Angela Limbach',
+      'Emma Dhimitri',
+      'Matthew Lankford',
+      'Josh Dziubczynski',
+      'Nina Mankouski',
+    ],
+  },
+  {
+    label: 'Cohort 2',
+    route1: [
+      'Catalina Shirley',
+      'Daniel Plinska',
+      'Adam Bowen',
+      'Elias Ellis',
+      'Kevin Satterfield',
+      'Matthew Fox',
+      'Anna LaSusa',
+      'Daniel Carper',
+      'Rio Buenrostro',
+    ],
+    route2: [
+      'Wilson Whitley',
+      'Michael Silger',
+      'Gregory Love',
+      'Carter Schmidt',
+      'Jessica Perez',
+      'Cambyr Sullivan',
+      'Mihael Ashminov',
+      'Jacob Gaylord',
+    ],
+  },
 ]
 
 export default function TechnicalMeetingNotesPage() {
@@ -128,22 +139,29 @@ export default function TechnicalMeetingNotesPage() {
           </p>
 
           <div className="grid sm:grid-cols-2 gap-8">
-            <div>
-              <p className="font-display text-xl text-usa-navy mb-3">Cohort 1</p>
-              <ol className="list-decimal list-inside space-y-1.5 text-base text-slate-600">
-                {cohort1.map((name) => (
-                  <li key={name}>{name}</li>
-                ))}
-              </ol>
-            </div>
-            <div>
-              <p className="font-display text-xl text-usa-navy mb-3">Cohort 2</p>
-              <ol className="list-decimal list-inside space-y-1.5 text-base text-slate-600">
-                {cohort2.map((name) => (
-                  <li key={name}>{name}</li>
-                ))}
-              </ol>
-            </div>
+            {cohorts.map((c) => (
+              <div key={c.label}>
+                <p className="font-display text-xl text-usa-navy mb-3">{c.label}</p>
+
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-2">
+                  Route 1
+                </p>
+                <ol className="list-decimal list-inside space-y-1.5 text-base text-slate-600 mb-5">
+                  {c.route1.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ol>
+
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-2">
+                  Route 2
+                </p>
+                <ol start={c.route1.length + 1} className="list-decimal list-inside space-y-1.5 text-base text-slate-600">
+                  {c.route2.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ol>
+              </div>
+            ))}
           </div>
 
           <p className="text-slate-500 text-sm mt-14">
