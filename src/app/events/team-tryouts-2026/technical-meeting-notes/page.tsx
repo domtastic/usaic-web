@@ -21,9 +21,9 @@ const cohort1 = [
   'Christian Junkar',
   'Katarina Black',
   'Dominic Unnasch',
+  'Dominic Gonzalez-Padron',
   'Aria Frederickson',
   'Caleb Augustine',
-  'Dominic Gonzalez-Padron',
   'David Sobek',
   'Matthew Durham',
   'Conner Bailey',
@@ -33,6 +33,8 @@ const cohort1 = [
   'Angela Limbach',
   'Emma Dhimitri',
   'Matthew Lankford',
+  'Josh Dziubczynski',
+  'Nina Mankouski',
 ]
 
 const cohort2 = [
