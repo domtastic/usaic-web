@@ -13,7 +13,7 @@ export default function SpeedFormatPage() {
       <SubpageHeader
         eyebrow="Adult Speed"
         title="Speed Tryouts Format"
-        description="Speed is self-governed with a few volunteers on hand. Athletes competing in both Lead and Speed will be in Lead Heat 1 and Speed during Heat 2, so the two disciplines don't conflict."
+        description="Speed is self-governed with a few volunteers on hand. Athletes competing in both Lead and Speed will be in Lead Cohort 1 and Speed during Cohort 2, so the two disciplines don't conflict."
       />
       <TryoutsSubNav />
 
@@ -22,7 +22,7 @@ export default function SpeedFormatPage() {
           <div className="grid sm:grid-cols-3 gap-3 mb-14 max-w-3xl">
             <div className="border border-slate-200 px-5 py-4">
               <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-1">When</p>
-              <p className="font-display text-lg text-usa-navy">Friday, 12:30 – 3:30 PM</p>
+              <p className="font-display text-lg text-usa-navy">Friday, 2:00 PM</p>
             </div>
             <div className="border border-slate-200 px-5 py-4">
               <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-1">Where</p>

@@ -4,13 +4,12 @@ import TryoutsSubNav from '../TryoutsSubNav'
 
 export const metadata: Metadata = {
   title: 'Lead Tryouts Format — 2026 Team Tryouts',
-  description: 'Heat structure and day-by-day judging format for the 2026 USA Ice Climbing adult lead tryouts.',
+  description: 'Cohort structure and day-by-day judging format for the 2026 USA Ice Climbing adult lead tryouts.',
 }
 
-const heats = [
-  { n: '01', window: '8:30 – 11:30 AM' },
-  { n: '02', window: '12:30 – 3:30 PM' },
-  { n: '03', window: '4:00 – 7:00 PM' },
+const cohorts = [
+  { n: '01', window: '10:00 AM' },
+  { n: '02', window: '2:00 PM' },
 ]
 
 const leadDays = [
@@ -58,20 +57,20 @@ export default function LeadFormatPage() {
       <SubpageHeader
         eyebrow="Adult Lead"
         title="Lead Tryouts Format"
-        description="Athletes are broken into heats of up to 20 to make scheduling easier and give everyone the rest they need — and to give judges more time to assess each athlete individually. Heats are randomly assigned for Friday, then randomly assigned again for Saturday. Each heat includes a built-in one-hour lunch break."
+        description="Athletes are broken into two cohorts to make scheduling easier and give everyone the rest they need — and to give judges more time to assess each athlete individually. Cohorts are randomly assigned for Friday, then randomly assigned again for Saturday. See Technical Meeting Notes for exact meeting and climbing times."
       />
       <TryoutsSubNav />
 
       <section className="py-14 md:py-20 bg-white">
         <div className="section-container">
-          <div className="grid sm:grid-cols-3 gap-3 mb-14 max-w-2xl">
-            {heats.map((h) => (
-              <div key={h.n} className="relative border border-slate-200 px-5 py-4 pt-8">
+          <div className="grid sm:grid-cols-2 gap-3 mb-14 max-w-xl">
+            {cohorts.map((c) => (
+              <div key={c.n} className="relative border border-slate-200 px-5 py-4 pt-8">
                 <span className="absolute top-0 left-0 bg-usa-navy text-white font-display text-base px-2.5 py-1 leading-none">
-                  {h.n}
+                  {c.n}
                 </span>
-                <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-1">Heat</p>
-                <p className="font-display text-lg text-usa-navy tabular-nums">{h.window}</p>
+                <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-1">Cohort</p>
+                <p className="font-display text-lg text-usa-navy tabular-nums">Climbing begins {c.window}</p>
               </div>
             ))}
           </div>
