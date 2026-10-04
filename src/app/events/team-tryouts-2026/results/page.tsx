@@ -99,6 +99,105 @@ const openWomenLead: LeadResult[] = [
   { rank: 10, name: 'Zoe Schiffer', q1: 9, q2: 10 },
 ]
 
+// Per-climb scores for each qualifier round, as given on the official sheets.
+type RoundTable = { columns: string[]; rows: { rank: string; name: string; scores: string[] }[] }
+
+const menQ1: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Climb 2 – 2nd Attempt'],
+  rows: [
+    { rank: '1', name: 'Elias Ellis', scores: ['TOP', 'TOP', 'TOP'] },
+    { rank: '2', name: 'Gregory Love', scores: ['TOP', 'TOP', 'TOP'] },
+    { rank: '3', name: 'Carter Schmidt', scores: ['TOP', '11', 'TOP'] },
+    { rank: '4', name: 'Matthew Fox', scores: ['12', 'TOP', 'TOP'] },
+    { rank: '5', name: 'Conner Bailey', scores: ['12', '13', 'TOP'] },
+    { rank: '6', name: 'Dominic Unnasch', scores: ['TOP', '14+0.1', 'TOP'] },
+    { rank: '7', name: 'Mihael Ashminov', scores: ['10', '14+0.1', 'TOP'] },
+    { rank: '8', name: 'Christian Junkar', scores: ['12', '10', '11'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['6', '10', '14'] },
+    { rank: '10', name: 'Matthew Durham', scores: ['9+0.2', '10+0.2', '12'] },
+    { rank: '11', name: 'David Sobek', scores: ['8', '11', '12'] },
+    { rank: '12', name: 'Alex Mankouski', scores: ['6', '11', '12+0.2'] },
+    { rank: '13', name: 'Michael Silger', scores: ['9', '7+0.2', '10+0.2'] },
+    { rank: '14', name: 'Dominic Gonzalez-Padron', scores: ['11', '7+0.1', '7+0.2'] },
+    { rank: '15', name: 'Alexander Rausch', scores: ['9', '8', '7+0.1'] },
+    { rank: '16', name: 'Daniel Plinska', scores: ['9', '5+0.2', '6'] },
+    { rank: '17', name: 'Matthew Lankford', scores: ['8', '5+0.1', '7+0.1'] },
+    { rank: '18', name: 'Kevin Satterfield', scores: ['6+0.1', '7', '7'] },
+    { rank: '19', name: 'Daniel Carper', scores: ['6', '7', '9'] },
+    { rank: '20', name: 'Josh Dziubczynski', scores: ['0', '9', '8'] },
+    { rank: '21', name: 'Soren Hotaling', scores: ['1+0.1', '9', '10'] },
+    { rank: '22', name: 'Adam Bowen', scores: ['5', '9', '6'] },
+    { rank: '23', name: 'Caleb Augustine', scores: ['5+0.1', '6', '5+0.1'] },
+    { rank: '24', name: 'Rio Buenrostro', scores: ['4+0.2', '5+0.1', '5+0.1'] },
+    { rank: '25', name: 'Marc Unnasch', scores: ['3', '4', '4'] },
+    { rank: '26', name: 'Jacob Gaylord', scores: ['2+0.1', '4', '4+0.1'] },
+  ],
+}
+
+const womenQ1: RoundTable = {
+  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2'],
+  rows: [
+    { rank: '1', name: 'Cambyr Skade', scores: ['6', '12+0.2', '11'] },
+    { rank: '2', name: 'Emma Dhimitri', scores: ['9', '8', '9'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['6', '6+0.1', '9'] },
+    { rank: '4', name: 'Aria Frederickson', scores: ['7+0.1', '7+0.1', '8'] },
+    { rank: '5', name: 'Angela Limbach', scores: ['7', '8', '7+0.1'] },
+    { rank: '6', name: 'Anna LaSusa', scores: ['4', '6', '7+0.2'] },
+    { rank: '7', name: 'Kelsey Beyerly', scores: ['5', '6', '7'] },
+    { rank: '8', name: 'Nina Mankouski', scores: ['6', '6', '6'] },
+    { rank: '9', name: 'Zoe Schiffer', scores: ['6', '6', '4'] },
+    { rank: '10', name: 'Molly Denholm', scores: ['4+0.1', '6', '6'] },
+  ],
+}
+
+const menQ2: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1.5', name: 'Gregory Love', scores: ['TOP', 'TOP', '7'] },
+    { rank: '1.5', name: 'Dominic Unnasch', scores: ['TOP', 'TOP', '7'] },
+    { rank: '3', name: 'Matthew Fox', scores: ['21', 'TOP', '14'] },
+    { rank: '4', name: 'Christian Junkar', scores: ['20+0.1', 'TOP', '17.5'] },
+    { rank: '5', name: 'Carter Schmidt', scores: ['19+0.2', 'TOP', '21'] },
+    { rank: '6', name: 'Conner Bailey', scores: ['TOP', '7+0.1', '31'] },
+    { rank: '7', name: 'Elias Ellis', scores: ['17', 'TOP', '31.5'] },
+    { rank: '8', name: 'Michael Silger', scores: ['19', '15+0.1', '52.5'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['19', '14', '71.3'] },
+    { rank: '10', name: 'Mihael Ashminov', scores: ['16+0.1', '15', '80'] },
+    { rank: '11', name: 'Alexander Rausch', scores: ['13', '14', '137.8'] },
+    { rank: '12', name: 'Matthew Durham', scores: ['16', '7+0.2', '148.5'] },
+    { rank: '13', name: 'Dominic Gonzalez-Padron', scores: ['13', '13+0.2', '159.5'] },
+    { rank: '14', name: 'Matthew Lankford', scores: ['13', '12', '174'] },
+    { rank: '15', name: 'Adam Bowen', scores: ['12+0.2', '7+0.2', '243'] },
+    { rank: '16', name: 'Soren Hotaling', scores: ['13', '7', '268.3'] },
+    { rank: '17', name: 'Caleb Augustine', scores: ['13', '7', '268.3'] },
+    { rank: '18', name: 'Alex Mankouski', scores: ['13', '6+0.1', '304.5'] },
+    { rank: '19', name: 'David Sobek', scores: ['9', '7+0.1', '325.5'] },
+    { rank: '20', name: 'Josh Dziubczynski', scores: ['9', '7', '388.5'] },
+    { rank: '21', name: 'Jacob Gaylord', scores: ['9', '7', '388.5'] },
+    { rank: '22', name: 'Kevin Satterfield', scores: ['9', '6', '472.5'] },
+    { rank: '23', name: 'Daniel Carper', scores: ['9', '6', '472.5'] },
+    { rank: '24', name: 'Daniel Plinska', scores: ['8', '5+0.1', '576'] },
+    { rank: '25', name: 'Rio Buenrostro', scores: ['7', '5', '650.3'] },
+    { rank: '26', name: 'Marc Unnasch', scores: ['7', '5', '650.3'] },
+  ],
+}
+
+const womenQ2: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Cambyr Skade', scores: ['15+0.1', '15', '1'] },
+    { rank: '2', name: 'Aria Frederickson', scores: ['9', '13', '7.5'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['13', '8+0.1', '8'] },
+    { rank: '4', name: 'Emma Dhimitri', scores: ['5+0.2', '13', '15'] },
+    { rank: '5', name: 'Molly Denholm', scores: ['7', '6+0.1', '33.8'] },
+    { rank: '6', name: 'Kelsey Beyerly', scores: ['5', '7', '42'] },
+    { rank: '7', name: 'Angela Limbach', scores: ['4', '7+0.1', '42.5'] },
+    { rank: '8', name: 'Nina Mankouski', scores: ['7', '5+0.1', '42.8'] },
+    { rank: '9', name: 'Anna LaSusa', scores: ['4', '6+0.1', '63.8'] },
+    { rank: '10', name: 'Zoe Schiffer', scores: ['0+0.2', '5+0.1', '95'] },
+  ],
+}
+
 function heatTotal([a, b]: [Run, Run]): number | null {
   return a === null || b === null ? null : a + b
 }
@@ -289,6 +388,53 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   )
 }
 
+function RoundScoreTable({ table }: { table: RoundTable }) {
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            {table.columns.map((c) => (
+              <th key={c} className={cn(th, 'text-right', c === 'Rank Points' && 'bg-usa-red')}>
+                {c}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+              {r.scores.map((score, i) => {
+                const points = table.columns[i] === 'Rank Points'
+                return (
+                  <td
+                    key={i}
+                    className={cn(
+                      td,
+                      'text-right whitespace-nowrap',
+                      points
+                        ? 'font-display text-usa-navy bg-usa-red/[0.04]'
+                        : score === 'TOP'
+                          ? 'font-semibold text-usa-red tracking-wide'
+                          : 'text-slate-600'
+                    )}
+                  >
+                    {score}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function speedPodium(results: SpeedResult[]) {
   return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
 }
@@ -319,7 +465,16 @@ function LeadFinalsView() {
   )
 }
 
-function LeadQualifiersView() {
+const rounds = [
+  { id: 'overall', label: 'Overall' },
+  { id: 'q1', label: 'Q1 · Day 1' },
+  { id: 'q2', label: 'Q2 · Day 2' },
+]
+
+function LeadQualifiersView({ round }: { round?: string }) {
+  const active = rounds.find((r) => r.id === round)?.id ?? 'overall'
+  const [men, women] = active === 'q1' ? [menQ1, womenQ1] : [menQ2, womenQ2]
+
   return (
     <>
       <ViewIntro title="Lead Qualifiers">
@@ -328,13 +483,44 @@ function LeadQualifiersView() {
         two-way tie for 1st gives each a rank of 1.5.
       </ViewIntro>
 
-      <CategoryHeading title="Men" />
-      <LeadTable results={openMenLead} />
-
-      <div className="mt-14">
-        <CategoryHeading title="Women" />
-        <LeadTable results={openWomenLead} />
+      <div className="inline-flex border border-slate-200 mb-10">
+        {rounds.map((r) => (
+          <Link
+            key={r.id}
+            href={`?view=lead-qualifiers&round=${r.id}`}
+            scroll={false}
+            aria-current={r.id === active ? 'page' : undefined}
+            className={cn(
+              'px-4 py-2 text-sm font-semibold uppercase tracking-widest transition-colors whitespace-nowrap',
+              r.id === active ? 'bg-usa-navy text-white' : 'text-slate-500 hover:text-usa-red'
+            )}
+          >
+            {r.label}
+          </Link>
+        ))}
       </div>
+
+      {active === 'overall' ? (
+        <>
+          <CategoryHeading title="Men" />
+          <LeadTable results={openMenLead} />
+
+          <div className="mt-14">
+            <CategoryHeading title="Women" />
+            <LeadTable results={openWomenLead} />
+          </div>
+        </>
+      ) : (
+        <>
+          <CategoryHeading title="Men" />
+          <RoundScoreTable table={men} />
+
+          <div className="mt-14">
+            <CategoryHeading title="Women" />
+            <RoundScoreTable table={women} />
+          </div>
+        </>
+      )}
     </>
   )
 }
@@ -384,7 +570,7 @@ function YouthView() {
 }
 
 // Each tab is its own view, selected with ?view=<id> so a view can be linked directly.
-const views = [
+const views: { id: string; label: string; View: (props: { round?: string }) => React.ReactNode }[] = [
   { id: 'lead-finals', label: 'Lead Finals', View: LeadFinalsView },
   { id: 'lead-qualifiers', label: 'Lead Qualifiers', View: LeadQualifiersView },
   { id: 'speed', label: 'Speed', View: SpeedView },
@@ -396,9 +582,9 @@ const defaultView = 'lead-qualifiers'
 export default async function ResultsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ view?: string }>
+  searchParams: Promise<{ view?: string; round?: string }>
 }) {
-  const { view } = await searchParams
+  const { view, round } = await searchParams
   const active = views.find((v) => v.id === view) ?? views.find((v) => v.id === defaultView)!
 
   return (
@@ -438,7 +624,7 @@ export default async function ResultsPage({
           </div>
 
           <div role="tabpanel">
-            <active.View />
+            <active.View round={round} />
           </div>
         </div>
       </section>
