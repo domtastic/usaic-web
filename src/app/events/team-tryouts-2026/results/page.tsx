@@ -40,7 +40,6 @@ const openWomenSpeed: SpeedResult[] = [
   { rank: 6, name: 'Kelsey Beyerly', heats: [[22.28, 32.82], [18.83, 16.03], [15.37, 28.18]] },
   { rank: 7, name: 'Molly Denholm', heats: [[27.15, 22.19], [25.33, 29.16], [24.58, 25.9]] },
   { rank: 8, name: 'Zoe Schiffer', heats: [[34.14, 28.95], [22.705, null], [27.25, null]] },
-  { rank: 9, name: 'Katarina Black', heats: [[null, null], [null, null], [null, null]] },
 ]
 
 // Youth speed results only report each athlete's best heat time.
