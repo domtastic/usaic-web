@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import SubpageHeader from '../_components/SubpageHeader'
 import TryoutsSubNav from '../TryoutsSubNav'
 import { cn } from '@/lib/utils'
@@ -288,18 +289,118 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   )
 }
 
-const sections = [
-  { id: 'lead-finals', label: 'Lead Finals' },
-  { id: 'lead', label: 'Lead Qualifiers' },
-  { id: 'speed', label: 'Speed' },
-  { id: 'youth', label: 'Youth' },
-]
-
 function speedPodium(results: SpeedResult[]) {
   return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
 }
 
-export default function ResultsPage() {
+function Pending({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-l-2 border-slate-300 pl-4">
+      <p className="text-slate-600 leading-relaxed max-w-3xl">{children}</p>
+    </div>
+  )
+}
+
+function ViewIntro({ title, children }: { title: string; children?: React.ReactNode }) {
+  return (
+    <>
+      <h2 className="font-display text-4xl text-usa-navy mb-3">{title}</h2>
+      {children && <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">{children}</p>}
+    </>
+  )
+}
+
+function LeadFinalsView() {
+  return (
+    <>
+      <ViewIntro title="Lead Finals" />
+      <Pending>Adult Lead Finals run Sunday, October 4. Final results will be posted here once they&apos;re official.</Pending>
+    </>
+  )
+}
+
+function LeadQualifiersView() {
+  return (
+    <>
+      <ViewIntro title="Lead Qualifiers">
+        Each athlete climbed two qualifier routes and was ranked on each one. Their score is Q1 rank × Q2
+        rank, and the lowest score ranks highest. Tied athletes average the places they cover, so a
+        two-way tie for 1st gives each a rank of 1.5.
+      </ViewIntro>
+
+      <CategoryHeading title="Men" />
+      <LeadTable results={openMenLead} />
+
+      <div className="mt-14">
+        <CategoryHeading title="Women" />
+        <LeadTable results={openWomenLead} />
+      </div>
+    </>
+  )
+}
+
+function SpeedView() {
+  return (
+    <>
+      <ViewIntro title="Speed">
+        Each heat is two runs, and the heat time is the two runs added together. An athlete&apos;s final
+        score is their fastest heat. A DNF on either run makes that heat a DNF. Times are in seconds.
+      </ViewIntro>
+
+      <CategoryHeading title="Men" />
+      <div className="w-fit max-w-full">
+        <Podium entries={speedPodium(openMenSpeed)} />
+        <SpeedTable results={openMenSpeed} />
+      </div>
+
+      <div className="mt-14">
+        <CategoryHeading title="Women" />
+        <div className="w-fit max-w-full">
+          <Podium entries={speedPodium(openWomenSpeed)} />
+          <SpeedTable results={openWomenSpeed} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+function YouthView() {
+  return (
+    <>
+      <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
+
+      <CategoryHeading title="Difficulty" />
+      <Pending>Youth Difficulty Finals results are pending and will be posted here once they&apos;re official.</Pending>
+
+      <div className="mt-14">
+        <CategoryHeading title="Speed" />
+        <div className="w-fit max-w-full">
+          <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
+          <BestOnlyTable results={youthSpeed} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Each tab is its own view, selected with ?view=<id> so a view can be linked directly.
+const views = [
+  { id: 'lead-finals', label: 'Lead Finals', View: LeadFinalsView },
+  { id: 'lead-qualifiers', label: 'Lead Qualifiers', View: LeadQualifiersView },
+  { id: 'speed', label: 'Speed', View: SpeedView },
+  { id: 'youth', label: 'Youth', View: YouthView },
+]
+
+const defaultView = 'lead-qualifiers'
+
+export default async function ResultsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>
+}) {
+  const { view } = await searchParams
+  const active = views.find((v) => v.id === view) ?? views.find((v) => v.id === defaultView)!
+
   return (
     <>
       <SubpageHeader
@@ -309,98 +410,35 @@ export default function ResultsPage() {
       />
       <TryoutsSubNav />
 
-      <section className="py-14 md:py-20 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="section-container max-w-5xl">
-          <div className="flex flex-wrap gap-3 mb-14">
-            {sections.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="border border-slate-200 px-4 py-2 text-sm font-semibold uppercase tracking-widest text-usa-navy hover:border-usa-red hover:text-usa-red transition-colors"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Lead Finals */}
-          <div id="lead-finals" className="scroll-mt-48 mb-20">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Finals</h2>
-            <div className="border-l-2 border-slate-300 pl-4">
-              <p className="text-slate-600 leading-relaxed max-w-3xl">
-                Adult Lead Finals run Sunday, October 4. Final results will be posted here once
-                they&apos;re official.
-              </p>
+          <div className="overflow-x-auto border-b border-slate-200 mb-12">
+            <div role="tablist" className="flex gap-1 whitespace-nowrap">
+              {views.map((v) => {
+                const selected = v.id === active.id
+                return (
+                  <Link
+                    key={v.id}
+                    href={`?view=${v.id}`}
+                    scroll={false}
+                    role="tab"
+                    aria-selected={selected}
+                    className={cn(
+                      '-mb-px border-b-2 px-4 py-3 text-sm font-semibold uppercase tracking-widest transition-colors',
+                      selected
+                        ? 'border-usa-red text-usa-navy'
+                        : 'border-transparent text-slate-500 hover:text-usa-red'
+                    )}
+                  >
+                    {v.label}
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
-          {/* Lead Qualifiers */}
-          <div id="lead" className="scroll-mt-48 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Qualifiers</h2>
-            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
-              Each athlete climbed two qualifier routes and was ranked on each one. Their score is
-              Q1 rank × Q2 rank, and the lowest score ranks highest. Tied athletes average the places
-              they cover, so a two-way tie for 1st gives each a rank of 1.5.
-            </p>
-
-            <CategoryHeading title="Men" />
-            <LeadTable results={openMenLead} />
-
-            <div className="mt-14">
-              <CategoryHeading title="Women" />
-              <LeadTable results={openWomenLead} />
-            </div>
-          </div>
-
-          {/* Speed */}
-          <div id="speed" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Speed</h2>
-            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
-              Each heat is two runs, and the heat time is the two runs added together. An
-              athlete&apos;s final score is their fastest heat. A DNF on either run makes that heat a
-              DNF. Times are in seconds.
-            </p>
-
-            <CategoryHeading title="Men" />
-            <div className="w-fit max-w-full">
-              <Podium entries={speedPodium(openMenSpeed)} />
-              <SpeedTable results={openMenSpeed} />
-            </div>
-
-            <div className="mt-14">
-              <CategoryHeading title="Women" />
-              <div className="w-fit max-w-full">
-                <Podium entries={speedPodium(openWomenSpeed)} />
-                <SpeedTable results={openWomenSpeed} />
-              </div>
-            </div>
-          </div>
-
-          {/* Youth */}
-          <div id="youth" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
-
-            <CategoryHeading title="Difficulty" />
-            <div className="border-l-2 border-slate-300 pl-4">
-              <p className="text-slate-600 leading-relaxed max-w-3xl">
-                Youth Difficulty Finals results are pending and will be posted here once
-                they&apos;re official.
-              </p>
-            </div>
-
-            <div className="mt-14">
-              <CategoryHeading title="Speed" />
-              <div className="w-fit max-w-full">
-                <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
-                <BestOnlyTable results={youthSpeed} />
-              </div>
-            </div>
-          </div>
-
-          <div className="border-l-2 border-slate-300 pl-4 mt-14">
-            <p className="text-slate-500 leading-relaxed">
-              Results for other categories will be posted here once they&apos;re finalized.
-            </p>
+          <div role="tabpanel">
+            <active.View />
           </div>
         </div>
       </section>
