@@ -292,6 +292,7 @@ const sections = [
   { id: 'lead-finals', label: 'Lead Finals' },
   { id: 'lead', label: 'Lead Qualifiers' },
   { id: 'speed', label: 'Speed' },
+  { id: 'youth', label: 'Youth' },
 ]
 
 function speedPodium(results: SpeedResult[]) {
@@ -299,7 +300,6 @@ function speedPodium(results: SpeedResult[]) {
 }
 
 export default function ResultsPage() {
-
   return (
     <>
       <SubpageHeader
@@ -374,9 +374,22 @@ export default function ResultsPage() {
                 <SpeedTable results={openWomenSpeed} />
               </div>
             </div>
+          </div>
+
+          {/* Youth */}
+          <div id="youth" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
+            <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
+
+            <CategoryHeading title="Difficulty" />
+            <div className="border-l-2 border-slate-300 pl-4">
+              <p className="text-slate-600 leading-relaxed max-w-3xl">
+                Youth Difficulty Finals results are pending and will be posted here once
+                they&apos;re official.
+              </p>
+            </div>
 
             <div className="mt-14">
-              <CategoryHeading title="Youth" />
+              <CategoryHeading title="Speed" />
               <div className="w-fit max-w-full">
                 <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
                 <BestOnlyTable results={youthSpeed} />
