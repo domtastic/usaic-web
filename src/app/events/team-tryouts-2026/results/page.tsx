@@ -429,6 +429,11 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   )
 }
 
+// The sheets record partial progress as "14+0.1"; show it as "14.1".
+function holdScore(score: string) {
+  return score.replace(/^(\d+)\+0\.(\d+)$/, '$1.$2')
+}
+
 function RoundScoreTable({ table }: { table: RoundTable }) {
   return (
     <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
@@ -468,7 +473,7 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
                           : 'text-slate-600'
                     )}
                   >
-                    {score}
+                    {holdScore(score)}
                   </td>
                 )
               })}
