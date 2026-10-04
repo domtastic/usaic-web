@@ -53,6 +53,47 @@ const youthSpeed: BestOnlyResult[] = [
   { rank: 4, name: 'Luke Lauderdale', best: 28.5 },
 ]
 
+// Youth difficulty qualifiers: three routes, each scored by highest hold (or TOP).
+// Athletes are ranked on each route, tied athletes average the places they cover,
+// and rank points are the three route ranks multiplied together.
+const youthDifficultyQualifiers: { name: string; scores: (number | 'TOP')[] }[] = [
+  { name: 'Luke Lauderdale', scores: [12, 9, 5] },
+  { name: 'Mckinley Heywood', scores: [8, 4, 5] },
+  { name: 'Finn Hotaling', scores: [11, 2, 8] },
+  { name: 'Pema Reed', scores: ['TOP', 7, 8] },
+]
+
+function routeRanks(scores: (number | 'TOP')[]) {
+  const value = (s: number | 'TOP') => (s === 'TOP' ? Infinity : s)
+  return scores.map((s) => {
+    const better = scores.filter((o) => value(o) > value(s)).length
+    const tied = scores.filter((o) => value(o) === value(s)).length
+    return better + (tied + 1) / 2
+  })
+}
+
+function youthQualifierStandings() {
+  const routeCount = youthDifficultyQualifiers[0].scores.length
+  const ranksByRoute = Array.from({ length: routeCount }, (_, i) =>
+    routeRanks(youthDifficultyQualifiers.map((a) => a.scores[i]))
+  )
+  return youthDifficultyQualifiers
+    .map((a, ai) => {
+      const ranks = ranksByRoute.map((r) => r[ai])
+      return { ...a, ranks, points: ranks.reduce((x, y) => x * y, 1) }
+    })
+    .sort((a, b) => a.points - b.points)
+    .map((a, i) => ({ ...a, rank: i + 1 }))
+}
+
+// Youth difficulty final: everyone topped, so places are decided by time left on the clock.
+const youthDifficultyFinals: { rank: number; name: string; result: string; timeLeft: string }[] = [
+  { rank: 1, name: 'Pema Reed', result: 'TOP', timeLeft: '1:54' },
+  { rank: 2, name: 'Mckinley Heywood', result: 'TOP', timeLeft: '1:31' },
+  { rank: 3, name: 'Luke Lauderdale', result: 'TOP', timeLeft: '1:24' },
+  { rank: 4, name: 'Finn Hotaling', result: 'TOP', timeLeft: '1:14' },
+]
+
 // Lead qualifier score is the product of an athlete's two qualifier ranks
 // (tied ranks are averaged, e.g. 1.5). Lowest score wins.
 type LeadResult = { rank: number; name: string; q1: number; q2: number }
@@ -435,6 +476,78 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
   )
 }
 
+function SubLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-3">{children}</p>
+}
+
+function YouthFinalsTable() {
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            <th className={cn(th, 'text-right')}>Result</th>
+            <th className={cn(th, 'text-right bg-usa-red')}>Time Left</th>
+          </tr>
+        </thead>
+        <tbody>
+          {youthDifficultyFinals.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={td}>
+                <RankBadge rank={r.rank} medals />
+              </td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
+              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function YouthQualifiersTable() {
+  const standings = youthQualifierStandings()
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            {standings[0].scores.map((_, i) => (
+              <th key={i} className={cn(th, 'text-right')}>
+                Route {i + 1}
+              </th>
+            ))}
+            <th className={cn(th, 'text-right bg-usa-red')}>Rank Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {standings.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+              {r.scores.map((score, i) => (
+                <td key={i} className={cn(td, 'text-right align-top whitespace-nowrap')}>
+                  <span className={cn('block', score === 'TOP' ? 'font-semibold text-usa-red tracking-wide' : 'text-slate-600')}>
+                    {score}
+                  </span>
+                  <span className="block text-xs text-slate-400 leading-tight">Rank {r.ranks[i]}</span>
+                </td>
+              ))}
+              <td className={cn(td, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>{r.points}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function speedPodium(results: SpeedResult[]) {
   return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
 }
@@ -556,7 +669,25 @@ function YouthView() {
       <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
 
       <CategoryHeading title="Difficulty" />
-      <Pending>Youth Difficulty Finals results are pending and will be posted here once they&apos;re official.</Pending>
+
+      <SubLabel>Finals</SubLabel>
+      <div className="w-fit max-w-full">
+        <Podium entries={youthDifficultyFinals.map((r) => ({ rank: r.rank, name: r.name, detail: `TOP · ${r.timeLeft} left` }))} />
+        <YouthFinalsTable />
+      </div>
+      <p className="text-slate-500 text-sm mt-3 max-w-3xl">
+        Every finalist topped the route, so places are decided by time left on the clock.
+      </p>
+
+      <div className="mt-10">
+        <SubLabel>Qualifiers</SubLabel>
+        <p className="text-slate-600 leading-relaxed mb-5 max-w-3xl">
+          Athletes are ranked on each of the three routes, and their rank points are the three route
+          ranks multiplied together. The lowest total ranks highest. Tied athletes average the places
+          they cover.
+        </p>
+        <YouthQualifiersTable />
+      </div>
 
       <div className="mt-14">
         <CategoryHeading title="Speed" />
