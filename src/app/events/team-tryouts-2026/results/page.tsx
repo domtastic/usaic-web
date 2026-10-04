@@ -43,6 +43,16 @@ const openWomenSpeed: SpeedResult[] = [
   { rank: 9, name: 'Katarina Black', heats: [[null, null], [null, null], [null, null]] },
 ]
 
+// Youth speed results only report each athlete's best heat time.
+type BestOnlyResult = { rank: number; name: string; best: number | null }
+
+const youthSpeed: BestOnlyResult[] = [
+  { rank: 1, name: 'Mckinley Heywood', best: 25.67 },
+  { rank: 2, name: 'Finn', best: 27.25 },
+  { rank: 3, name: 'Pema Reed', best: 27.9 },
+  { rank: 4, name: 'Luke', best: 28.5 },
+]
+
 // Lead qualifier score is the product of an athlete's two qualifier ranks
 // (tied ranks are averaged, e.g. 1.5). Lowest score wins.
 type LeadResult = { rank: number; name: string; q1: number; q2: number }
@@ -253,6 +263,33 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
   )
 }
 
+function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-sm text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            <th className={cn(th, 'text-right bg-usa-red')}>Best Heat</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={td}>
+                <RankBadge rank={r.rank} medals />
+              </td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{fmt(r.best)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 const sections = [
   { id: 'lead-finals', label: 'Lead Finals' },
   { id: 'lead', label: 'Lead Qualifiers' },
@@ -308,11 +345,11 @@ export default function ResultsPage() {
               they share the average of the tied places (for example, 1.5).
             </p>
 
-            <CategoryHeading discipline="Lead" title="Open Men" />
+            <CategoryHeading discipline="Lead" title="Men" />
             <LeadTable results={openMenLead} />
 
             <div className="mt-14">
-              <CategoryHeading discipline="Lead" title="Open Women" />
+              <CategoryHeading discipline="Lead" title="Women" />
               <LeadTable results={openWomenLead} />
             </div>
           </div>
@@ -326,14 +363,20 @@ export default function ResultsPage() {
               DNF. Times are in seconds.
             </p>
 
-            <CategoryHeading discipline="Speed" title="Open Men" />
+            <CategoryHeading discipline="Speed" title="Men" />
             <Podium entries={speedPodium(openMenSpeed)} />
             <SpeedTable results={openMenSpeed} />
 
             <div className="mt-14">
-              <CategoryHeading discipline="Speed" title="Open Women" />
+              <CategoryHeading discipline="Speed" title="Women" />
               <Podium entries={speedPodium(openWomenSpeed)} />
               <SpeedTable results={openWomenSpeed} />
+            </div>
+
+            <div className="mt-14">
+              <CategoryHeading discipline="Speed" title="Youth" />
+              <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
+              <BestOnlyTable results={youthSpeed} />
             </div>
           </div>
 
