@@ -284,7 +284,7 @@ function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?:
 
 function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
   return (
-    <div className="grid sm:grid-cols-3 gap-2 mb-4">
+    <div className="hidden sm:grid grid-cols-3 gap-2 mb-4">
       {entries.slice(0, 3).map((e) => (
         <div key={e.name} className="border border-slate-200 px-4 py-3 flex items-center gap-3">
           <RankBadge rank={e.rank} size="lg" medals />
@@ -300,38 +300,53 @@ function Podium({ entries }: { entries: { rank: number; name: string; detail: st
 
 function CategoryHeading({ title }: { title: string }) {
   return (
-    <div className="border-l-2 border-usa-red pl-4 mb-5">
+    <div className="border-l-2 border-usa-red pl-4 mb-4 md:mb-5">
       <h3 className="font-display text-2xl text-usa-navy">{title}</h3>
     </div>
   )
 }
 
-const th = 'px-3 py-2 text-sm font-semibold uppercase tracking-widest whitespace-nowrap'
-const td = 'px-3 py-1.5'
+const th = 'sticky top-0 z-10 bg-usa-navy px-2 md:px-3 py-2 text-xs md:text-sm font-semibold uppercase tracking-wider md:tracking-widest whitespace-nowrap'
+const td = 'px-2 md:px-3 py-1.5'
+
+// On mobile the table scrolls inside its own box, so the header row and the
+// Rank + Athlete columns can stay frozen while the scores scroll under them.
+const tableWrap = 'overflow-auto border border-slate-200 w-fit max-w-full max-md:max-h-[70vh]'
+const tableBase = 'text-sm md:text-base text-left tabular-nums border-separate border-spacing-0'
+const row = 'bg-white even:bg-slate-50'
+const rankW = 'w-10 min-w-10 max-w-10 md:w-16 md:min-w-16 md:max-w-16 px-0 md:px-0 text-center'
+const rankTh = cn('left-0 z-20', rankW)
+const nameTh = 'left-10 md:left-16 z-20'
+const rankTd = cn('sticky left-0 z-[1] bg-inherit border-t border-slate-200', rankW)
+const nameTd = 'sticky left-10 md:left-16 z-[1] bg-inherit border-t border-slate-200 shadow-[inset_-1px_0_0_#e2e8f0] leading-tight max-md:min-w-[7.5rem] max-md:max-w-[9rem] md:whitespace-nowrap'
+const cellTd = 'border-t border-slate-200'
 
 function LeadTable({ results }: { results: LeadResult[] }) {
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
             <th className={cn(th, 'text-right')}>Q1 Rank</th>
             <th className={cn(th, 'text-right')}>Q2 Rank</th>
-            <th className={cn(th, 'text-right bg-usa-red')}>Score</th>
+            <th className={cn(th, 'text-right !bg-usa-red')}>Score</th>
           </tr>
         </thead>
         <tbody>
           {results.map((r) => (
-            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className={td}>
+            <tr key={r.name} className={row}>
+              <td className={cn(td, rankTd)}>
                 <RankBadge rank={r.rank} />
               </td>
-              <td className={cn(td, 'text-usa-navy whitespace-nowrap')}>{r.name}</td>
-              <td className={cn(td, 'text-right text-slate-600')}>{r.q1}</td>
-              <td className={cn(td, 'text-right text-slate-600')}>{r.q2}</td>
-              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>
+              <td className={cn(td, nameTd, 'text-usa-navy')}>{r.name}</td>
+              <td className={cn(td, cellTd, 'text-right text-slate-600')}>{r.q1}</td>
+              <td className={cn(td, cellTd, 'text-right text-slate-600')}>{r.q2}</td>
+              <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>
                 {r.q1 * r.q2}
               </td>
             </tr>
@@ -344,18 +359,21 @@ function LeadTable({ results }: { results: LeadResult[] }) {
 
 function SpeedTable({ results }: { results: SpeedResult[] }) {
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
             {[1, 2, 3].map((n) => (
               <th key={n} className={cn(th, 'text-right')}>
                 Heat {n}
               </th>
             ))}
-            <th className={cn(th, 'text-right bg-usa-red')}>
+            <th className={cn(th, 'text-right !bg-usa-red')}>
               Best
             </th>
           </tr>
@@ -365,16 +383,16 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
             const bestIdx = bestHeatIndex(r.heats)
             const best = bestTime(r.heats)
             return (
-              <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-                <td className={td}>
+              <tr key={r.name} className={row}>
+                <td className={cn(td, rankTd)}>
                   <RankBadge rank={r.rank} medals />
                 </td>
-                <td className={cn(td, 'text-usa-navy whitespace-nowrap', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+                <td className={cn(td, nameTd, 'text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
                 {r.heats.map((h, i) => {
                   const total = heatTotal(h)
                   const isBest = i === bestIdx
                   return (
-                    <td key={i} className={cn(td, 'text-right align-top whitespace-nowrap')}>
+                    <td key={i} className={cn(td, cellTd, 'text-right align-top whitespace-nowrap')}>
                       <span
                         className={cn(
                           'block',
@@ -390,7 +408,7 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
                     </td>
                   )
                 })}
-                <td className={cn(td, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>
+                <td className={cn(td, cellTd, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>
                   {fmt(best)}
                 </td>
               </tr>
@@ -404,23 +422,26 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
 
 function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
-            <th className={cn(th, 'text-right bg-usa-red')}>Best Heat</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
+            <th className={cn(th, 'text-right !bg-usa-red')}>Best Heat</th>
           </tr>
         </thead>
         <tbody>
           {results.map((r) => (
-            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className={td}>
+            <tr key={r.name} className={row}>
+              <td className={cn(td, rankTd)}>
                 <RankBadge rank={r.rank} medals />
               </td>
-              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
-              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{fmt(r.best)}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{fmt(r.best)}</td>
             </tr>
           ))}
         </tbody>
@@ -436,14 +457,17 @@ function holdScore(score: string) {
 
 function RoundScoreTable({ table }: { table: RoundTable }) {
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
             {table.columns.map((c) => (
-              <th key={c} className={cn(th, 'text-right align-bottom', c === 'Rank Points' && 'bg-usa-red')}>
+              <th key={c} className={cn(th, 'text-right align-bottom', c === 'Rank Points' && '!bg-usa-red')}>
                 {c.split(' – ').map((part, i) => (
                   <span key={part} className={cn('block', i > 0 && 'text-[11px] text-white/60')}>
                     {part}
@@ -455,9 +479,9 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
         </thead>
         <tbody>
           {table.rows.map((r) => (
-            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
-              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+            <tr key={r.name} className={row}>
+              <td className={cn(td, rankTd, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-6')}>{r.name}</td>
               {r.scores.map((score, i) => {
                 const points = table.columns[i] === 'Rank Points'
                 return (
@@ -465,6 +489,7 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
                     key={i}
                     className={cn(
                       td,
+                      cellTd,
                       'text-right whitespace-nowrap',
                       points
                         ? 'font-display text-usa-navy bg-usa-red/[0.04]'
@@ -491,25 +516,28 @@ function SubLabel({ children }: { children: React.ReactNode }) {
 
 function YouthFinalsTable() {
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
             <th className={cn(th, 'text-right')}>Result</th>
-            <th className={cn(th, 'text-right bg-usa-red')}>Time Left</th>
+            <th className={cn(th, 'text-right !bg-usa-red')}>Time Left</th>
           </tr>
         </thead>
         <tbody>
           {youthDifficultyFinals.map((r) => (
-            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className={td}>
+            <tr key={r.name} className={row}>
+              <td className={cn(td, rankTd)}>
                 <RankBadge rank={r.rank} medals />
               </td>
-              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
-              <td className={cn(td, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
-              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, cellTd, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
+              <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
             </tr>
           ))}
         </tbody>
@@ -521,34 +549,37 @@ function YouthFinalsTable() {
 function YouthQualifiersTable() {
   const standings = youthQualifierStandings()
   return (
-    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-base text-left tabular-nums">
+    <div className={tableWrap}>
+      <table className={tableBase}>
         <thead>
-          <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-12')}>Rank</th>
-            <th className={th}>Athlete</th>
+          <tr className="text-white">
+            <th className={cn(th, rankTh)}>
+              <span className="md:hidden">#</span>
+              <span className="hidden md:inline">Rank</span>
+            </th>
+            <th className={cn(th, nameTh)}>Athlete</th>
             {standings[0].scores.map((_, i) => (
               <th key={i} className={cn(th, 'text-right')}>
                 Route {i + 1}
               </th>
             ))}
-            <th className={cn(th, 'text-right bg-usa-red')}>Rank Points</th>
+            <th className={cn(th, 'text-right !bg-usa-red')}>Rank Points</th>
           </tr>
         </thead>
         <tbody>
           {standings.map((r) => (
-            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
-              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+            <tr key={r.name} className={row}>
+              <td className={cn(td, rankTd, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-6')}>{r.name}</td>
               {r.scores.map((score, i) => (
-                <td key={i} className={cn(td, 'text-right align-top whitespace-nowrap')}>
+                <td key={i} className={cn(td, cellTd, 'text-right align-top whitespace-nowrap')}>
                   <span className={cn('block', score === 'TOP' ? 'font-semibold text-usa-red tracking-wide' : 'text-slate-600')}>
                     {score}
                   </span>
                   <span className="block text-xs text-slate-400 leading-tight">Rank {r.ranks[i]}</span>
                 </td>
               ))}
-              <td className={cn(td, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>{r.points}</td>
+              <td className={cn(td, cellTd, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>{r.points}</td>
             </tr>
           ))}
         </tbody>
@@ -572,8 +603,8 @@ function Pending({ children }: { children: React.ReactNode }) {
 function ViewIntro({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <>
-      <h2 className="font-display text-4xl text-usa-navy mb-3">{title}</h2>
-      {children && <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">{children}</p>}
+      <h2 className="font-display text-3xl md:text-4xl text-usa-navy mb-3">{title}</h2>
+      {children && <p className="text-slate-600 leading-relaxed mb-6 md:mb-10 max-w-3xl">{children}</p>}
     </>
   )
 }
@@ -605,7 +636,7 @@ function LeadQualifiersView({ round }: { round?: string }) {
         1st each get 1.5.
       </ViewIntro>
 
-      <div className="inline-flex border border-slate-200 mb-10">
+      <div className="inline-flex border border-slate-200 mb-6 md:mb-10">
         {rounds.map((r) => (
           <Link
             key={r.id}
@@ -627,7 +658,7 @@ function LeadQualifiersView({ round }: { round?: string }) {
           <CategoryHeading title="Men" />
           <LeadTable results={openMenLead} />
 
-          <div className="mt-14">
+          <div className="mt-10 md:mt-14">
             <CategoryHeading title="Women" />
             <LeadTable results={openWomenLead} />
           </div>
@@ -637,7 +668,7 @@ function LeadQualifiersView({ round }: { round?: string }) {
           <CategoryHeading title="Men" />
           <RoundScoreTable table={men} />
 
-          <div className="mt-14">
+          <div className="mt-10 md:mt-14">
             <CategoryHeading title="Women" />
             <RoundScoreTable table={women} />
           </div>
@@ -661,7 +692,7 @@ function SpeedView() {
         <SpeedTable results={openMenSpeed} />
       </div>
 
-      <div className="mt-14">
+      <div className="mt-10 md:mt-14">
         <CategoryHeading title="Women" />
         <div className="w-fit max-w-full">
           <Podium entries={speedPodium(openWomenSpeed)} />
@@ -675,7 +706,7 @@ function SpeedView() {
 function YouthView() {
   return (
     <>
-      <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
+      <h2 className="font-display text-3xl md:text-4xl text-usa-navy mb-6 md:mb-10">Youth</h2>
 
       <CategoryHeading title="Difficulty" />
 
@@ -698,7 +729,7 @@ function YouthView() {
         <YouthQualifiersTable />
       </div>
 
-      <div className="mt-14">
+      <div className="mt-10 md:mt-14">
         <CategoryHeading title="Speed" />
         <div className="w-fit max-w-full">
           <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
@@ -710,11 +741,17 @@ function YouthView() {
 }
 
 // Each tab is its own view, selected with ?view=<id> so a view can be linked directly.
-const views: { id: string; label: string; View: (props: { round?: string }) => React.ReactNode }[] = [
-  { id: 'lead-finals', label: 'Lead Finals', View: LeadFinalsView },
-  { id: 'lead-qualifiers', label: 'Lead Qualifiers', View: LeadQualifiersView },
-  { id: 'speed', label: 'Speed', View: SpeedView },
-  { id: 'youth', label: 'Youth', View: YouthView },
+// `short` labels are used on phones so all four tabs fit without scrolling.
+const views: {
+  id: string
+  label: string
+  short: string
+  View: (props: { round?: string }) => React.ReactNode
+}[] = [
+  { id: 'lead-finals', label: 'Lead Finals', short: 'Finals', View: LeadFinalsView },
+  { id: 'lead-qualifiers', label: 'Lead Qualifiers', short: 'Quals', View: LeadQualifiersView },
+  { id: 'speed', label: 'Speed', short: 'Speed', View: SpeedView },
+  { id: 'youth', label: 'Youth', short: 'Youth', View: YouthView },
 ]
 
 const defaultView = 'lead-qualifiers'
@@ -733,12 +770,13 @@ export default async function ResultsPage({
         eyebrow="October 2–4, 2026"
         title="Results"
         description="Official results from the 2026 team tryouts. Categories are posted here as they're finalized."
+        compact
       />
       <TryoutsSubNav />
 
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-8 md:py-16 bg-white">
         <div className="section-container max-w-5xl">
-          <div className="overflow-x-auto border-b border-slate-200 mb-12">
+          <div className="overflow-x-auto border-b border-slate-200 mb-8 md:mb-12">
             <div role="tablist" className="flex gap-1 whitespace-nowrap">
               {views.map((v) => {
                 const selected = v.id === active.id
@@ -750,13 +788,14 @@ export default async function ResultsPage({
                     role="tab"
                     aria-selected={selected}
                     className={cn(
-                      '-mb-px border-b-2 px-4 py-3 text-sm font-semibold uppercase tracking-widest transition-colors',
+                      '-mb-px border-b-2 px-3 md:px-4 py-3 text-sm font-semibold uppercase tracking-wider md:tracking-widest transition-colors',
                       selected
                         ? 'border-usa-red text-usa-navy'
                         : 'border-transparent text-slate-500 hover:text-usa-red'
                     )}
                   >
-                    {v.label}
+                    <span className="md:hidden">{v.short}</span>
+                    <span className="hidden md:inline">{v.label}</span>
                   </Link>
                 )
               })}
