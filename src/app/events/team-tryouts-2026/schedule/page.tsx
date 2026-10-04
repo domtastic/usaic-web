@@ -29,7 +29,9 @@ const dailySchedule = [
     day: 'Sunday',
     date: 'October 4',
     rows: [
-      { event: 'Adult Lead Finals', time: '8:00 AM – 3:00 PM', location: 'Plywood kick wall' },
+      { event: 'Adult Lead Finals — Check-In & Isolation Opens', time: '8:00 AM', location: '' },
+      { event: 'Adult Lead Finals — Isolation Closes', time: '9:00 AM', location: '' },
+      { event: 'Adult Lead Finals — Climbing Begins', time: '9:30 AM', location: 'Plywood kick wall' },
       { event: 'Team Selection Ceremony', time: 'Before Picks & Pitons Finals', location: 'TBD' },
     ],
   },
