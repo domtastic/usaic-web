@@ -31,6 +31,18 @@ const openMenSpeed: SpeedResult[] = [
   { rank: 15, name: 'Marc Unnasch', heats: [[30.92, 22.3], [null, null], [null, null]] },
 ]
 
+const openWomenSpeed: SpeedResult[] = [
+  { rank: 1, name: 'Catalina Shirley', heats: [[9.8, 9.25], [null, null], [null, null]] },
+  { rank: 2, name: 'Aria Frederickson', heats: [[null, null], [13.92, 14.73], [12.17, 14.86]] },
+  { rank: 3, name: 'Nina Mankouski', heats: [[13.95, 15.62], [14.44, 14.51], [17.65, 18.78]] },
+  { rank: 4, name: 'Angela Limbach', heats: [[13.56, 15.94], [14.18, 20.66], [15.44, 18.89]] },
+  { rank: 5, name: 'Emma Dhimitri', heats: [[14.98, 16.72], [13.24, 16.81], [15.89, null]] },
+  { rank: 6, name: 'Kelsey Beyerly', heats: [[22.28, 32.82], [18.83, 16.03], [15.37, 28.18]] },
+  { rank: 7, name: 'Molly Denholm', heats: [[27.15, 22.19], [25.33, 29.16], [24.58, 25.9]] },
+  { rank: 8, name: 'Zoe Schiffer', heats: [[34.14, 28.95], [22.705, null], [27.25, null]] },
+  { rank: 9, name: 'Katarina Black', heats: [[null, null], [null, null], [null, null]] },
+]
+
 // Lead qualifier score is the product of an athlete's two qualifier ranks
 // (tied ranks are averaged, e.g. 1.5). Lowest score wins.
 type LeadResult = { rank: number; name: string; q1: number; q2: number }
@@ -82,7 +94,11 @@ function heatTotal([a, b]: [Run, Run]): number | null {
 }
 
 function fmt(t: number | null) {
-  return t === null ? 'DNF' : t.toFixed(2)
+  if (t === null) return 'DNF'
+  const digits = Math.abs(t * 100 - Math.round(t * 100)) > 1e-6 ? 3 : 2
+  if (t < 60) return t.toFixed(digits)
+  const min = Math.floor(t / 60)
+  return `${min}:${(t - min * 60).toFixed(digits).padStart(digits + 3, '0')}`
 }
 
 function bestHeatIndex(heats: [Run, Run][]) {
@@ -94,6 +110,11 @@ function bestHeatIndex(heats: [Run, Run][]) {
   return best
 }
 
+function bestTime(heats: [Run, Run][]) {
+  const i = bestHeatIndex(heats)
+  return i === -1 ? null : heatTotal(heats[i])
+}
+
 const medal = ['bg-[#c9a227]', 'bg-[#a7adb4]', 'bg-[#b0703c]']
 
 function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?: 'sm' | 'lg'; medals?: boolean }) {
@@ -102,7 +123,7 @@ function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?:
     <span
       className={cn(
         'inline-flex shrink-0 items-center justify-center font-display',
-        size === 'lg' ? 'w-11 h-11 text-xl' : 'w-8 h-8 text-base',
+        size === 'lg' ? 'w-10 h-10 text-lg' : 'w-6 h-6 text-sm',
         podium ? cn(medal[rank - 1], 'text-white') : 'text-usa-navy'
       )}
     >
@@ -113,9 +134,9 @@ function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?:
 
 function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
   return (
-    <div className="grid sm:grid-cols-3 gap-3 mb-8">
+    <div className="grid sm:grid-cols-3 gap-3 mb-6">
       {entries.slice(0, 3).map((e) => (
-        <div key={e.name} className="border border-slate-200 px-5 py-4 flex items-center gap-4">
+        <div key={e.name} className="border border-slate-200 px-4 py-3 flex items-center gap-3">
           <RankBadge rank={e.rank} size="lg" medals />
           <div className="min-w-0">
             <p className="font-display text-lg text-usa-navy leading-tight">{e.name}</p>
@@ -136,15 +157,16 @@ function CategoryHeading({ discipline, title }: { discipline: string; title: str
   )
 }
 
-const th = 'px-4 py-3 text-sm font-semibold uppercase tracking-widest'
+const th = 'px-3 py-2 text-xs font-semibold uppercase tracking-widest whitespace-nowrap'
+const td = 'px-3 py-1.5'
 
 function LeadTable({ results }: { results: LeadResult[] }) {
   return (
-    <div className="overflow-x-auto border border-slate-200">
-      <table className="w-full min-w-[520px] text-left tabular-nums">
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-sm text-left tabular-nums">
         <thead>
           <tr className="bg-usa-navy text-white">
-            <th className={cn(th, 'w-14')}>Rank</th>
+            <th className={cn(th, 'w-12')}>Rank</th>
             <th className={th}>Athlete</th>
             <th className={cn(th, 'text-right')}>Q1 Rank</th>
             <th className={cn(th, 'text-right')}>Q2 Rank</th>
@@ -154,13 +176,13 @@ function LeadTable({ results }: { results: LeadResult[] }) {
         <tbody>
           {results.map((r) => (
             <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-              <td className="px-4 py-3">
+              <td className={td}>
                 <RankBadge rank={r.rank} />
               </td>
-              <td className="px-4 py-3 text-usa-navy">{r.name}</td>
-              <td className="px-4 py-3 text-right text-slate-600">{r.q1}</td>
-              <td className="px-4 py-3 text-right text-slate-600">{r.q2}</td>
-              <td className="px-4 py-3 text-right font-display text-lg text-usa-navy bg-usa-red/[0.04]">
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap')}>{r.name}</td>
+              <td className={cn(td, 'text-right text-slate-600')}>{r.q1}</td>
+              <td className={cn(td, 'text-right text-slate-600')}>{r.q2}</td>
+              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>
                 {r.q1 * r.q2}
               </td>
             </tr>
@@ -173,18 +195,18 @@ function LeadTable({ results }: { results: LeadResult[] }) {
 
 function SpeedTable({ results }: { results: SpeedResult[] }) {
   return (
-    <div className="overflow-x-auto border border-slate-200">
-      <table className="w-full min-w-[640px] text-left tabular-nums">
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-sm text-left tabular-nums">
         <thead>
           <tr className="bg-usa-navy text-white">
-            <th className="px-4 py-3 text-sm font-semibold uppercase tracking-widest w-14">Rank</th>
-            <th className="px-4 py-3 text-sm font-semibold uppercase tracking-widest">Athlete</th>
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
             {[1, 2, 3].map((n) => (
-              <th key={n} className="px-4 py-3 text-sm font-semibold uppercase tracking-widest text-right">
+              <th key={n} className={cn(th, 'text-right')}>
                 Heat {n}
               </th>
             ))}
-            <th className="px-4 py-3 text-sm font-semibold uppercase tracking-widest text-right bg-usa-red">
+            <th className={cn(th, 'text-right bg-usa-red')}>
               Best
             </th>
           </tr>
@@ -192,34 +214,34 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
         <tbody>
           {results.map((r) => {
             const bestIdx = bestHeatIndex(r.heats)
-            const best = bestIdx === -1 ? null : heatTotal(r.heats[bestIdx])
+            const best = bestTime(r.heats)
             return (
               <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
-                <td className="px-4 py-3">
+                <td className={td}>
                   <RankBadge rank={r.rank} medals />
                 </td>
-                <td className={cn('px-4 py-3 text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+                <td className={cn(td, 'text-usa-navy whitespace-nowrap', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
                 {r.heats.map((h, i) => {
                   const total = heatTotal(h)
                   const isBest = i === bestIdx
                   return (
-                    <td key={i} className="px-4 py-3 text-right align-top">
+                    <td key={i} className={cn(td, 'text-right align-top whitespace-nowrap')}>
                       <span
                         className={cn(
                           'block',
                           total === null ? 'text-slate-400' : 'text-usa-navy',
-                          isBest && 'font-semibold underline decoration-usa-red decoration-2 underline-offset-4'
+                          isBest && 'font-semibold underline decoration-usa-red decoration-2 underline-offset-2'
                         )}
                       >
                         {fmt(total)}
                       </span>
-                      <span className="block text-xs text-slate-400 mt-1">
+                      <span className="block text-xs text-slate-400 leading-tight">
                         {fmt(h[0])} + {fmt(h[1])}
                       </span>
                     </td>
                   )
                 })}
-                <td className="px-4 py-3 text-right align-top font-display text-lg text-usa-navy bg-usa-red/[0.04]">
+                <td className={cn(td, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>
                   {fmt(best)}
                 </td>
               </tr>
@@ -237,12 +259,11 @@ const sections = [
   { id: 'speed', label: 'Speed' },
 ]
 
+function speedPodium(results: SpeedResult[]) {
+  return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
+}
+
 export default function ResultsPage() {
-  const speedPodium = openMenSpeed.map((r) => ({
-    rank: r.rank,
-    name: r.name,
-    detail: `${fmt(heatTotal(r.heats[bestHeatIndex(r.heats)]))} s`,
-  }))
 
   return (
     <>
@@ -306,8 +327,14 @@ export default function ResultsPage() {
             </p>
 
             <CategoryHeading discipline="Speed" title="Open Men" />
-            <Podium entries={speedPodium} />
+            <Podium entries={speedPodium(openMenSpeed)} />
             <SpeedTable results={openMenSpeed} />
+
+            <div className="mt-14">
+              <CategoryHeading discipline="Speed" title="Open Women" />
+              <Podium entries={speedPodium(openWomenSpeed)} />
+              <SpeedTable results={openWomenSpeed} />
+            </div>
           </div>
 
           <div className="border-l-2 border-slate-300 pl-4 mt-14">
