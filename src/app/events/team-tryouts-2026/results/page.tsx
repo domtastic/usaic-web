@@ -48,9 +48,9 @@ type BestOnlyResult = { rank: number; name: string; best: number | null }
 
 const youthSpeed: BestOnlyResult[] = [
   { rank: 1, name: 'Mckinley Heywood', best: 25.67 },
-  { rank: 2, name: 'Finn', best: 27.25 },
+  { rank: 2, name: 'Finn Hotaling', best: 27.25 },
   { rank: 3, name: 'Pema Reed', best: 27.9 },
-  { rank: 4, name: 'Luke', best: 28.5 },
+  { rank: 4, name: 'Luke Lauderdale', best: 28.5 },
 ]
 
 // Lead qualifier score is the product of an athlete's two qualifier ranks
