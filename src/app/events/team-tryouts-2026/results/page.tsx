@@ -340,7 +340,7 @@ export default function ResultsPage() {
             <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Qualifiers</h2>
             <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
               Each athlete climbed two qualifier routes and was ranked on each one. Their score is
-              Q1 rank × Q2 rank, and the lowest score ranks highest. Tied athletes split the places
+              Q1 rank × Q2 rank, and the lowest score ranks highest. Tied athletes average the places
               they cover, so a two-way tie for 1st gives each a rank of 1.5.
             </p>
 
