@@ -311,7 +311,7 @@ const td = 'px-2 md:px-3 py-1.5'
 
 // On mobile the table scrolls inside its own box, so the header row and the
 // Rank + Athlete columns can stay frozen while the scores scroll under them.
-const tableWrap = 'overflow-auto border border-slate-200 w-fit max-w-full max-md:max-h-[70vh] overscroll-contain'
+const tableWrap = 'overflow-auto border border-slate-200 w-fit max-w-full max-md:max-h-[70vh]'
 const tableBase = 'text-sm md:text-base text-left tabular-nums border-separate border-spacing-0'
 const row = 'bg-white even:bg-slate-50'
 const rankW = 'w-10 min-w-10 max-w-10 md:w-16 md:min-w-16 md:max-w-16 px-0 md:px-0 text-center'
