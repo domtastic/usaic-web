@@ -96,8 +96,8 @@ function bestHeatIndex(heats: [Run, Run][]) {
 
 const medal = ['bg-[#c9a227]', 'bg-[#a7adb4]', 'bg-[#b0703c]']
 
-function RankBadge({ rank, size = 'sm' }: { rank: number; size?: 'sm' | 'lg' }) {
-  const podium = rank <= 3
+function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?: 'sm' | 'lg'; medals?: boolean }) {
+  const podium = medals && rank <= 3
   return (
     <span
       className={cn(
@@ -116,7 +116,7 @@ function Podium({ entries }: { entries: { rank: number; name: string; detail: st
     <div className="grid sm:grid-cols-3 gap-3 mb-8">
       {entries.slice(0, 3).map((e) => (
         <div key={e.name} className="border border-slate-200 px-5 py-4 flex items-center gap-4">
-          <RankBadge rank={e.rank} size="lg" />
+          <RankBadge rank={e.rank} size="lg" medals />
           <div className="min-w-0">
             <p className="font-display text-lg text-usa-navy leading-tight">{e.name}</p>
             <p className="text-sm text-slate-500 tabular-nums mt-0.5">{e.detail}</p>
@@ -157,7 +157,7 @@ function LeadTable({ results }: { results: LeadResult[] }) {
               <td className="px-4 py-3">
                 <RankBadge rank={r.rank} />
               </td>
-              <td className={cn('px-4 py-3 text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className="px-4 py-3 text-usa-navy">{r.name}</td>
               <td className="px-4 py-3 text-right text-slate-600">{r.q1}</td>
               <td className="px-4 py-3 text-right text-slate-600">{r.q2}</td>
               <td className="px-4 py-3 text-right font-display text-lg text-usa-navy bg-usa-red/[0.04]">
@@ -196,7 +196,7 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
             return (
               <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
                 <td className="px-4 py-3">
-                  <RankBadge rank={r.rank} />
+                  <RankBadge rank={r.rank} medals />
                 </td>
                 <td className={cn('px-4 py-3 text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
                 {r.heats.map((h, i) => {
@@ -231,11 +231,8 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
   )
 }
 
-function leadPodium(results: LeadResult[]) {
-  return results.map((r) => ({ rank: r.rank, name: r.name, detail: `Score ${r.q1 * r.q2}` }))
-}
-
 const sections = [
+  { id: 'lead-finals', label: 'Lead Finals' },
   { id: 'lead', label: 'Lead Qualifiers' },
   { id: 'speed', label: 'Speed' },
 ]
@@ -270,8 +267,19 @@ export default function ResultsPage() {
             ))}
           </div>
 
-          {/* Lead */}
-          <div id="lead" className="scroll-mt-48">
+          {/* Lead Finals */}
+          <div id="lead-finals" className="scroll-mt-48 mb-20">
+            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Finals</h2>
+            <div className="border-l-2 border-slate-300 pl-4">
+              <p className="text-slate-600 leading-relaxed max-w-3xl">
+                Adult Lead Finals run Sunday, October 4. Final results will be posted here once
+                they&apos;re official.
+              </p>
+            </div>
+          </div>
+
+          {/* Lead Qualifiers */}
+          <div id="lead" className="scroll-mt-48 pt-14 border-t border-slate-200">
             <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Qualifiers</h2>
             <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
               Each athlete climbed two qualifier routes and was ranked on each one. Their score is
@@ -280,12 +288,10 @@ export default function ResultsPage() {
             </p>
 
             <CategoryHeading discipline="Lead" title="Open Men" />
-            <Podium entries={leadPodium(openMenLead)} />
             <LeadTable results={openMenLead} />
 
             <div className="mt-14">
               <CategoryHeading discipline="Lead" title="Open Women" />
-              <Podium entries={leadPodium(openWomenLead)} />
               <LeadTable results={openWomenLead} />
             </div>
           </div>
