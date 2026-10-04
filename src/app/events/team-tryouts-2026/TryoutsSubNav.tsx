@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/events/team-tryouts-2026', label: 'Overview' },
+  { href: '/events/team-tryouts-2026/results', label: 'Results' },
   { href: '/events/team-tryouts-2026/schedule', label: 'Schedule' },
   { href: '/events/team-tryouts-2026/lead', label: 'Lead' },
   { href: '/events/team-tryouts-2026/speed', label: 'Speed' },

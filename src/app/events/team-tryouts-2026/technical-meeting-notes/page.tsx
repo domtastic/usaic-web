@@ -62,7 +62,7 @@ const cohorts = [
       'Gregory Love',
       'Carter Schmidt',
       'Jessica Perez',
-      'Cambyr Sullivan',
+      'Cambyr Skade',
       'Mihael Ashminov',
       'Jacob Gaylord',
     ],

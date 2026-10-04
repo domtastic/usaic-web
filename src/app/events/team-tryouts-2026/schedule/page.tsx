@@ -20,16 +20,18 @@ const dailySchedule = [
     day: 'Saturday',
     date: 'October 3',
     rows: [
-      { event: 'Adult Lead Tryouts — Day 2', time: '8:30 AM – 7:30 PM', location: 'Plywood kick wall' },
-      { event: 'Youth (U16) Qualifiers + Speed', time: '12:00 PM', location: 'Ice climbing tower' },
-      { event: 'Youth (U16) Final', time: '4:00 PM', location: 'Ice climbing tower' },
+      { event: 'Adult Lead Tryouts — Day 2', time: '8:00 AM – 4:00 PM', location: 'Plywood kick wall' },
+      { event: 'Youth (U16) Qualifiers + Speed', time: '10:00 AM', location: 'Ice climbing tower' },
+      { event: 'Youth (U16) Final', time: '5:30 PM', location: 'Ice climbing tower' },
     ],
   },
   {
     day: 'Sunday',
     date: 'October 4',
     rows: [
-      { event: 'Adult Lead Finals', time: '8:00 AM – 3:00 PM', location: 'Plywood kick wall' },
+      { event: 'Adult Lead Finals — Check-In & Isolation Opens', time: '8:00 AM', location: '' },
+      { event: 'Adult Lead Finals — Isolation Closes', time: '9:00 AM', location: '' },
+      { event: 'Adult Lead Finals — Climbing Begins', time: '9:30 AM', location: 'Plywood kick wall' },
       { event: 'Team Selection Ceremony', time: 'Before Picks & Pitons Finals', location: 'TBD' },
     ],
   },
