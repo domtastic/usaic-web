@@ -143,7 +143,7 @@ function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?:
 
 function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
   return (
-    <div className="grid sm:grid-cols-3 gap-3 mb-6">
+    <div className="grid sm:grid-cols-3 gap-2 mb-4">
       {entries.slice(0, 3).map((e) => (
         <div key={e.name} className="border border-slate-200 px-4 py-3 flex items-center gap-3">
           <RankBadge rank={e.rank} size="lg" medals />
@@ -157,22 +157,21 @@ function Podium({ entries }: { entries: { rank: number; name: string; detail: st
   )
 }
 
-function CategoryHeading({ discipline, title }: { discipline: string; title: string }) {
+function CategoryHeading({ title }: { title: string }) {
   return (
-    <div className="border-l-2 border-usa-red pl-4 mb-6">
-      <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">{discipline}</p>
-      <h3 className="font-display text-3xl text-usa-navy">{title}</h3>
+    <div className="border-l-2 border-usa-red pl-4 mb-5">
+      <h3 className="font-display text-2xl text-usa-navy">{title}</h3>
     </div>
   )
 }
 
-const th = 'px-3 py-2 text-xs font-semibold uppercase tracking-widest whitespace-nowrap'
+const th = 'px-3 py-2 text-sm font-semibold uppercase tracking-widest whitespace-nowrap'
 const td = 'px-3 py-1.5'
 
 function LeadTable({ results }: { results: LeadResult[] }) {
   return (
     <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-sm text-left tabular-nums">
+      <table className="text-base text-left tabular-nums">
         <thead>
           <tr className="bg-usa-navy text-white">
             <th className={cn(th, 'w-12')}>Rank</th>
@@ -205,7 +204,7 @@ function LeadTable({ results }: { results: LeadResult[] }) {
 function SpeedTable({ results }: { results: SpeedResult[] }) {
   return (
     <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-sm text-left tabular-nums">
+      <table className="text-base text-left tabular-nums">
         <thead>
           <tr className="bg-usa-navy text-white">
             <th className={cn(th, 'w-12')}>Rank</th>
@@ -265,7 +264,7 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
 function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   return (
     <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
-      <table className="text-sm text-left tabular-nums">
+      <table className="text-base text-left tabular-nums">
         <thead>
           <tr className="bg-usa-navy text-white">
             <th className={cn(th, 'w-12')}>Rank</th>
@@ -344,11 +343,11 @@ export default function ResultsPage() {
               they cover, so a two-way tie for 1st gives each a rank of 1.5.
             </p>
 
-            <CategoryHeading discipline="Lead" title="Men" />
+            <CategoryHeading title="Men" />
             <LeadTable results={openMenLead} />
 
             <div className="mt-14">
-              <CategoryHeading discipline="Lead" title="Women" />
+              <CategoryHeading title="Women" />
               <LeadTable results={openWomenLead} />
             </div>
           </div>
@@ -362,20 +361,26 @@ export default function ResultsPage() {
               DNF. Times are in seconds.
             </p>
 
-            <CategoryHeading discipline="Speed" title="Men" />
-            <Podium entries={speedPodium(openMenSpeed)} />
-            <SpeedTable results={openMenSpeed} />
-
-            <div className="mt-14">
-              <CategoryHeading discipline="Speed" title="Women" />
-              <Podium entries={speedPodium(openWomenSpeed)} />
-              <SpeedTable results={openWomenSpeed} />
+            <CategoryHeading title="Men" />
+            <div className="w-fit max-w-full">
+              <Podium entries={speedPodium(openMenSpeed)} />
+              <SpeedTable results={openMenSpeed} />
             </div>
 
             <div className="mt-14">
-              <CategoryHeading discipline="Speed" title="Youth" />
-              <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
-              <BestOnlyTable results={youthSpeed} />
+              <CategoryHeading title="Women" />
+              <div className="w-fit max-w-full">
+                <Podium entries={speedPodium(openWomenSpeed)} />
+                <SpeedTable results={openWomenSpeed} />
+              </div>
+            </div>
+
+            <div className="mt-14">
+              <CategoryHeading title="Youth" />
+              <div className="w-fit max-w-full">
+                <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
+                <BestOnlyTable results={youthSpeed} />
+              </div>
             </div>
           </div>
 
