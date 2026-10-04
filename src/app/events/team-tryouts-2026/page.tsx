@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   Info,
   HelpCircle,
+  Trophy,
 } from 'lucide-react'
 import TryoutsSubNav from './TryoutsSubNav'
 
@@ -30,6 +31,7 @@ const quickLinks = [
     href: 'https://climbingcollective.co/longmont',
     external: true,
   },
+  { label: 'Results', icon: Trophy, href: '/events/team-tryouts-2026/results' },
   { label: 'Event Schedule', icon: CalendarDays, href: '/events/team-tryouts-2026/schedule' },
   { label: 'Lead Format', icon: Route, href: '/events/team-tryouts-2026/lead' },
   { label: 'Speed Format', icon: Zap, href: '/events/team-tryouts-2026/speed' },
