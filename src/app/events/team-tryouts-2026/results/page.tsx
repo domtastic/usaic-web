@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import SubpageHeader from '../_components/SubpageHeader'
 import TryoutsSubNav from '../TryoutsSubNav'
 import { cn } from '@/lib/utils'
@@ -52,6 +53,47 @@ const youthSpeed: BestOnlyResult[] = [
   { rank: 4, name: 'Luke Lauderdale', best: 28.5 },
 ]
 
+// Youth difficulty qualifiers: three routes, each scored by highest hold (or TOP).
+// Athletes are ranked on each route, tied athletes average the places they cover,
+// and rank points are the three route ranks multiplied together.
+const youthDifficultyQualifiers: { name: string; scores: (number | 'TOP')[] }[] = [
+  { name: 'Luke Lauderdale', scores: [12, 9, 5] },
+  { name: 'Mckinley Heywood', scores: [8, 4, 5] },
+  { name: 'Finn Hotaling', scores: [11, 2, 8] },
+  { name: 'Pema Reed', scores: ['TOP', 7, 8] },
+]
+
+function routeRanks(scores: (number | 'TOP')[]) {
+  const value = (s: number | 'TOP') => (s === 'TOP' ? Infinity : s)
+  return scores.map((s) => {
+    const better = scores.filter((o) => value(o) > value(s)).length
+    const tied = scores.filter((o) => value(o) === value(s)).length
+    return better + (tied + 1) / 2
+  })
+}
+
+function youthQualifierStandings() {
+  const routeCount = youthDifficultyQualifiers[0].scores.length
+  const ranksByRoute = Array.from({ length: routeCount }, (_, i) =>
+    routeRanks(youthDifficultyQualifiers.map((a) => a.scores[i]))
+  )
+  return youthDifficultyQualifiers
+    .map((a, ai) => {
+      const ranks = ranksByRoute.map((r) => r[ai])
+      return { ...a, ranks, points: ranks.reduce((x, y) => x * y, 1) }
+    })
+    .sort((a, b) => a.points - b.points)
+    .map((a, i) => ({ ...a, rank: i + 1 }))
+}
+
+// Youth difficulty final: everyone topped, so places are decided by time left on the clock.
+const youthDifficultyFinals: { rank: number; name: string; result: string; timeLeft: string }[] = [
+  { rank: 1, name: 'Pema Reed', result: 'TOP', timeLeft: '1:54' },
+  { rank: 2, name: 'Mckinley Heywood', result: 'TOP', timeLeft: '1:31' },
+  { rank: 3, name: 'Luke Lauderdale', result: 'TOP', timeLeft: '1:24' },
+  { rank: 4, name: 'Finn Hotaling', result: 'TOP', timeLeft: '1:14' },
+]
+
 // Lead qualifier score is the product of an athlete's two qualifier ranks
 // (tied ranks are averaged, e.g. 1.5). Lowest score wins.
 type LeadResult = { rank: number; name: string; q1: number; q2: number }
@@ -97,6 +139,105 @@ const openWomenLead: LeadResult[] = [
   { rank: 9, name: 'Nina Mankouski', q1: 8, q2: 8 },
   { rank: 10, name: 'Zoe Schiffer', q1: 9, q2: 10 },
 ]
+
+// Per-climb scores for each qualifier round, as given on the official sheets.
+type RoundTable = { columns: string[]; rows: { rank: string; name: string; scores: string[] }[] }
+
+const menQ1: RoundTable = {
+  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2', 'Climb 2 – 2nd Attempt', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Elias Ellis', scores: ['TOP', '14', 'TOP', 'TOP', '40'] },
+    { rank: '2', name: 'Gregory Love', scores: ['TOP', '13+0.2', 'TOP', 'TOP', '60'] },
+    { rank: '3', name: 'Carter Schmidt', scores: ['TOP', 'TOP', '11', 'TOP', '80'] },
+    { rank: '4', name: 'Matthew Fox', scores: ['12', '12', 'TOP', 'TOP', '312'] },
+    { rank: '5', name: 'Conner Bailey', scores: ['12', '13', '13', 'TOP', '648'] },
+    { rank: '6', name: 'Dominic Unnasch', scores: ['TOP', '6', '14+0.1', 'TOP', '855'] },
+    { rank: '7', name: 'Mihael Ashminov', scores: ['10', '11+0.2', '14+0.1', 'TOP', '1377'] },
+    { rank: '8', name: 'Christian Junkar', scores: ['12', '13', '10', '11', '3726'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['6', '12', '10', '14', '10764'] },
+    { rank: '10', name: 'Matthew Durham', scores: ['9+0.2', '10', '10+0.2', '12', '12075'] },
+    { rank: '11', name: 'David Sobek', scores: ['8', '10', '11', '12', '14007'] },
+    { rank: '12', name: 'Alex Mankouski', scores: ['6', '8', '11', '12+0.2', '20736'] },
+    { rank: '13', name: 'Michael Silger', scores: ['9', '11+0.2', '7+0.2', '10+0.2', '22542'] },
+    { rank: '14', name: 'Dominic Gonzalez-Padron', scores: ['11', '11', '7+0.1', '7+0.2', '24480'] },
+    { rank: '15', name: 'Alexander Rausch', scores: ['9', '8', '8', '7+0.1', '56832'] },
+    { rank: '16', name: 'Daniel Plinska', scores: ['9', '9+0.1', '5+0.2', '6', '73788'] },
+    { rank: '17', name: 'Matthew Lankford', scores: ['8', '8+0.2', '5+0.1', '7+0.1', '88254.3'] },
+    { rank: '18', name: 'Kevin Satterfield', scores: ['6+0.1', '8', '7', '7', '99840'] },
+    { rank: '19', name: 'Daniel Carper', scores: ['6', '6', '7', '9', '100035'] },
+    { rank: '20', name: 'Josh Dziubczynski', scores: ['0', '5+0.2', '9', '8', '124656'] },
+    { rank: '21', name: 'Soren Hotaling', scores: ['1+0.1', '1', '9', '10', '127400'] },
+    { rank: '22', name: 'Adam Bowen', scores: ['5', '5', '9', '6', '142222.5'] },
+    { rank: '23', name: 'Caleb Augustine', scores: ['5+0.1', '6', '6', '5+0.1', '187530'] },
+    { rank: '24', name: 'Rio Buenrostro', scores: ['4+0.2', '5', '5+0.1', '5+0.1', '273363.8'] },
+    { rank: '25', name: 'Marc Unnasch', scores: ['3', '3', '4', '4', '365976'] },
+    { rank: '26', name: 'Jacob Gaylord', scores: ['2+0.1', '2+0.1', '4', '4+0.1', '382500'] },
+  ],
+}
+
+const womenQ1: RoundTable = {
+  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2', 'Climb 2 – 2nd Attempt', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Cambyr Skade', scores: ['6', '12+0.2', '11', '13+0.2', '5.5'] },
+    { rank: '2', name: 'Emma Dhimitri', scores: ['9', '8', '9', '11', '12.5'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['6', '6+0.1', '9', '10', '206.3'] },
+    { rank: '4', name: 'Aria Frederickson', scores: ['7+0.1', '7+0.1', '8', '7', '240'] },
+    { rank: '5', name: 'Angela Limbach', scores: ['7', '8', '7+0.1', '7+0.1', '270'] },
+    { rank: '6', name: 'Anna LaSusa', scores: ['4', '6', '7+0.2', '9', '1800'] },
+    { rank: '7', name: 'Kelsey Beyerly', scores: ['5', '6', '7', '9', '2016'] },
+    { rank: '8', name: 'Nina Mankouski', scores: ['6', '6', '6', '4', '3740'] },
+    { rank: '9', name: 'Zoe Schiffer', scores: ['6', '6', '4', '5+0.1', '3960'] },
+    { rank: '10', name: 'Molly Denholm', scores: ['4+0.1', '6', '6', '7', '4590'] },
+  ],
+}
+
+const menQ2: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1.5', name: 'Gregory Love', scores: ['TOP', 'TOP', '7'] },
+    { rank: '1.5', name: 'Dominic Unnasch', scores: ['TOP', 'TOP', '7'] },
+    { rank: '3', name: 'Matthew Fox', scores: ['21', 'TOP', '14'] },
+    { rank: '4', name: 'Christian Junkar', scores: ['20+0.1', 'TOP', '17.5'] },
+    { rank: '5', name: 'Carter Schmidt', scores: ['19+0.2', 'TOP', '21'] },
+    { rank: '6', name: 'Conner Bailey', scores: ['TOP', '7+0.1', '31'] },
+    { rank: '7', name: 'Elias Ellis', scores: ['17', 'TOP', '31.5'] },
+    { rank: '8', name: 'Michael Silger', scores: ['19', '15+0.1', '52.5'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['19', '14', '71.3'] },
+    { rank: '10', name: 'Mihael Ashminov', scores: ['16+0.1', '15', '80'] },
+    { rank: '11', name: 'Alexander Rausch', scores: ['13', '14', '137.8'] },
+    { rank: '12', name: 'Matthew Durham', scores: ['16', '7+0.2', '148.5'] },
+    { rank: '13', name: 'Dominic Gonzalez-Padron', scores: ['13', '13+0.2', '159.5'] },
+    { rank: '14', name: 'Matthew Lankford', scores: ['13', '12', '174'] },
+    { rank: '15', name: 'Adam Bowen', scores: ['12+0.2', '7+0.2', '243'] },
+    { rank: '16', name: 'Soren Hotaling', scores: ['13', '7', '268.3'] },
+    { rank: '17', name: 'Caleb Augustine', scores: ['13', '7', '268.3'] },
+    { rank: '18', name: 'Alex Mankouski', scores: ['13', '6+0.1', '304.5'] },
+    { rank: '19', name: 'David Sobek', scores: ['9', '7+0.1', '325.5'] },
+    { rank: '20', name: 'Josh Dziubczynski', scores: ['9', '7', '388.5'] },
+    { rank: '21', name: 'Jacob Gaylord', scores: ['9', '7', '388.5'] },
+    { rank: '22', name: 'Kevin Satterfield', scores: ['9', '6', '472.5'] },
+    { rank: '23', name: 'Daniel Carper', scores: ['9', '6', '472.5'] },
+    { rank: '24', name: 'Daniel Plinska', scores: ['8', '5+0.1', '576'] },
+    { rank: '25', name: 'Rio Buenrostro', scores: ['7', '5', '650.3'] },
+    { rank: '26', name: 'Marc Unnasch', scores: ['7', '5', '650.3'] },
+  ],
+}
+
+const womenQ2: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Cambyr Skade', scores: ['15+0.1', '15', '1'] },
+    { rank: '2', name: 'Aria Frederickson', scores: ['9', '13', '7.5'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['13', '8+0.1', '8'] },
+    { rank: '4', name: 'Emma Dhimitri', scores: ['5+0.2', '13', '15'] },
+    { rank: '5', name: 'Molly Denholm', scores: ['7', '6+0.1', '33.8'] },
+    { rank: '6', name: 'Kelsey Beyerly', scores: ['5', '7', '42'] },
+    { rank: '7', name: 'Angela Limbach', scores: ['4', '7+0.1', '42.5'] },
+    { rank: '8', name: 'Nina Mankouski', scores: ['7', '5+0.1', '42.8'] },
+    { rank: '9', name: 'Anna LaSusa', scores: ['4', '6+0.1', '63.8'] },
+    { rank: '10', name: 'Zoe Schiffer', scores: ['0+0.2', '5+0.1', '95'] },
+  ],
+}
 
 function heatTotal([a, b]: [Run, Run]): number | null {
   return a === null || b === null ? null : a + b
@@ -288,18 +429,299 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
   )
 }
 
-const sections = [
-  { id: 'lead-finals', label: 'Lead Finals' },
-  { id: 'lead', label: 'Lead Qualifiers' },
-  { id: 'speed', label: 'Speed' },
-  { id: 'youth', label: 'Youth' },
-]
+function RoundScoreTable({ table }: { table: RoundTable }) {
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            {table.columns.map((c) => (
+              <th key={c} className={cn(th, 'text-right align-bottom', c === 'Rank Points' && 'bg-usa-red')}>
+                {c.split(' – ').map((part, i) => (
+                  <span key={part} className={cn('block', i > 0 && 'text-[11px] text-white/60')}>
+                    {part}
+                  </span>
+                ))}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+              {r.scores.map((score, i) => {
+                const points = table.columns[i] === 'Rank Points'
+                return (
+                  <td
+                    key={i}
+                    className={cn(
+                      td,
+                      'text-right whitespace-nowrap',
+                      points
+                        ? 'font-display text-usa-navy bg-usa-red/[0.04]'
+                        : score === 'TOP'
+                          ? 'font-semibold text-usa-red tracking-wide'
+                          : 'text-slate-600'
+                    )}
+                  >
+                    {score}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function SubLabel({ children }: { children: React.ReactNode }) {
+  return <p className="text-base font-semibold uppercase tracking-widest text-slate-500 mb-3">{children}</p>
+}
+
+function YouthFinalsTable() {
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            <th className={cn(th, 'text-right')}>Result</th>
+            <th className={cn(th, 'text-right bg-usa-red')}>Time Left</th>
+          </tr>
+        </thead>
+        <tbody>
+          {youthDifficultyFinals.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={td}>
+                <RankBadge rank={r.rank} medals />
+              </td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
+              <td className={cn(td, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function YouthQualifiersTable() {
+  const standings = youthQualifierStandings()
+  return (
+    <div className="overflow-x-auto border border-slate-200 w-fit max-w-full">
+      <table className="text-base text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-12')}>Rank</th>
+            <th className={th}>Athlete</th>
+            {standings[0].scores.map((_, i) => (
+              <th key={i} className={cn(th, 'text-right')}>
+                Route {i + 1}
+              </th>
+            ))}
+            <th className={cn(th, 'text-right bg-usa-red')}>Rank Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {standings.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className={cn(td, 'font-display text-usa-navy text-center')}>{r.rank}</td>
+              <td className={cn(td, 'text-usa-navy whitespace-nowrap pr-6')}>{r.name}</td>
+              {r.scores.map((score, i) => (
+                <td key={i} className={cn(td, 'text-right align-top whitespace-nowrap')}>
+                  <span className={cn('block', score === 'TOP' ? 'font-semibold text-usa-red tracking-wide' : 'text-slate-600')}>
+                    {score}
+                  </span>
+                  <span className="block text-xs text-slate-400 leading-tight">Rank {r.ranks[i]}</span>
+                </td>
+              ))}
+              <td className={cn(td, 'text-right align-top font-display text-usa-navy bg-usa-red/[0.04]')}>{r.points}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 function speedPodium(results: SpeedResult[]) {
   return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
 }
 
-export default function ResultsPage() {
+function Pending({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="border-l-2 border-slate-300 pl-4">
+      <p className="text-slate-600 leading-relaxed max-w-3xl">{children}</p>
+    </div>
+  )
+}
+
+function ViewIntro({ title, children }: { title: string; children?: React.ReactNode }) {
+  return (
+    <>
+      <h2 className="font-display text-4xl text-usa-navy mb-3">{title}</h2>
+      {children && <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">{children}</p>}
+    </>
+  )
+}
+
+function LeadFinalsView() {
+  return (
+    <>
+      <ViewIntro title="Lead Finals" />
+      <Pending>Adult Lead Finals run Sunday, October 4. Final results will be posted here once they&apos;re official.</Pending>
+    </>
+  )
+}
+
+const rounds = [
+  { id: 'overall', label: 'Overall' },
+  { id: 'q1', label: 'Q1' },
+  { id: 'q2', label: 'Q2' },
+]
+
+function LeadQualifiersView({ round }: { round?: string }) {
+  const active = rounds.find((r) => r.id === round)?.id ?? 'overall'
+  const [men, women] = active === 'q1' ? [menQ1, womenQ1] : [menQ2, womenQ2]
+
+  return (
+    <>
+      <ViewIntro title="Lead Qualifiers">
+        Qualifiers had two rounds, Q1 and Q2. An athlete&apos;s overall score is their Q1 rank × Q2 rank,
+        and the lowest score wins. Tied athletes average the places they cover, so two athletes tied for
+        1st each get 1.5.
+      </ViewIntro>
+
+      <div className="inline-flex border border-slate-200 mb-10">
+        {rounds.map((r) => (
+          <Link
+            key={r.id}
+            href={`?view=lead-qualifiers&round=${r.id}`}
+            scroll={false}
+            aria-current={r.id === active ? 'page' : undefined}
+            className={cn(
+              'px-4 py-2 text-sm font-semibold uppercase tracking-widest transition-colors whitespace-nowrap',
+              r.id === active ? 'bg-usa-navy text-white' : 'text-slate-500 hover:text-usa-red'
+            )}
+          >
+            {r.label}
+          </Link>
+        ))}
+      </div>
+
+      {active === 'overall' ? (
+        <>
+          <CategoryHeading title="Men" />
+          <LeadTable results={openMenLead} />
+
+          <div className="mt-14">
+            <CategoryHeading title="Women" />
+            <LeadTable results={openWomenLead} />
+          </div>
+        </>
+      ) : (
+        <>
+          <CategoryHeading title="Men" />
+          <RoundScoreTable table={men} />
+
+          <div className="mt-14">
+            <CategoryHeading title="Women" />
+            <RoundScoreTable table={women} />
+          </div>
+        </>
+      )}
+    </>
+  )
+}
+
+function SpeedView() {
+  return (
+    <>
+      <ViewIntro title="Speed">
+        Each heat is two runs, and the heat time is the two runs added together. An athlete&apos;s final
+        score is their fastest heat. A DNF on either run makes that heat a DNF. Times are in seconds.
+      </ViewIntro>
+
+      <CategoryHeading title="Men" />
+      <div className="w-fit max-w-full">
+        <Podium entries={speedPodium(openMenSpeed)} />
+        <SpeedTable results={openMenSpeed} />
+      </div>
+
+      <div className="mt-14">
+        <CategoryHeading title="Women" />
+        <div className="w-fit max-w-full">
+          <Podium entries={speedPodium(openWomenSpeed)} />
+          <SpeedTable results={openWomenSpeed} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+function YouthView() {
+  return (
+    <>
+      <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
+
+      <CategoryHeading title="Difficulty" />
+
+      <SubLabel>Finals</SubLabel>
+      <div className="w-fit max-w-full">
+        <Podium entries={youthDifficultyFinals.map((r) => ({ rank: r.rank, name: r.name, detail: `TOP · ${r.timeLeft} left` }))} />
+        <YouthFinalsTable />
+      </div>
+      <p className="text-slate-500 text-sm mt-3 max-w-3xl">
+        Every finalist topped the route, so places are decided by time left on the clock.
+      </p>
+
+      <div className="mt-10">
+        <SubLabel>Qualifiers</SubLabel>
+        <p className="text-slate-600 leading-relaxed mb-5 max-w-3xl">
+          Athletes are ranked on each of the three routes, and their rank points are the three route
+          ranks multiplied together. The lowest total ranks highest. Tied athletes average the places
+          they cover.
+        </p>
+        <YouthQualifiersTable />
+      </div>
+
+      <div className="mt-14">
+        <CategoryHeading title="Speed" />
+        <div className="w-fit max-w-full">
+          <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
+          <BestOnlyTable results={youthSpeed} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Each tab is its own view, selected with ?view=<id> so a view can be linked directly.
+const views: { id: string; label: string; View: (props: { round?: string }) => React.ReactNode }[] = [
+  { id: 'lead-finals', label: 'Lead Finals', View: LeadFinalsView },
+  { id: 'lead-qualifiers', label: 'Lead Qualifiers', View: LeadQualifiersView },
+  { id: 'speed', label: 'Speed', View: SpeedView },
+  { id: 'youth', label: 'Youth', View: YouthView },
+]
+
+const defaultView = 'lead-qualifiers'
+
+export default async function ResultsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string; round?: string }>
+}) {
+  const { view, round } = await searchParams
+  const active = views.find((v) => v.id === view) ?? views.find((v) => v.id === defaultView)!
+
   return (
     <>
       <SubpageHeader
@@ -309,98 +731,35 @@ export default function ResultsPage() {
       />
       <TryoutsSubNav />
 
-      <section className="py-14 md:py-20 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="section-container max-w-5xl">
-          <div className="flex flex-wrap gap-3 mb-14">
-            {sections.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="border border-slate-200 px-4 py-2 text-sm font-semibold uppercase tracking-widest text-usa-navy hover:border-usa-red hover:text-usa-red transition-colors"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Lead Finals */}
-          <div id="lead-finals" className="scroll-mt-48 mb-20">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Finals</h2>
-            <div className="border-l-2 border-slate-300 pl-4">
-              <p className="text-slate-600 leading-relaxed max-w-3xl">
-                Adult Lead Finals run Sunday, October 4. Final results will be posted here once
-                they&apos;re official.
-              </p>
+          <div className="overflow-x-auto border-b border-slate-200 mb-12">
+            <div role="tablist" className="flex gap-1 whitespace-nowrap">
+              {views.map((v) => {
+                const selected = v.id === active.id
+                return (
+                  <Link
+                    key={v.id}
+                    href={`?view=${v.id}`}
+                    scroll={false}
+                    role="tab"
+                    aria-selected={selected}
+                    className={cn(
+                      '-mb-px border-b-2 px-4 py-3 text-sm font-semibold uppercase tracking-widest transition-colors',
+                      selected
+                        ? 'border-usa-red text-usa-navy'
+                        : 'border-transparent text-slate-500 hover:text-usa-red'
+                    )}
+                  >
+                    {v.label}
+                  </Link>
+                )
+              })}
             </div>
           </div>
 
-          {/* Lead Qualifiers */}
-          <div id="lead" className="scroll-mt-48 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Qualifiers</h2>
-            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
-              Each athlete climbed two qualifier routes and was ranked on each one. Their score is
-              Q1 rank × Q2 rank, and the lowest score ranks highest. Tied athletes average the places
-              they cover, so a two-way tie for 1st gives each a rank of 1.5.
-            </p>
-
-            <CategoryHeading title="Men" />
-            <LeadTable results={openMenLead} />
-
-            <div className="mt-14">
-              <CategoryHeading title="Women" />
-              <LeadTable results={openWomenLead} />
-            </div>
-          </div>
-
-          {/* Speed */}
-          <div id="speed" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-3">Speed</h2>
-            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
-              Each heat is two runs, and the heat time is the two runs added together. An
-              athlete&apos;s final score is their fastest heat. A DNF on either run makes that heat a
-              DNF. Times are in seconds.
-            </p>
-
-            <CategoryHeading title="Men" />
-            <div className="w-fit max-w-full">
-              <Podium entries={speedPodium(openMenSpeed)} />
-              <SpeedTable results={openMenSpeed} />
-            </div>
-
-            <div className="mt-14">
-              <CategoryHeading title="Women" />
-              <div className="w-fit max-w-full">
-                <Podium entries={speedPodium(openWomenSpeed)} />
-                <SpeedTable results={openWomenSpeed} />
-              </div>
-            </div>
-          </div>
-
-          {/* Youth */}
-          <div id="youth" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
-            <h2 className="font-display text-4xl text-usa-navy mb-10">Youth</h2>
-
-            <CategoryHeading title="Difficulty" />
-            <div className="border-l-2 border-slate-300 pl-4">
-              <p className="text-slate-600 leading-relaxed max-w-3xl">
-                Youth Difficulty Finals results are pending and will be posted here once
-                they&apos;re official.
-              </p>
-            </div>
-
-            <div className="mt-14">
-              <CategoryHeading title="Speed" />
-              <div className="w-fit max-w-full">
-                <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
-                <BestOnlyTable results={youthSpeed} />
-              </div>
-            </div>
-          </div>
-
-          <div className="border-l-2 border-slate-300 pl-4 mt-14">
-            <p className="text-slate-500 leading-relaxed">
-              Results for other categories will be posted here once they&apos;re finalized.
-            </p>
+          <div role="tabpanel">
+            <active.View round={round} />
           </div>
         </div>
       </section>
