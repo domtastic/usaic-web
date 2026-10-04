@@ -584,8 +584,8 @@ function LeadFinalsView() {
 
 const rounds = [
   { id: 'overall', label: 'Overall' },
-  { id: 'q1', label: 'Q1 · Day 1' },
-  { id: 'q2', label: 'Q2 · Day 2' },
+  { id: 'q1', label: 'Q1' },
+  { id: 'q2', label: 'Q2' },
 ]
 
 function LeadQualifiersView({ round }: { round?: string }) {
@@ -595,9 +595,9 @@ function LeadQualifiersView({ round }: { round?: string }) {
   return (
     <>
       <ViewIntro title="Lead Qualifiers">
-        Each athlete climbed two qualifier routes and was ranked on each one. Their score is Q1 rank × Q2
-        rank, and the lowest score ranks highest. Tied athletes average the places they cover, so a
-        two-way tie for 1st gives each a rank of 1.5.
+        Qualifiers had two rounds, Q1 and Q2. An athlete&apos;s overall score is their Q1 rank × Q2 rank,
+        and the lowest score wins. Tied athletes average the places they cover, so two athletes tied for
+        1st each get 1.5.
       </ViewIntro>
 
       <div className="inline-flex border border-slate-200 mb-10">
