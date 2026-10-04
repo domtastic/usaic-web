@@ -31,6 +31,52 @@ const openMenSpeed: SpeedResult[] = [
   { rank: 15, name: 'Marc Unnasch', heats: [[30.92, 22.3], [null, null], [null, null]] },
 ]
 
+// Lead qualifier score is the product of an athlete's two qualifier ranks
+// (tied ranks are averaged, e.g. 1.5). Lowest score wins.
+type LeadResult = { rank: number; name: string; q1: number; q2: number }
+
+const openMenLead: LeadResult[] = [
+  { rank: 1, name: 'Gregory Love', q1: 2, q2: 1.5 },
+  { rank: 2, name: 'Elias Ellis', q1: 1, q2: 7 },
+  { rank: 3, name: 'Dominic Unnasch', q1: 6, q2: 1.5 },
+  { rank: 4, name: 'Matthew Fox', q1: 4, q2: 3 },
+  { rank: 5, name: 'Carter Schmidt', q1: 3, q2: 5 },
+  { rank: 6, name: 'Conner Bailey', q1: 5, q2: 6 },
+  { rank: 7, name: 'Christian Junkar', q1: 8, q2: 4 },
+  { rank: 8, name: 'Mihael Ashminov', q1: 7, q2: 10 },
+  { rank: 9, name: 'Mathias Olsen', q1: 9, q2: 9 },
+  { rank: 10, name: 'Michael Silger', q1: 13, q2: 8 },
+  { rank: 11, name: 'Matthew Durham', q1: 10, q2: 12 },
+  { rank: 12, name: 'Alexander Rausch', q1: 15, q2: 11 },
+  { rank: 13, name: 'Dominic Gonzalez-Padron', q1: 14, q2: 13 },
+  { rank: 14, name: 'David Sobek', q1: 11, q2: 19 },
+  { rank: 15, name: 'Alex Mankouski', q1: 12, q2: 18 },
+  { rank: 16, name: 'Matthew Lankford', q1: 17, q2: 14 },
+  { rank: 17, name: 'Adam Bowen', q1: 22, q2: 15 },
+  { rank: 18, name: 'Soren Hotaling', q1: 21, q2: 16 },
+  { rank: 19, name: 'Daniel Plinska', q1: 16, q2: 24 },
+  { rank: 20, name: 'Caleb Augustine', q1: 23, q2: 17 },
+  { rank: 21, name: 'Kevin Satterfield', q1: 18, q2: 22 },
+  { rank: 22, name: 'Josh Dziubczynski', q1: 20, q2: 20 },
+  { rank: 23, name: 'Daniel Carper', q1: 19, q2: 23 },
+  { rank: 24, name: 'Jacob Gaylord', q1: 26, q2: 21 },
+  { rank: 25, name: 'Rio Buenrostro', q1: 24, q2: 25 },
+  { rank: 26, name: 'Marc Unnasch', q1: 25, q2: 26 },
+]
+
+const openWomenLead: LeadResult[] = [
+  { rank: 1, name: 'Cambyr Skade', q1: 1, q2: 1 },
+  { rank: 2, name: 'Emma Dhimitri', q1: 2, q2: 4 },
+  { rank: 3, name: 'Aria Frederickson', q1: 4, q2: 2 },
+  { rank: 4, name: 'Jessica Perez', q1: 3, q2: 3 },
+  { rank: 5, name: 'Angela Limbach', q1: 5, q2: 7 },
+  { rank: 6, name: 'Kelsey Beyerly', q1: 7, q2: 6 },
+  { rank: 7, name: 'Molly Denholm', q1: 10, q2: 5 },
+  { rank: 8, name: 'Anna LaSusa', q1: 6, q2: 9 },
+  { rank: 9, name: 'Nina Mankouski', q1: 8, q2: 8 },
+  { rank: 10, name: 'Zoe Schiffer', q1: 9, q2: 10 },
+]
+
 function heatTotal([a, b]: [Run, Run]): number | null {
   return a === null || b === null ? null : a + b
 }
@@ -49,6 +95,81 @@ function bestHeatIndex(heats: [Run, Run][]) {
 }
 
 const medal = ['bg-[#c9a227]', 'bg-[#a7adb4]', 'bg-[#b0703c]']
+
+function RankBadge({ rank, size = 'sm' }: { rank: number; size?: 'sm' | 'lg' }) {
+  const podium = rank <= 3
+  return (
+    <span
+      className={cn(
+        'inline-flex shrink-0 items-center justify-center font-display',
+        size === 'lg' ? 'w-11 h-11 text-xl' : 'w-8 h-8 text-base',
+        podium ? cn(medal[rank - 1], 'text-white') : 'text-usa-navy'
+      )}
+    >
+      {rank}
+    </span>
+  )
+}
+
+function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
+  return (
+    <div className="grid sm:grid-cols-3 gap-3 mb-8">
+      {entries.slice(0, 3).map((e) => (
+        <div key={e.name} className="border border-slate-200 px-5 py-4 flex items-center gap-4">
+          <RankBadge rank={e.rank} size="lg" />
+          <div className="min-w-0">
+            <p className="font-display text-lg text-usa-navy leading-tight">{e.name}</p>
+            <p className="text-sm text-slate-500 tabular-nums mt-0.5">{e.detail}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function CategoryHeading({ discipline, title }: { discipline: string; title: string }) {
+  return (
+    <div className="border-l-2 border-usa-red pl-4 mb-6">
+      <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">{discipline}</p>
+      <h3 className="font-display text-3xl text-usa-navy">{title}</h3>
+    </div>
+  )
+}
+
+const th = 'px-4 py-3 text-sm font-semibold uppercase tracking-widest'
+
+function LeadTable({ results }: { results: LeadResult[] }) {
+  return (
+    <div className="overflow-x-auto border border-slate-200">
+      <table className="w-full min-w-[520px] text-left tabular-nums">
+        <thead>
+          <tr className="bg-usa-navy text-white">
+            <th className={cn(th, 'w-14')}>Rank</th>
+            <th className={th}>Athlete</th>
+            <th className={cn(th, 'text-right')}>Q1 Rank</th>
+            <th className={cn(th, 'text-right')}>Q2 Rank</th>
+            <th className={cn(th, 'text-right bg-usa-red')}>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.map((r) => (
+            <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
+              <td className="px-4 py-3">
+                <RankBadge rank={r.rank} />
+              </td>
+              <td className={cn('px-4 py-3 text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className="px-4 py-3 text-right text-slate-600">{r.q1}</td>
+              <td className="px-4 py-3 text-right text-slate-600">{r.q2}</td>
+              <td className="px-4 py-3 text-right font-display text-lg text-usa-navy bg-usa-red/[0.04]">
+                {r.q1 * r.q2}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
 
 function SpeedTable({ results }: { results: SpeedResult[] }) {
   return (
@@ -72,20 +193,12 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
           {results.map((r) => {
             const bestIdx = bestHeatIndex(r.heats)
             const best = bestIdx === -1 ? null : heatTotal(r.heats[bestIdx])
-            const podium = r.rank <= 3
             return (
               <tr key={r.name} className="border-t border-slate-200 even:bg-slate-50/70">
                 <td className="px-4 py-3">
-                  <span
-                    className={cn(
-                      'inline-flex w-8 h-8 items-center justify-center font-display text-base',
-                      podium ? cn(medal[r.rank - 1], 'text-white') : 'text-usa-navy'
-                    )}
-                  >
-                    {r.rank}
-                  </span>
+                  <RankBadge rank={r.rank} />
                 </td>
-                <td className={cn('px-4 py-3 text-usa-navy', podium && 'font-semibold')}>{r.name}</td>
+                <td className={cn('px-4 py-3 text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
                 {r.heats.map((h, i) => {
                   const total = heatTotal(h)
                   const isBest = i === bestIdx
@@ -118,8 +231,21 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
   )
 }
 
+function leadPodium(results: LeadResult[]) {
+  return results.map((r) => ({ rank: r.rank, name: r.name, detail: `Score ${r.q1 * r.q2}` }))
+}
+
+const sections = [
+  { id: 'lead', label: 'Lead Qualifiers' },
+  { id: 'speed', label: 'Speed' },
+]
+
 export default function ResultsPage() {
-  const podium = openMenSpeed.slice(0, 3)
+  const speedPodium = openMenSpeed.map((r) => ({
+    rank: r.rank,
+    name: r.name,
+    detail: `${fmt(heatTotal(r.heats[bestHeatIndex(r.heats)]))} s`,
+  }))
 
   return (
     <>
@@ -132,40 +258,51 @@ export default function ResultsPage() {
 
       <section className="py-14 md:py-20 bg-white">
         <div className="section-container max-w-5xl">
-          <div className="border-l-2 border-usa-red pl-4 mb-3">
-            <p className="text-base font-semibold uppercase tracking-widest text-usa-red mb-1">Speed</p>
-            <h2 className="font-display text-3xl text-usa-navy">Open Men</h2>
-          </div>
-          <p className="text-slate-600 leading-relaxed mb-8 max-w-3xl">
-            Each heat is two runs, and the heat time is the two runs added together. An athlete&apos;s
-            final score is their fastest heat. A DNF on either run makes that heat a DNF. Times are
-            in seconds.
-          </p>
-
-          {/* Podium */}
-          <div className="grid sm:grid-cols-3 gap-3 mb-8">
-            {podium.map((r) => {
-              const best = heatTotal(r.heats[bestHeatIndex(r.heats)])
-              return (
-                <div key={r.name} className="border border-slate-200 px-5 py-4 flex items-center gap-4">
-                  <span
-                    className={cn(
-                      'inline-flex w-11 h-11 shrink-0 items-center justify-center font-display text-xl text-white',
-                      medal[r.rank - 1]
-                    )}
-                  >
-                    {r.rank}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="font-display text-lg text-usa-navy leading-tight">{r.name}</p>
-                    <p className="text-sm text-slate-500 tabular-nums mt-0.5">{fmt(best)} s</p>
-                  </div>
-                </div>
-              )
-            })}
+          <div className="flex flex-wrap gap-3 mb-14">
+            {sections.map((s) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className="border border-slate-200 px-4 py-2 text-sm font-semibold uppercase tracking-widest text-usa-navy hover:border-usa-red hover:text-usa-red transition-colors"
+              >
+                {s.label}
+              </a>
+            ))}
           </div>
 
-          <SpeedTable results={openMenSpeed} />
+          {/* Lead */}
+          <div id="lead" className="scroll-mt-48">
+            <h2 className="font-display text-4xl text-usa-navy mb-3">Lead Qualifiers</h2>
+            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
+              Each athlete climbed two qualifier routes and was ranked on each one. Their score is
+              Q1 rank × Q2 rank, and the lowest score ranks highest. When athletes tie on a route,
+              they share the average of the tied places (for example, 1.5).
+            </p>
+
+            <CategoryHeading discipline="Lead" title="Open Men" />
+            <Podium entries={leadPodium(openMenLead)} />
+            <LeadTable results={openMenLead} />
+
+            <div className="mt-14">
+              <CategoryHeading discipline="Lead" title="Open Women" />
+              <Podium entries={leadPodium(openWomenLead)} />
+              <LeadTable results={openWomenLead} />
+            </div>
+          </div>
+
+          {/* Speed */}
+          <div id="speed" className="scroll-mt-48 mt-20 pt-14 border-t border-slate-200">
+            <h2 className="font-display text-4xl text-usa-navy mb-3">Speed</h2>
+            <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
+              Each heat is two runs, and the heat time is the two runs added together. An
+              athlete&apos;s final score is their fastest heat. A DNF on either run makes that heat a
+              DNF. Times are in seconds.
+            </p>
+
+            <CategoryHeading discipline="Speed" title="Open Men" />
+            <Podium entries={speedPodium} />
+            <SpeedTable results={openMenSpeed} />
+          </div>
 
           <div className="border-l-2 border-slate-300 pl-4 mt-14">
             <p className="text-slate-500 leading-relaxed">
