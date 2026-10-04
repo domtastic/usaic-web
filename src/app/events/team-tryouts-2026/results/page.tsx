@@ -144,50 +144,50 @@ const openWomenLead: LeadResult[] = [
 type RoundTable = { columns: string[]; rows: { rank: string; name: string; scores: string[] }[] }
 
 const menQ1: RoundTable = {
-  columns: ['Climb 1', 'Climb 2', 'Climb 2 – 2nd Attempt'],
+  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2', 'Climb 2 – 2nd Attempt', 'Rank Points'],
   rows: [
-    { rank: '1', name: 'Elias Ellis', scores: ['TOP', 'TOP', 'TOP'] },
-    { rank: '2', name: 'Gregory Love', scores: ['TOP', 'TOP', 'TOP'] },
-    { rank: '3', name: 'Carter Schmidt', scores: ['TOP', '11', 'TOP'] },
-    { rank: '4', name: 'Matthew Fox', scores: ['12', 'TOP', 'TOP'] },
-    { rank: '5', name: 'Conner Bailey', scores: ['12', '13', 'TOP'] },
-    { rank: '6', name: 'Dominic Unnasch', scores: ['TOP', '14+0.1', 'TOP'] },
-    { rank: '7', name: 'Mihael Ashminov', scores: ['10', '14+0.1', 'TOP'] },
-    { rank: '8', name: 'Christian Junkar', scores: ['12', '10', '11'] },
-    { rank: '9', name: 'Mathias Olsen', scores: ['6', '10', '14'] },
-    { rank: '10', name: 'Matthew Durham', scores: ['9+0.2', '10+0.2', '12'] },
-    { rank: '11', name: 'David Sobek', scores: ['8', '11', '12'] },
-    { rank: '12', name: 'Alex Mankouski', scores: ['6', '11', '12+0.2'] },
-    { rank: '13', name: 'Michael Silger', scores: ['9', '7+0.2', '10+0.2'] },
-    { rank: '14', name: 'Dominic Gonzalez-Padron', scores: ['11', '7+0.1', '7+0.2'] },
-    { rank: '15', name: 'Alexander Rausch', scores: ['9', '8', '7+0.1'] },
-    { rank: '16', name: 'Daniel Plinska', scores: ['9', '5+0.2', '6'] },
-    { rank: '17', name: 'Matthew Lankford', scores: ['8', '5+0.1', '7+0.1'] },
-    { rank: '18', name: 'Kevin Satterfield', scores: ['6+0.1', '7', '7'] },
-    { rank: '19', name: 'Daniel Carper', scores: ['6', '7', '9'] },
-    { rank: '20', name: 'Josh Dziubczynski', scores: ['0', '9', '8'] },
-    { rank: '21', name: 'Soren Hotaling', scores: ['1+0.1', '9', '10'] },
-    { rank: '22', name: 'Adam Bowen', scores: ['5', '9', '6'] },
-    { rank: '23', name: 'Caleb Augustine', scores: ['5+0.1', '6', '5+0.1'] },
-    { rank: '24', name: 'Rio Buenrostro', scores: ['4+0.2', '5+0.1', '5+0.1'] },
-    { rank: '25', name: 'Marc Unnasch', scores: ['3', '4', '4'] },
-    { rank: '26', name: 'Jacob Gaylord', scores: ['2+0.1', '4', '4+0.1'] },
+    { rank: '1', name: 'Elias Ellis', scores: ['TOP', '14', 'TOP', 'TOP', '40'] },
+    { rank: '2', name: 'Gregory Love', scores: ['TOP', '13+0.2', 'TOP', 'TOP', '60'] },
+    { rank: '3', name: 'Carter Schmidt', scores: ['TOP', 'TOP', '11', 'TOP', '80'] },
+    { rank: '4', name: 'Matthew Fox', scores: ['12', '12', 'TOP', 'TOP', '312'] },
+    { rank: '5', name: 'Conner Bailey', scores: ['12', '13', '13', 'TOP', '648'] },
+    { rank: '6', name: 'Dominic Unnasch', scores: ['TOP', '6', '14+0.1', 'TOP', '855'] },
+    { rank: '7', name: 'Mihael Ashminov', scores: ['10', '11+0.2', '14+0.1', 'TOP', '1377'] },
+    { rank: '8', name: 'Christian Junkar', scores: ['12', '13', '10', '11', '3726'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['6', '12', '10', '14', '10764'] },
+    { rank: '10', name: 'Matthew Durham', scores: ['9+0.2', '10', '10+0.2', '12', '12075'] },
+    { rank: '11', name: 'David Sobek', scores: ['8', '10', '11', '12', '14007'] },
+    { rank: '12', name: 'Alex Mankouski', scores: ['6', '8', '11', '12+0.2', '20736'] },
+    { rank: '13', name: 'Michael Silger', scores: ['9', '11+0.2', '7+0.2', '10+0.2', '22542'] },
+    { rank: '14', name: 'Dominic Gonzalez-Padron', scores: ['11', '11', '7+0.1', '7+0.2', '24480'] },
+    { rank: '15', name: 'Alexander Rausch', scores: ['9', '8', '8', '7+0.1', '56832'] },
+    { rank: '16', name: 'Daniel Plinska', scores: ['9', '9+0.1', '5+0.2', '6', '73788'] },
+    { rank: '17', name: 'Matthew Lankford', scores: ['8', '8+0.2', '5+0.1', '7+0.1', '88254.3'] },
+    { rank: '18', name: 'Kevin Satterfield', scores: ['6+0.1', '8', '7', '7', '99840'] },
+    { rank: '19', name: 'Daniel Carper', scores: ['6', '6', '7', '9', '100035'] },
+    { rank: '20', name: 'Josh Dziubczynski', scores: ['0', '5+0.2', '9', '8', '124656'] },
+    { rank: '21', name: 'Soren Hotaling', scores: ['1+0.1', '1', '9', '10', '127400'] },
+    { rank: '22', name: 'Adam Bowen', scores: ['5', '5', '9', '6', '142222.5'] },
+    { rank: '23', name: 'Caleb Augustine', scores: ['5+0.1', '6', '6', '5+0.1', '187530'] },
+    { rank: '24', name: 'Rio Buenrostro', scores: ['4+0.2', '5', '5+0.1', '5+0.1', '273363.8'] },
+    { rank: '25', name: 'Marc Unnasch', scores: ['3', '3', '4', '4', '365976'] },
+    { rank: '26', name: 'Jacob Gaylord', scores: ['2+0.1', '2+0.1', '4', '4+0.1', '382500'] },
   ],
 }
 
 const womenQ1: RoundTable = {
-  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2'],
+  columns: ['Climb 1', 'Climb 1 – 2nd Attempt', 'Climb 2', 'Climb 2 – 2nd Attempt', 'Rank Points'],
   rows: [
-    { rank: '1', name: 'Cambyr Skade', scores: ['6', '12+0.2', '11'] },
-    { rank: '2', name: 'Emma Dhimitri', scores: ['9', '8', '9'] },
-    { rank: '3', name: 'Jessica Perez', scores: ['6', '6+0.1', '9'] },
-    { rank: '4', name: 'Aria Frederickson', scores: ['7+0.1', '7+0.1', '8'] },
-    { rank: '5', name: 'Angela Limbach', scores: ['7', '8', '7+0.1'] },
-    { rank: '6', name: 'Anna LaSusa', scores: ['4', '6', '7+0.2'] },
-    { rank: '7', name: 'Kelsey Beyerly', scores: ['5', '6', '7'] },
-    { rank: '8', name: 'Nina Mankouski', scores: ['6', '6', '6'] },
-    { rank: '9', name: 'Zoe Schiffer', scores: ['6', '6', '4'] },
-    { rank: '10', name: 'Molly Denholm', scores: ['4+0.1', '6', '6'] },
+    { rank: '1', name: 'Cambyr Skade', scores: ['6', '12+0.2', '11', '13+0.2', '5.5'] },
+    { rank: '2', name: 'Emma Dhimitri', scores: ['9', '8', '9', '11', '12.5'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['6', '6+0.1', '9', '10', '206.3'] },
+    { rank: '4', name: 'Aria Frederickson', scores: ['7+0.1', '7+0.1', '8', '7', '240'] },
+    { rank: '5', name: 'Angela Limbach', scores: ['7', '8', '7+0.1', '7+0.1', '270'] },
+    { rank: '6', name: 'Anna LaSusa', scores: ['4', '6', '7+0.2', '9', '1800'] },
+    { rank: '7', name: 'Kelsey Beyerly', scores: ['5', '6', '7', '9', '2016'] },
+    { rank: '8', name: 'Nina Mankouski', scores: ['6', '6', '6', '4', '3740'] },
+    { rank: '9', name: 'Zoe Schiffer', scores: ['6', '6', '4', '5+0.1', '3960'] },
+    { rank: '10', name: 'Molly Denholm', scores: ['4+0.1', '6', '6', '7', '4590'] },
   ],
 }
 
@@ -438,8 +438,12 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
             <th className={cn(th, 'w-12')}>Rank</th>
             <th className={th}>Athlete</th>
             {table.columns.map((c) => (
-              <th key={c} className={cn(th, 'text-right', c === 'Rank Points' && 'bg-usa-red')}>
-                {c}
+              <th key={c} className={cn(th, 'text-right align-bottom', c === 'Rank Points' && 'bg-usa-red')}>
+                {c.split(' – ').map((part, i) => (
+                  <span key={part} className={cn('block', i > 0 && 'text-[11px] text-white/60')}>
+                    {part}
+                  </span>
+                ))}
               </th>
             ))}
           </tr>
