@@ -341,7 +341,9 @@ export default function ResultsPage() {
             <p className="text-slate-600 leading-relaxed mb-10 max-w-3xl">
               Each athlete climbed two qualifier routes and was ranked on each one. Their score is
               Q1 rank × Q2 rank, and the lowest score ranks highest. When athletes tie on a route,
-              they share the average of the tied places (for example, 1.5).
+              each gets the average of the places they take up together. For example, if three
+              athletes tie for 2nd, they take up 2nd, 3rd and 4th, so each gets a rank of
+              (2 + 3 + 4) ÷ 3 = 3. Two athletes tied for 1st each get (1 + 2) ÷ 2 = 1.5.
             </p>
 
             <CategoryHeading discipline="Lead" title="Men" />
