@@ -129,8 +129,8 @@ const openMenLead: LeadResult[] = [
 
 const openWomenLead: LeadResult[] = [
   { rank: 1, name: 'Cambyr Skade', q1: 1, q2: 1 },
-  { rank: 2, name: 'Emma Dhimitri', q1: 2, q2: 4 },
-  { rank: 3, name: 'Aria Frederickson', q1: 4, q2: 2 },
+  { rank: 2.5, name: 'Emma Dhimitri', q1: 2, q2: 4 },
+  { rank: 2.5, name: 'Aria Frederickson', q1: 4, q2: 2 },
   { rank: 4, name: 'Jessica Perez', q1: 3, q2: 3 },
   { rank: 5, name: 'Angela Limbach', q1: 5, q2: 7 },
   { rank: 6, name: 'Kelsey Beyerly', q1: 7, q2: 6 },
@@ -239,6 +239,39 @@ const womenQ2: RoundTable = {
   ],
 }
 
+// Lead finals: two climbs, ranked on each; rank points are the two climb ranks multiplied.
+const menFinals: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Elias Ellis', scores: ['20.2', '22', '2'] },
+    { rank: '2', name: 'Conner Bailey', scores: ['16.2', '21', '8'] },
+    { rank: '3', name: 'Dominic Unnasch', scores: ['21', '4.2', '10'] },
+    { rank: '4', name: 'Carter Schmidt', scores: ['17', '16.2', '13.5'] },
+    { rank: '5', name: 'Gregory Love', scores: ['14', '20.1', '15'] },
+    { rank: '6', name: 'Matthew Fox', scores: ['13', '16.2', '31.5'] },
+    { rank: '7', name: 'Michael Silger', scores: ['13.1', '14', '36'] },
+    { rank: '8', name: 'Christian Junkar', scores: ['8', '13.1', '59.5'] },
+    { rank: '9', name: 'Mathias Olsen', scores: ['8', '8.2', '76.5'] },
+    { rank: '10', name: 'Mihael Ashminov', scores: ['6', '13', '80'] },
+  ],
+}
+
+const womenFinals: RoundTable = {
+  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  rows: [
+    { rank: '1', name: 'Angela Limbach', scores: ['13', '15.2', '3'] },
+    { rank: '2', name: 'Emma Dhimitri', scores: ['16', '8', '9'] },
+    { rank: '3', name: 'Jessica Perez', scores: ['8', '15.1', '9'] },
+    { rank: '4', name: 'Cambyr Skade', scores: ['18', '3', '10'] },
+    { rank: '5', name: 'Anna LaSusa', scores: ['8', '11', '13.5'] },
+    { rank: '6', name: 'Kelsey Beyerly', scores: ['6.1', '8', '29.3'] },
+    { rank: '7', name: 'Aria Frederickson', scores: ['6.1', '6.1', '39'] },
+    { rank: '8', name: 'Molly Denholm', scores: ['6', '6', '72'] },
+    { rank: '9', name: 'Nina Mankouski', scores: ['6', '6', '72'] },
+    { rank: '10', name: 'Zoe Schiffer', scores: ['6', '6', '72'] },
+  ],
+}
+
 function heatTotal([a, b]: [Run, Run]): number | null {
   return a === null || b === null ? null : a + b
 }
@@ -265,36 +298,11 @@ function bestTime(heats: [Run, Run][]) {
   return i === -1 ? null : heatTotal(heats[i])
 }
 
-const medal = ['bg-[#c9a227]', 'bg-[#a7adb4]', 'bg-[#b0703c]']
-
-function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?: 'sm' | 'lg'; medals?: boolean }) {
-  const podium = medals && rank <= 3
+function RankBadge({ rank }: { rank: number }) {
   return (
-    <span
-      className={cn(
-        'inline-flex shrink-0 items-center justify-center font-display',
-        size === 'lg' ? 'w-10 h-10 text-lg' : 'w-6 h-6 text-sm',
-        podium ? cn(medal[rank - 1], 'text-white') : 'text-usa-navy'
-      )}
-    >
+    <span className="inline-flex shrink-0 items-center justify-center font-display min-w-6 h-6 px-0.5 text-sm text-usa-navy">
       {rank}
     </span>
-  )
-}
-
-function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
-  return (
-    <div className="hidden sm:grid grid-cols-3 gap-2 mb-4">
-      {entries.slice(0, 3).map((e) => (
-        <div key={e.name} className="border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <RankBadge rank={e.rank} size="lg" medals />
-          <div className="min-w-0">
-            <p className="font-display text-lg text-usa-navy leading-tight">{e.name}</p>
-            <p className="text-sm text-slate-500 tabular-nums mt-0.5">{e.detail}</p>
-          </div>
-        </div>
-      ))}
-    </div>
   )
 }
 
@@ -385,9 +393,9 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
             return (
               <tr key={r.name} className={row}>
                 <td className={cn(td, rankTd)}>
-                  <RankBadge rank={r.rank} medals />
+                  <RankBadge rank={r.rank} />
                 </td>
-                <td className={cn(td, nameTd, 'text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+                <td className={cn(td, nameTd, 'text-usa-navy')}>{r.name}</td>
                 {r.heats.map((h, i) => {
                   const total = heatTotal(h)
                   const isBest = i === bestIdx
@@ -438,9 +446,9 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
           {results.map((r) => (
             <tr key={r.name} className={row}>
               <td className={cn(td, rankTd)}>
-                <RankBadge rank={r.rank} medals />
+                <RankBadge rank={r.rank} />
               </td>
-              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8')}>{r.name}</td>
               <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{fmt(r.best)}</td>
             </tr>
           ))}
@@ -533,9 +541,9 @@ function YouthFinalsTable() {
           {youthDifficultyFinals.map((r) => (
             <tr key={r.name} className={row}>
               <td className={cn(td, rankTd)}>
-                <RankBadge rank={r.rank} medals />
+                <RankBadge rank={r.rank} />
               </td>
-              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8')}>{r.name}</td>
               <td className={cn(td, cellTd, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
               <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
             </tr>
@@ -588,18 +596,6 @@ function YouthQualifiersTable() {
   )
 }
 
-function speedPodium(results: SpeedResult[]) {
-  return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
-}
-
-function Pending({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="border-l-2 border-slate-300 pl-4">
-      <p className="text-slate-600 leading-relaxed max-w-3xl">{children}</p>
-    </div>
-  )
-}
-
 function ViewIntro({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <>
@@ -612,8 +608,22 @@ function ViewIntro({ title, children }: { title: string; children?: React.ReactN
 function LeadFinalsView() {
   return (
     <>
-      <ViewIntro title="Lead Finals" />
-      <Pending>Adult Lead Finals run Sunday, October 4. Final results will be posted here once they&apos;re official.</Pending>
+      <ViewIntro title="Lead Finals">
+        Finalists climbed two routes and were ranked on each one. Their rank points are their Climb 1
+        rank × Climb 2 rank, and the lowest total ranks highest. Ties are broken by qualifier rank.
+      </ViewIntro>
+
+      <CategoryHeading title="Men" />
+      <div className="w-fit max-w-full">
+        <RoundScoreTable table={menFinals} />
+      </div>
+
+      <div className="mt-10 md:mt-14">
+        <CategoryHeading title="Women" />
+        <div className="w-fit max-w-full">
+          <RoundScoreTable table={womenFinals} />
+        </div>
+      </div>
     </>
   )
 }
@@ -688,14 +698,12 @@ function SpeedView() {
 
       <CategoryHeading title="Men" />
       <div className="w-fit max-w-full">
-        <Podium entries={speedPodium(openMenSpeed)} />
         <SpeedTable results={openMenSpeed} />
       </div>
 
       <div className="mt-10 md:mt-14">
         <CategoryHeading title="Women" />
         <div className="w-fit max-w-full">
-          <Podium entries={speedPodium(openWomenSpeed)} />
           <SpeedTable results={openWomenSpeed} />
         </div>
       </div>
@@ -712,7 +720,6 @@ function YouthView() {
 
       <SubLabel>Finals</SubLabel>
       <div className="w-fit max-w-full">
-        <Podium entries={youthDifficultyFinals.map((r) => ({ rank: r.rank, name: r.name, detail: `TOP · ${r.timeLeft} left` }))} />
         <YouthFinalsTable />
       </div>
       <p className="text-slate-500 text-sm mt-3 max-w-3xl">
@@ -732,7 +739,6 @@ function YouthView() {
       <div className="mt-10 md:mt-14">
         <CategoryHeading title="Speed" />
         <div className="w-fit max-w-full">
-          <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
           <BestOnlyTable results={youthSpeed} />
         </div>
       </div>
@@ -754,7 +760,7 @@ const views: {
   { id: 'youth', label: 'Youth', short: 'Youth', View: YouthView },
 ]
 
-const defaultView = 'lead-qualifiers'
+const defaultView = 'lead-finals'
 
 export default async function ResultsPage({
   searchParams,
