@@ -239,9 +239,9 @@ const womenQ2: RoundTable = {
   ],
 }
 
-// Lead finals: two climbs, ranked on each; rank points are the two climb ranks multiplied.
+// Lead finals: one route, two attempts, ranked on each; rank points are the two attempt ranks multiplied.
 const menFinals: RoundTable = {
-  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  columns: ['Attempt 1', 'Attempt 2', 'Rank Points'],
   rows: [
     { rank: '1', name: 'Elias Ellis', scores: ['20.2', '22', '2'] },
     { rank: '2', name: 'Conner Bailey', scores: ['16.2', '21', '8'] },
@@ -257,7 +257,7 @@ const menFinals: RoundTable = {
 }
 
 const womenFinals: RoundTable = {
-  columns: ['Climb 1', 'Climb 2', 'Rank Points'],
+  columns: ['Attempt 1', 'Attempt 2', 'Rank Points'],
   rows: [
     { rank: '1', name: 'Angela Limbach', scores: ['13', '15.2', '3'] },
     { rank: '2', name: 'Emma Dhimitri', scores: ['16', '8', '9'] },
@@ -609,8 +609,9 @@ function LeadFinalsView() {
   return (
     <>
       <ViewIntro title="Lead Finals">
-        Finalists climbed two routes and were ranked on each one. Their rank points are their Climb 1
-        rank × Climb 2 rank, and the lowest total ranks highest. Ties are broken by qualifier rank.
+        Finalists had two attempts on one route and were ranked on each attempt. Their rank points are
+        their Attempt 1 rank × Attempt 2 rank, and the lowest total ranks highest. Ties are broken by
+        qualifier rank.
       </ViewIntro>
 
       <CategoryHeading title="Men" />
