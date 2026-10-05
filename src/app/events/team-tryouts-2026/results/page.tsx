@@ -463,6 +463,14 @@ function holdScore(score: string) {
   return score.replace(/^(\d+)\+0\.(\d+)$/, '$1.$2')
 }
 
+// Shorter headers on phones, where the full labels made tables wider than the
+// screen and pushed Rank Points out of view.
+const shortColumn: Record<string, string> = {
+  'Attempt 1': 'Att 1',
+  'Attempt 2': 'Att 2',
+  'Rank Points': 'Points',
+}
+
 function RoundScoreTable({ table }: { table: RoundTable }) {
   return (
     <div className={tableWrap}>
@@ -476,11 +484,18 @@ function RoundScoreTable({ table }: { table: RoundTable }) {
             <th className={cn(th, nameTh)}>Athlete</th>
             {table.columns.map((c) => (
               <th key={c} className={cn(th, 'text-right align-bottom', c === 'Rank Points' && '!bg-usa-red')}>
-                {c.split(' – ').map((part, i) => (
-                  <span key={part} className={cn('block', i > 0 && 'text-[11px] text-white/60')}>
-                    {part}
-                  </span>
-                ))}
+                {shortColumn[c] ? (
+                  <>
+                    <span className="md:hidden">{shortColumn[c]}</span>
+                    <span className="hidden md:inline">{c}</span>
+                  </>
+                ) : (
+                  c.split(' – ').map((part, i) => (
+                    <span key={part} className={cn('block', i > 0 && 'text-[11px] text-white/60')}>
+                      {part}
+                    </span>
+                  ))
+                )}
               </th>
             ))}
           </tr>
