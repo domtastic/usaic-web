@@ -56,7 +56,7 @@ const defaults = {
   ] as { _key?: string; title: string; description: string }[],
   ctaTitle: "Let's Talk",
   ctaText: "Interested in bringing drytooling to your gym? We'd love to hear from you and help you get started.",
-  ctaEmail: 'usaiceclimbing@gmail.com',
+  ctaEmail: 'info@usaiceclimbing.org',
 }
 
 const benefitIcons = [

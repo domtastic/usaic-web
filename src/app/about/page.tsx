@@ -88,7 +88,7 @@ const defaults = {
     { title: 'Community', description: 'We build and support a welcoming community of climbers at all skill levels and backgrounds.', icon: 'people' },
     { title: 'Growth', description: 'We champion the growth of ice climbing and its recognition as an Olympic sport.', icon: 'globe' },
   ],
-  contactEmail: "usaiceclimbing@gmail.com",
+  contactEmail: "info@usaiceclimbing.org",
   contactDescription: "Have questions about USA Ice Climbing, interested in sponsorship opportunities, or want to learn more about how you can get involved?",
 }
 

@@ -207,7 +207,7 @@ const defaults = {
   gymsImageCaption: 'A climber on World Cup style hanging boxes at the City Rock Ice Night in Colorado Springs, CO',
   ctaTitle: 'Ready to Add Drytooling to Your Gym?',
   ctaText: 'Contact USA Ice Climbing for consultation, resources, and support in implementing drytooling at your facility.',
-  ctaEmail: 'usaiceclimbing@gmail.com',
+  ctaEmail: 'info@usaiceclimbing.org',
 }
 
 export default async function IndoorGuidelinesPage() {

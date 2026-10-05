@@ -1,7 +1,7 @@
 export const siteConfig = {
     name: 'USA Ice Climbing',
     description: 'Promoting ice climbing in America and supporting our athletes on the world stage.',
-    email: 'usaiceclimbing@gmail.com',
+    email: 'info@usaiceclimbing.org',
     nonprofit: '501(c)(3) Nonprofit Organization',
     ein: '81-5160708',
     

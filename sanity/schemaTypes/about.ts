@@ -136,7 +136,7 @@ export default defineType({
       name: 'contactEmail',
       title: 'Contact Email',
       type: 'string',
-      initialValue: 'usaiceclimbing@gmail.com',
+      initialValue: 'info@usaiceclimbing.org',
     }),
     defineField({
       name: 'contactDescription',
