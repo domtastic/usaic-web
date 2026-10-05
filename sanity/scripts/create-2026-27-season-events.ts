@@ -28,6 +28,9 @@ const SAAS_FEE_PHOTO = photo('image-cb0365c72effaaedc9632cc4717b79f9dcc10b18-388
 const EDMONTON_PHOTO = photo('image-13d796016ec3d4e21773a22e3f0db8685bef3811-4912x7360-jpg')
 
 const link = (id: number) => `https://iceclimbing.sport/events/?id=${id}`
+// The events page only shows a Results button once an event has started, so
+// these can be set ahead of time.
+const results = (id: number) => `https://iceclimbing.sport/results/?event=${id}`
 
 const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
   {
@@ -40,6 +43,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     location: { city: 'Zilina', country: 'Slovakia' },
     description: 'Round 1 of the 2026-2027 UIAA Ice Climbing Continental Cup series. Youth Categories included.',
     eventLink: link(144),
+    resultsLink: results(144),
   },
   {
     _id: 'event-2026-27-cc-brno',
@@ -51,6 +55,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     location: { city: 'Brno', country: 'Czech Republic' },
     description: 'Round 2 of the 2026-2027 UIAA Ice Climbing Continental Cup series. Youth Categories included.',
     eventLink: link(145),
+    resultsLink: results(145),
   },
   {
     _id: 'event-2026-27-cc-utrecht',
@@ -62,6 +67,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     location: { city: 'Utrecht', country: 'Netherlands' },
     description: 'Round 3 of the 2026-2027 UIAA Ice Climbing Continental Cup series. Youth Categories included.',
     eventLink: link(146),
+    resultsLink: results(146),
   },
   {
     _id: 'event-2026-27-wc-cheongsong',
@@ -74,6 +80,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 1 of the 2027 UIAA Ice Climbing World Tour. The popular venue of Cheongsong, in South Korea’s apple growing region, offers a magnificent and technical ice tower, partisan local support and a rich variety of cultural events.',
     eventLink: link(143),
+    resultsLink: results(143),
     featuredImage: CHEONGSONG_PHOTO,
   },
   {
@@ -87,6 +94,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 2 of the 2027 UIAA Ice Climbing World Tour. The traditional World Cup venue, Saas-Fee’s spectacular ice dome in the famous Swiss resort offers a host of viewing points to see the world’s best ice climbers in action.',
     eventLink: link(154),
+    resultsLink: results(154),
     featuredImage: SAAS_FEE_PHOTO,
   },
   {
@@ -100,6 +108,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'The biennial UIAA Ice Climbing World Championships return to Champagny-en-Vanoise in the French Alps, organised by FFCAM.',
     eventLink: link(150),
+    resultsLink: results(150),
   },
   {
     _id: 'event-2026-27-wc-edmonton',
@@ -112,6 +121,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 3 of the 2027 UIAA Ice Climbing World Tour in Edmonton, Canada, organised by Offbeat Entertainment and the Alpine Club of Canada.',
     eventLink: link(152),
+    resultsLink: results(152),
     featuredImage: EDMONTON_PHOTO,
   },
   {
@@ -125,6 +135,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'The UIAA Ice Climbing World Youth Championships 2027 in Edmonton, Canada, organised by Offbeat Entertainment and the Alpine Club of Canada.',
     eventLink: link(153),
+    resultsLink: results(153),
     featuredImage: EDMONTON_PHOTO,
   },
 ]
@@ -134,8 +145,13 @@ async function main() {
   for (const { slug, ...e } of events) {
     tx.createIfNotExists({ ...e, _type: 'event', season: '2026-2027', slug: { _type: 'slug', current: slug } })
   }
+  // Results links were added after the events were first created, so fill
+  // them in where missing (never overwriting one set in Studio).
+  for (const e of events) {
+    tx.patch(e._id, (p) => p.setIfMissing({ resultsLink: e.resultsLink }))
+  }
   await tx.commit()
-  console.log(`Ensured ${events.length} 2026-2027 season events exist.`)
+  console.log(`Ensured ${events.length} 2026-2027 season events exist, with results links.`)
 }
 
 main().catch((err) => {
