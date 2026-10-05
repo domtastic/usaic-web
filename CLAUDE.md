@@ -149,7 +149,7 @@ Local Node version is 19.x — builds must be verified via Vercel CI, not locall
 
 ## What NOT to do
 - Don't commit directly to `main`
-- Don't expose `usaiceclimbing@gmail.com` or any email address in public-facing code — use `/contact` page instead
+- Don't hard-code email addresses in public-facing pages — link to the `/contact` page instead. The organization's email is `info@usaiceclimbing.org` (also `CONTACT_EMAIL`, where the contact form delivers); the old `usaiceclimbing@gmail.com` is retired
 - Don't add `NEXT_PUBLIC_` prefix to secret keys
 - Don't skip Turnstile verification in the contact API route
 - Don't use `npm audit fix --force` blindly
