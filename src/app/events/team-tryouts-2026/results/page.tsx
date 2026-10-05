@@ -298,36 +298,11 @@ function bestTime(heats: [Run, Run][]) {
   return i === -1 ? null : heatTotal(heats[i])
 }
 
-const medal = ['bg-[#c9a227]', 'bg-[#a7adb4]', 'bg-[#b0703c]']
-
-function RankBadge({ rank, size = 'sm', medals = false }: { rank: number; size?: 'sm' | 'lg'; medals?: boolean }) {
-  const podium = medals && rank <= 3
+function RankBadge({ rank }: { rank: number }) {
   return (
-    <span
-      className={cn(
-        'inline-flex shrink-0 items-center justify-center font-display',
-        size === 'lg' ? 'w-10 h-10 text-lg' : 'min-w-6 h-6 px-0.5 text-sm',
-        podium ? cn(medal[rank - 1], 'text-white') : 'text-usa-navy'
-      )}
-    >
+    <span className="inline-flex shrink-0 items-center justify-center font-display min-w-6 h-6 px-0.5 text-sm text-usa-navy">
       {rank}
     </span>
-  )
-}
-
-function Podium({ entries }: { entries: { rank: number; name: string; detail: string }[] }) {
-  return (
-    <div className="hidden sm:grid grid-cols-3 gap-2 mb-4">
-      {entries.slice(0, 3).map((e) => (
-        <div key={e.name} className="border border-slate-200 px-4 py-3 flex items-center gap-3">
-          <RankBadge rank={e.rank} size="lg" medals />
-          <div className="min-w-0">
-            <p className="font-display text-lg text-usa-navy leading-tight">{e.name}</p>
-            <p className="text-sm text-slate-500 tabular-nums mt-0.5">{e.detail}</p>
-          </div>
-        </div>
-      ))}
-    </div>
   )
 }
 
@@ -418,9 +393,9 @@ function SpeedTable({ results }: { results: SpeedResult[] }) {
             return (
               <tr key={r.name} className={row}>
                 <td className={cn(td, rankTd)}>
-                  <RankBadge rank={r.rank} medals />
+                  <RankBadge rank={r.rank} />
                 </td>
-                <td className={cn(td, nameTd, 'text-usa-navy', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+                <td className={cn(td, nameTd, 'text-usa-navy')}>{r.name}</td>
                 {r.heats.map((h, i) => {
                   const total = heatTotal(h)
                   const isBest = i === bestIdx
@@ -471,9 +446,9 @@ function BestOnlyTable({ results }: { results: BestOnlyResult[] }) {
           {results.map((r) => (
             <tr key={r.name} className={row}>
               <td className={cn(td, rankTd)}>
-                <RankBadge rank={r.rank} medals />
+                <RankBadge rank={r.rank} />
               </td>
-              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8')}>{r.name}</td>
               <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{fmt(r.best)}</td>
             </tr>
           ))}
@@ -488,7 +463,7 @@ function holdScore(score: string) {
   return score.replace(/^(\d+)\+0\.(\d+)$/, '$1.$2')
 }
 
-function RoundScoreTable({ table, medals = false }: { table: RoundTable; medals?: boolean }) {
+function RoundScoreTable({ table }: { table: RoundTable }) {
   return (
     <div className={tableWrap}>
       <table className={tableBase}>
@@ -513,9 +488,7 @@ function RoundScoreTable({ table, medals = false }: { table: RoundTable; medals?
         <tbody>
           {table.rows.map((r) => (
             <tr key={r.name} className={row}>
-              <td className={cn(td, rankTd, 'font-display text-usa-navy text-center')}>
-                {medals ? <RankBadge rank={Number(r.rank)} medals /> : r.rank}
-              </td>
+              <td className={cn(td, rankTd, 'font-display text-usa-navy text-center')}>{r.rank}</td>
               <td className={cn(td, nameTd, 'text-usa-navy pr-6')}>{r.name}</td>
               {r.scores.map((score, i) => {
                 const points = table.columns[i] === 'Rank Points'
@@ -568,9 +541,9 @@ function YouthFinalsTable() {
           {youthDifficultyFinals.map((r) => (
             <tr key={r.name} className={row}>
               <td className={cn(td, rankTd)}>
-                <RankBadge rank={r.rank} medals />
+                <RankBadge rank={r.rank} />
               </td>
-              <td className={cn(td, nameTd, 'text-usa-navy pr-8', r.rank <= 3 && 'font-semibold')}>{r.name}</td>
+              <td className={cn(td, nameTd, 'text-usa-navy pr-8')}>{r.name}</td>
               <td className={cn(td, cellTd, 'text-right font-semibold text-usa-red tracking-wide')}>{r.result}</td>
               <td className={cn(td, cellTd, 'text-right font-display text-usa-navy bg-usa-red/[0.04]')}>{r.timeLeft}</td>
             </tr>
@@ -623,10 +596,6 @@ function YouthQualifiersTable() {
   )
 }
 
-function speedPodium(results: SpeedResult[]) {
-  return results.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(bestTime(r.heats))} s` }))
-}
-
 function ViewIntro({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <>
@@ -634,10 +603,6 @@ function ViewIntro({ title, children }: { title: string; children?: React.ReactN
       {children && <p className="text-slate-600 leading-relaxed mb-6 md:mb-10 max-w-3xl">{children}</p>}
     </>
   )
-}
-
-function finalsPodium(table: RoundTable) {
-  return table.rows.map((r) => ({ rank: Number(r.rank), name: r.name, detail: `${r.scores.at(-1)} rank points` }))
 }
 
 function LeadFinalsView() {
@@ -650,15 +615,13 @@ function LeadFinalsView() {
 
       <CategoryHeading title="Men" />
       <div className="w-fit max-w-full">
-        <Podium entries={finalsPodium(menFinals)} />
-        <RoundScoreTable table={menFinals} medals />
+        <RoundScoreTable table={menFinals} />
       </div>
 
       <div className="mt-10 md:mt-14">
         <CategoryHeading title="Women" />
         <div className="w-fit max-w-full">
-          <Podium entries={finalsPodium(womenFinals)} />
-          <RoundScoreTable table={womenFinals} medals />
+          <RoundScoreTable table={womenFinals} />
         </div>
       </div>
     </>
@@ -735,14 +698,12 @@ function SpeedView() {
 
       <CategoryHeading title="Men" />
       <div className="w-fit max-w-full">
-        <Podium entries={speedPodium(openMenSpeed)} />
         <SpeedTable results={openMenSpeed} />
       </div>
 
       <div className="mt-10 md:mt-14">
         <CategoryHeading title="Women" />
         <div className="w-fit max-w-full">
-          <Podium entries={speedPodium(openWomenSpeed)} />
           <SpeedTable results={openWomenSpeed} />
         </div>
       </div>
@@ -759,7 +720,6 @@ function YouthView() {
 
       <SubLabel>Finals</SubLabel>
       <div className="w-fit max-w-full">
-        <Podium entries={youthDifficultyFinals.map((r) => ({ rank: r.rank, name: r.name, detail: `TOP · ${r.timeLeft} left` }))} />
         <YouthFinalsTable />
       </div>
       <p className="text-slate-500 text-sm mt-3 max-w-3xl">
@@ -779,7 +739,6 @@ function YouthView() {
       <div className="mt-10 md:mt-14">
         <CategoryHeading title="Speed" />
         <div className="w-fit max-w-full">
-          <Podium entries={youthSpeed.map((r) => ({ rank: r.rank, name: r.name, detail: `${fmt(r.best)} s` }))} />
           <BestOnlyTable results={youthSpeed} />
         </div>
       </div>
