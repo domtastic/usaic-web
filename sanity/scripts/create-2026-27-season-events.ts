@@ -29,8 +29,10 @@ const EDMONTON_PHOTO = photo('image-13d796016ec3d4e21773a22e3f0db8685bef3811-491
 
 const link = (id: number) => `https://iceclimbing.sport/events/?id=${id}`
 // The events page only shows a Results button once an event has started, so
-// these can be set ahead of time.
+// these can be set ahead of time. World Cups / Championships use the longer
+// season-scoped format (season 8 = 2026-27), like last season's World Cups.
 const results = (id: number) => `https://iceclimbing.sport/results/?event=${id}`
+const wcResults = (id: number) => `https://iceclimbing.sport/results/?season=8&league=&event=${id}&discipline=`
 
 const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
   {
@@ -80,7 +82,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 1 of the 2027 UIAA Ice Climbing World Tour. The popular venue of Cheongsong, in South Korea’s apple growing region, offers a magnificent and technical ice tower, partisan local support and a rich variety of cultural events.',
     eventLink: link(143),
-    resultsLink: results(143),
+    resultsLink: wcResults(143),
     featuredImage: CHEONGSONG_PHOTO,
   },
   {
@@ -94,7 +96,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 2 of the 2027 UIAA Ice Climbing World Tour. The traditional World Cup venue, Saas-Fee’s spectacular ice dome in the famous Swiss resort offers a host of viewing points to see the world’s best ice climbers in action.',
     eventLink: link(154),
-    resultsLink: results(154),
+    resultsLink: wcResults(154),
     featuredImage: SAAS_FEE_PHOTO,
   },
   {
@@ -108,7 +110,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'The biennial UIAA Ice Climbing World Championships return to Champagny-en-Vanoise in the French Alps, organised by FFCAM.',
     eventLink: link(150),
-    resultsLink: results(150),
+    resultsLink: wcResults(150),
   },
   {
     _id: 'event-2026-27-wc-edmonton',
@@ -121,7 +123,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'Round 3 of the 2027 UIAA Ice Climbing World Tour in Edmonton, Canada, organised by Offbeat Entertainment and the Alpine Club of Canada.',
     eventLink: link(152),
-    resultsLink: results(152),
+    resultsLink: wcResults(152),
     featuredImage: EDMONTON_PHOTO,
   },
   {
@@ -135,7 +137,7 @@ const events: ({ _id: string; slug: string } & Record<string, unknown>)[] = [
     description:
       'The UIAA Ice Climbing World Youth Championships 2027 in Edmonton, Canada, organised by Offbeat Entertainment and the Alpine Club of Canada.',
     eventLink: link(153),
-    resultsLink: results(153),
+    resultsLink: wcResults(153),
     featuredImage: EDMONTON_PHOTO,
   },
 ]
