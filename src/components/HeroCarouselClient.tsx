@@ -15,6 +15,23 @@ interface Slide {
   isExternal?: boolean
   secondaryCtaText?: string
   secondaryCtaLink?: string
+  buttons?: { text: string; link: string }[]
+}
+
+const outlineButton =
+  'inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors'
+
+function HeroButton({ text, link, primary }: { text: string; link: string; primary: boolean }) {
+  const className = primary ? 'btn-primary' : outlineButton
+  return link.startsWith('http') ? (
+    <a href={link} target="_blank" rel="noopener noreferrer" className={className}>
+      {text}
+    </a>
+  ) : (
+    <Link href={link} className={className}>
+      {text}
+    </Link>
+  )
 }
 
 interface HeroCarouselClientProps {
@@ -106,41 +123,49 @@ export default function HeroCarouselClient({ slides }: HeroCarouselClientProps) 
             )}
 
             <div className="flex flex-wrap gap-4">
-              {slide.ctaText && slide.ctaLink && (
-                slide.isExternal ? (
-                  <a
-                    href={slide.ctaLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary"
-                  >
-                    {slide.ctaText}
-                  </a>
-                ) : (
-                  <Link href={slide.ctaLink} className="btn-primary">
-                    {slide.ctaText}
-                  </Link>
-                )
-              )}
-              
-              {slide.secondaryCtaText && slide.secondaryCtaLink && (
-                slide.isExternal === false && !slide.secondaryCtaLink.startsWith('http') ? (
-                  <Link
-                    href={slide.secondaryCtaLink}
-                    className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
-                  >
-                    {slide.secondaryCtaText}
-                  </Link>
-                ) : (
-                  <a
-                    href={slide.secondaryCtaLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
-                  >
-                    {slide.secondaryCtaText}
-                  </a>
-                )
+              {slide.buttons ? (
+                slide.buttons.map((b, i) => (
+                  <HeroButton key={`${b.text}-${b.link}`} {...b} primary={i === 0} />
+                ))
+              ) : (
+                <>
+                  {slide.ctaText && slide.ctaLink && (
+                    slide.isExternal ? (
+                      <a
+                        href={slide.ctaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary"
+                      >
+                        {slide.ctaText}
+                      </a>
+                    ) : (
+                      <Link href={slide.ctaLink} className="btn-primary">
+                        {slide.ctaText}
+                      </Link>
+                    )
+                  )}
+
+                  {slide.secondaryCtaText && slide.secondaryCtaLink && (
+                    slide.isExternal === false && !slide.secondaryCtaLink.startsWith('http') ? (
+                      <Link
+                        href={slide.secondaryCtaLink}
+                        className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
+                      >
+                        {slide.secondaryCtaText}
+                      </Link>
+                    ) : (
+                      <a
+                        href={slide.secondaryCtaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-usa-navy transition-colors"
+                      >
+                        {slide.secondaryCtaText}
+                      </a>
+                    )
+                  )}
+                </>
               )}
             </div>
           </div>

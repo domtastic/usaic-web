@@ -13,6 +13,7 @@ interface HomepageSettings {
     ctaLink?: string
     secondaryCtaText?: string
     secondaryCtaLink?: string
+    buttons?: { text?: string; link?: string; show?: boolean }[]
   }
   welcomeSlide?: {
     title?: string
@@ -181,6 +182,12 @@ if (homepage.heroTakeover?.enabled) {
           isExternal: false,
           secondaryCtaText: homepage.heroTakeover.secondaryCtaText,
           secondaryCtaLink: homepage.heroTakeover.secondaryCtaLink,
+          // When the Buttons list has entries it replaces the two legacy buttons.
+          buttons: homepage.heroTakeover.buttons?.length
+            ? homepage.heroTakeover.buttons
+                .filter((b) => b.show !== false && b.text && b.link)
+                .map((b) => ({ text: b.text!, link: b.link! }))
+            : undefined,
         },
       ]}
     />

@@ -34,24 +34,61 @@ export default defineType({
         options: { hotspot: true },
       },
       {
+        name: 'buttons',
+        title: 'Buttons',
+        description:
+          'Turn "Show on homepage" off to hide a button without deleting it. The first shown button is the solid red one; any others are outlined. Drag to reorder.',
+        type: 'array',
+        of: [
+          {
+            type: 'object',
+            name: 'heroButton',
+            fields: [
+              { name: 'text', title: 'Text', type: 'string', validation: (Rule) => Rule.required() },
+              {
+                name: 'link',
+                title: 'Link',
+                type: 'string',
+                description: 'A page on this site (e.g. /events) or a full URL (opens in a new tab).',
+                validation: (Rule) => Rule.required(),
+              },
+              { name: 'show', title: 'Show on homepage', type: 'boolean', initialValue: true },
+            ],
+            preview: {
+              select: { title: 'text', link: 'link', show: 'show' },
+              prepare: ({ title, link, show }) => ({
+                title,
+                subtitle: show === false ? `Hidden · ${link}` : link,
+              }),
+            },
+          },
+        ],
+      },
+      // Legacy single-button fields. Still used if Buttons above is empty, and
+      // hidden in Studio once it has entries so there's one place to edit.
+      {
         name: 'ctaText',
         title: 'Primary Button Text',
         type: 'string',
+        hidden: ({ parent }) => (parent?.buttons?.length ?? 0) > 0,
       },
       {
         name: 'ctaLink',
         title: 'Primary Button Link',
         type: 'string',
+        hidden: ({ parent }) => (parent?.buttons?.length ?? 0) > 0,
       },
       {
         name: 'secondaryCtaText',
         title: 'Secondary Button Text',
         type: 'string',
+        hidden: ({ parent }) => (parent?.buttons?.length ?? 0) > 0,
       },
       {
         name: 'secondaryCtaLink',
         title: 'Secondary Button Link',
         type: 'string',
+        hidden: ({ parent }) => (parent?.buttons?.length ?? 0) > 0,
       },
     ],
   }),

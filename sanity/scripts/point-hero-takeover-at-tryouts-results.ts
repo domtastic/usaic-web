@@ -1,9 +1,14 @@
 /**
- * Point the homepage Hero Takeover at the 2026 Team Trials results.
+ * Move the homepage Hero Takeover onto the new Buttons list, pointed at the
+ * 2026 Team Trials results.
  *
- * Tryouts are over, so the hero's "Learn More" + "Register" buttons are
- * replaced with a single "View Results" button. Only the button fields are
- * touched — title, subtitle and image stay as they are.
+ * Tryouts are over, so "View Results" is shown and the old "Learn More" and
+ * "Register" buttons are kept but hidden (they can be switched back on in
+ * Studio). The legacy single-button fields are cleared since Buttons now
+ * replaces them. Title, subtitle and image are untouched.
+ *
+ * Run AFTER the code that reads `heroTakeover.buttons` is deployed, or the
+ * homepage hero will briefly show no buttons.
  *
  * Run with: npx sanity exec scripts/point-hero-takeover-at-tryouts-results.ts --with-user-token
  *
@@ -18,13 +23,21 @@ async function main() {
   await client
     .patch('homepage')
     .set({
-      'heroTakeover.ctaText': 'View Results',
-      'heroTakeover.ctaLink': '/events/team-tryouts-2026/results',
+      'heroTakeover.buttons': [
+        { _key: 'results', _type: 'heroButton', text: 'View Results', link: '/events/team-tryouts-2026/results', show: true },
+        { _key: 'learn-more', _type: 'heroButton', text: 'Learn More', link: '/events/team-tryouts-2026', show: false },
+        { _key: 'register', _type: 'heroButton', text: 'Register', link: '/events/team-tryouts-2026/register', show: false },
+      ],
     })
-    .unset(['heroTakeover.secondaryCtaText', 'heroTakeover.secondaryCtaLink'])
+    .unset([
+      'heroTakeover.ctaText',
+      'heroTakeover.ctaLink',
+      'heroTakeover.secondaryCtaText',
+      'heroTakeover.secondaryCtaLink',
+    ])
     .commit()
 
-  console.log('Hero Takeover now points at the Team Trials results.')
+  console.log('Hero Takeover now uses the Buttons list, showing View Results.')
 }
 
 main().catch((err) => {
