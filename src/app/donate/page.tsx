@@ -7,12 +7,6 @@ export const metadata: Metadata = {
   description: 'Support USA Ice Climbing and help grow the sport of ice climbing in America.',
 }
 
-const impactTiers = [
-  { amount: '$50', description: 'Helps cover training equipment costs' },
-  { amount: '$250', description: 'Supports athlete travel to competitions' },
-  { amount: '$1,000', description: 'Sponsors an athlete at a World Cup event' },
-]
-
 export default function DonatePage() {
   return (
     <>
@@ -54,19 +48,6 @@ export default function DonatePage() {
                 directly toward building a stronger competitive circuit and giving American
                 athletes what they need to compete on the world stage.
               </p>
-
-              <div className="divide-y divide-slate-200 border-t border-slate-200 mb-10 max-w-xl">
-                {impactTiers.map((tier) => (
-                  <div key={tier.amount} className="flex items-baseline gap-6 py-5">
-                    <span className="font-display text-3xl text-usa-red w-28 shrink-0">
-                      {tier.amount}
-                    </span>
-                    <span className="text-base text-slate-600 leading-relaxed">
-                      {tier.description}
-                    </span>
-                  </div>
-                ))}
-              </div>
 
               <p className="border-l-2 border-slate-300 pl-4 text-base text-slate-500 max-w-xl">
                 USA Ice Climbing is a registered 501(c)(3) nonprofit organization. All donations
