@@ -17,7 +17,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: 'National Team',
+    label: 'Team',
     href: '/team',
     children: [
       { label: 'Athletes', href: '/team' },
