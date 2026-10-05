@@ -610,7 +610,7 @@ function LeadFinalsView() {
     <>
       <ViewIntro title="Lead Finals">
         Finalists climbed two routes and were ranked on each one. Their rank points are their Climb 1
-        rank × Climb 2 rank, and the lowest total wins.
+        rank × Climb 2 rank, and the lowest total ranks highest. Ties are broken by qualifier rank.
       </ViewIntro>
 
       <CategoryHeading title="Men" />
