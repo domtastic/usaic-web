@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import SubpageHeader from '../_components/SubpageHeader'
 import TryoutsSubNav from '../TryoutsSubNav'
+import { REGISTRATION_OPEN } from '../_components/registration'
 
 export const metadata: Metadata = {
   title: 'Register — 2026 Team Tryouts',
@@ -12,6 +14,9 @@ const GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeWqE8GPdB2N1fgxIA3TfJ0naCLSRen1T7U5qIsaTFPaE_TEw/viewform?usp=dialog'
 
 export default function RegisterPage() {
+  // Old links land on the tryouts overview while registration is closed.
+  if (!REGISTRATION_OPEN) redirect('/events/team-tryouts-2026')
+
   return (
     <>
       <SubpageHeader
