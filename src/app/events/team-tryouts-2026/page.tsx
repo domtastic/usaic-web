@@ -17,6 +17,7 @@ import {
   Trophy,
 } from 'lucide-react'
 import TryoutsSubNav from './TryoutsSubNav'
+import { REGISTRATION_OPEN } from './_components/registration'
 
 export const metadata: Metadata = {
   title: '2026 USA Ice Climbing Team Trials',
@@ -90,9 +91,11 @@ export default function TeamTryoutsHubPage() {
             <span>Lead, Speed &amp; Youth</span>
           </div>
 
-          <Link href="/events/team-tryouts-2026/register" className="btn-primary">
-            Register for Tryouts
-          </Link>
+          {REGISTRATION_OPEN && (
+            <Link href="/events/team-tryouts-2026/register" className="btn-primary">
+              Register for Tryouts
+            </Link>
+          )}
         </div>
       </section>
 
@@ -179,23 +182,25 @@ export default function TeamTryoutsHubPage() {
           </div>
 
           {/* Register CTA */}
-          <Link
-            href="/events/team-tryouts-2026/register"
-            className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
+          {REGISTRATION_OPEN && (
+            <Link
+              href="/events/team-tryouts-2026/register"
+              className="group flex flex-col sm:flex-row items-center justify-between gap-4 bg-usa-navy px-6 py-6 sm:px-8 sm:py-7 text-white hover:bg-usa-navy/90 transition-colors"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <Ticket className="w-6 h-6 text-white" strokeWidth={1.75} />
+                </div>
+                <div>
+                  <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
+                  <p className="text-base text-white/70">Complete your registration and submit payment</p>
+                </div>
               </div>
-              <div>
-                <p className="font-display text-2xl text-white leading-tight">Register for Tryouts</p>
-                <p className="text-base text-white/70">Complete your registration and submit payment</p>
-              </div>
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-base font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
-              Learn More <ArrowUpRight className="w-3.5 h-3.5" />
-            </span>
-          </Link>
+              <span className="inline-flex items-center gap-1.5 text-base font-semibold uppercase tracking-widest text-white/90 group-hover:text-white transition-colors shrink-0">
+                Learn More <ArrowUpRight className="w-3.5 h-3.5" />
+              </span>
+            </Link>
+          )}
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { REGISTRATION_OPEN } from './_components/registration'
 
 const navItems = [
   { href: '/events/team-tryouts-2026', label: 'Overview' },
@@ -16,7 +17,7 @@ const navItems = [
   { href: '/events/team-tryouts-2026/route-preview', label: 'Route Preview' },
   { href: '/events/team-tryouts-2026/technical-meeting-notes', label: 'Tech Notes' },
   { href: '/events/team-tryouts-2026/faq', label: 'FAQ' },
-  { href: '/events/team-tryouts-2026/register', label: 'Register' },
+  ...(REGISTRATION_OPEN ? [{ href: '/events/team-tryouts-2026/register', label: 'Register' }] : []),
 ]
 
 export default function TryoutsSubNav() {
