@@ -1,10 +1,13 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Event } from './page'
 import { EVENT_TYPE_LABELS, COMPETITIVE_EVENT_TYPES, toEventTypeArray } from '@/lib/eventTypes'
 import { parseLocalDate } from '@/lib/utils'
+import { urlFor } from '@/lib/sanity'
+import { CalendarDays } from 'lucide-react'
 
 type TimeFilter = 'upcoming' | 'past'
 type EventTypeFilter = 'all' | 'world-cup' | 'continental-cup' | 'ice-festival' | 'local-competition' | 'clinic'
@@ -20,6 +23,16 @@ const eventTypeBadgeColors: Record<string, string> = {
   'ice-festival': 'bg-purple-600 text-white',
   'local-competition': 'bg-slate-500 text-white',
   'clinic': 'bg-emerald-600 text-white',
+}
+
+// Used as the card media panel for events without a featuredImage, so the
+// listing still reads as intentional rather than "missing a photo."
+const eventTypeFallbackGradients: Record<string, string> = {
+  'world-cup': 'from-slate-900 via-usa-navy to-slate-800',
+  'continental-cup': 'from-ice-800 to-ice-950',
+  'ice-festival': 'from-purple-800 to-purple-950',
+  'local-competition': 'from-slate-700 to-slate-900',
+  'clinic': 'from-emerald-800 to-emerald-950',
 }
 
 export default function EventsPageClient({ events }: { events: Event[] }) {
@@ -109,13 +122,20 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
 
   return (
     <>
-      <section className="relative py-20 md:py-28 bg-usa-navy">
-        <div className="absolute inset-0 bg-black/30" />
+      <section className="relative py-24 md:py-36 overflow-hidden bg-usa-navy">
+        <Image
+          src="/SpeedIceClimbingPhoto.jpg"
+          alt="Athletes racing head-to-head at a UIAA Ice Climbing World Cup speed event"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-usa-navy/70 to-usa-navy/95" />
         <div className="relative section-container text-center text-white">
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl mb-4">
             Events
           </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto">
             {isCompFilter
               ? `${formatSeasonDisplay(selectedSeason)} Ice Climbing Season`
               : 'Upcoming and past ice climbing events, competitions, and festivals'}
@@ -198,82 +218,106 @@ export default function EventsPageClient({ events }: { events: Event[] }) {
           </div>
 
           {/* Events List */}
-          <div className="space-y-4">
-            {sortedEvents.map((event) => (
-              <div
-                key={event._id}
-                className="card p-6"
-              >
-                <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                  {/* Date */}
-                  <div className="md:w-44 shrink-0">
-                    <div className="text-usa-navy font-semibold">
-                      {formatDate(event.startDate, event.endDate)}
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-grow">
-                    <div className="flex flex-wrap items-center gap-2 mb-2">
-                      {event.eventLink ? (
-                        <a
-                          href={event.eventLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-display text-xl text-usa-navy hover:text-usa-red transition-colors"
-                        >
-                          {event.title}
-                        </a>
+          <div className="space-y-5">
+            {sortedEvents.map((event) => {
+              const primaryType = toEventTypeArray(event.eventType)[0]
+              return (
+                <div
+                  key={event._id}
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  <div className="flex flex-col sm:flex-row">
+                    {/* Media */}
+                    <div className="relative w-full h-44 sm:h-auto sm:w-64 shrink-0 overflow-hidden">
+                      {event.featuredImage ? (
+                        <Image
+                          src={urlFor(event.featuredImage).width(500).height(500).fit('crop').url()}
+                          alt=""
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(min-width: 640px) 256px, 100vw"
+                        />
                       ) : (
-                        <h3 className="font-display text-xl text-usa-navy">
-                          {event.title}
-                        </h3>
-                      )}
-                      {toEventTypeArray(event.eventType).map((type) => (
-                        <span
-                          key={type}
-                          className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[type]}`}
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-br ${
+                            eventTypeFallbackGradients[primaryType] || 'from-slate-700 to-slate-900'
+                          } flex items-center justify-center`}
                         >
-                          {eventTypeLabels[type as EventTypeFilter] || type}
-                        </span>
-                      ))}
+                          <CalendarDays className="w-10 h-10 text-white/15" strokeWidth={1.25} />
+                        </div>
+                      )}
+                      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm">
+                        <p className="text-usa-navy font-display text-sm leading-none whitespace-nowrap">
+                          {formatDate(event.startDate, event.endDate)}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-slate-500 text-sm mb-2">
-                      {formatLocation(event.location)}
-                    </p>
-                    {event.description && (
-                      <p className="text-slate-600">
-                        {event.description}
-                      </p>
-                    )}
-                  </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-2 shrink-0">
-                    {event.eventLink && (
-                      <a
-                        href={event.eventLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-secondary text-sm px-4 py-2"
-                      >
-                        Event Info
-                      </a>
-                    )}
-                    {isEventStartedOrCompleted(event) && (event.resultsLink || event.resultsPdf) && (
-                      <a
-                        href={event.resultsPdf?.url || event.resultsLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary text-sm px-4 py-2"
-                      >
-                        Results
-                      </a>
-                    )}
+                    {/* Info */}
+                    <div className="flex-1 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="flex-grow min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          {event.eventLink ? (
+                            <a
+                              href={event.eventLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-display text-xl text-usa-navy hover:text-usa-red transition-colors"
+                            >
+                              {event.title}
+                            </a>
+                          ) : (
+                            <h3 className="font-display text-xl text-usa-navy">
+                              {event.title}
+                            </h3>
+                          )}
+                          {toEventTypeArray(event.eventType).map((type) => (
+                            <span
+                              key={type}
+                              className={`px-2 py-0.5 text-xs font-semibold rounded-full ${eventTypeBadgeColors[type]}`}
+                            >
+                              {eventTypeLabels[type as EventTypeFilter] || type}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="text-slate-500 text-sm mb-2">
+                          {formatLocation(event.location)}
+                        </p>
+                        {event.description && (
+                          <p className="text-slate-600 line-clamp-2">
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-2 shrink-0">
+                        {event.eventLink && (
+                          <a
+                            href={event.eventLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-secondary text-sm px-4 py-2"
+                          >
+                            Event Info
+                          </a>
+                        )}
+                        {isEventStartedOrCompleted(event) && (event.resultsLink || event.resultsPdf) && (
+                          <a
+                            href={event.resultsPdf?.url || event.resultsLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-primary text-sm px-4 py-2"
+                          >
+                            Results
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {sortedEvents.length === 0 && (
