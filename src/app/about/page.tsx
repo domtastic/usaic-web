@@ -5,7 +5,7 @@ import { client, urlFor } from '@/lib/sanity'
 import { PortableText } from '@portabletext/react'
 import BoardSection from '@/components/BoardSection'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'About',

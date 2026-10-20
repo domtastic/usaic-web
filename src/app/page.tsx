@@ -6,7 +6,7 @@ import TeamPreview from '@/components/TeamPreview'
 import MedalDonateSection from '@/components/MedalDonateSection'
 import SponsorsSection from '@/components/SponsorsSection'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default function HomePage() {
   return (
