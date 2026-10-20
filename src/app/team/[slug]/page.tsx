@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 interface Athlete {
   _id: string

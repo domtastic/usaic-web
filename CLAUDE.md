@@ -56,6 +56,7 @@ Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` — Cloudflare Turnstile (public)
   - `TURNSTILE_SECRET_KEY` — Cloudflare Turnstile (server-side only)
   - `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` — Sanity project/dataset (public, read-only client)
+  - `SANITY_REVALIDATE_SECRET` — Shared secret for the Sanity publish webhook that calls `/api/revalidate` (server-side only; must match the secret on the webhook in sanity.io/manage)
   - `SANITY_WRITE_TOKEN` — Sanity write token (server-side only). Used by the event submission API route and the one-off scripts under `scripts/`/`sanity/scripts/` — never expose client-side
 
 ### Security headers
@@ -115,7 +116,7 @@ This applies to: new components, page updates, layout changes, Tailwind styling 
 ## Code Patterns
 
 ### Sanity data fetching
-- All pages with Sanity data use `export const revalidate = 60`
+- All pages with Sanity data use `export const revalidate = 3600` (1-hour fallback). Fresh content comes from on-demand revalidation: a Sanity webhook on publish calls `src/app/api/revalidate/route.ts`, which refreshes the whole site. Don't drop `revalidate` back to 60 — re-rendering every minute used up most of Vercel's free ISR write allowance
 - Use `urlFor(image).auto('format').quality(80)` for all Sanity images
 - Sanity default arrays need `as` type assertions for `_key` (e.g. `as { _key?: string; title: string }[]`)
 

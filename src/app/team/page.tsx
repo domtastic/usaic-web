@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
 import TeamPageClient from './TeamPageClient'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'National Team',
