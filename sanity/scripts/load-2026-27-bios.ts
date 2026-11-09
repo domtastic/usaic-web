@@ -34,7 +34,7 @@ const PROFILES: Record<string, Profile> = {
     gyms: ['The Ice Coop', 'Longmont Climbing Collective'],
   },
   'Molly Denholm': {
-    bio: 'Originally from Baltimore, Maryland and started rock climbing in 2019. Moved out to Colorado in December 2022 after falling in love with the state on a trip to the Ouray Ice festival that same January. With loving all things climbing, slowly found ice climbing and drytooling, and joined the ice coop in 2025. Currently a student and set to graduate this upcoming May with a nurse practitioner degree. Excited for the upcoming season and to represent the USA team in my first season.',
+    bio: 'Molly is originally from Baltimore, Maryland, and started rock climbing in 2019. After falling in love with Colorado on a trip to the Ouray Ice Festival in January 2022, Molly moved there that December. A love of all things climbing led to ice climbing and drytooling, and Molly joined The Ice Coop in 2025. Currently a student set to graduate this May with a nurse practitioner degree, Molly is excited for the upcoming season and to represent the USA team for the first time.',
     gyms: ['The Ice Coop'],
   },
   'Emma Dhimitri': {
