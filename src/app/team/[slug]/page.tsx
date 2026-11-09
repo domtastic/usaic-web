@@ -1,7 +1,7 @@
 import { client, urlFor } from '@/lib/sanity'
 import Link from 'next/link'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export const revalidate = 3600
 
@@ -12,9 +12,12 @@ interface Athlete {
   photo?: { asset: { _ref: string } }
   dateOfBirth?: string
   residence?: string
-  discipline: string[]
-  category: 'adult' | 'youth'
+  discipline?: string[]
+  teams?: string[]
   funFacts?: string
+  results?: string[]
+  gyms?: string[]
+  sponsors?: string[]
   socialMedia?: {
     instagram?: string
     facebook?: string
@@ -32,8 +35,11 @@ async function getAthlete(slug: string): Promise<Athlete | null> {
     dateOfBirth,
     residence,
     discipline,
-    category,
+    teams,
     funFacts,
+    results,
+    gyms,
+    sponsors,
     socialMedia
   }`
   
@@ -52,6 +58,13 @@ export default async function AthletePage({ params }: PageProps) {
     notFound()
   }
 
+  // Archived athletes stay in Sanity but aren't shown on the site
+  if (!athlete.teams?.length) {
+    redirect('/team')
+  }
+
+  const isWorldCup = athlete.teams.includes('worldCup')
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'long',
@@ -66,7 +79,7 @@ export default async function AthletePage({ params }: PageProps) {
       <div className="bg-slate-50 py-4">
         <div className="section-container">
           <Link 
-            href="/team" 
+            href={isWorldCup ? '/team' : '/team/youth'}
             className="inline-flex items-center text-usa-navy hover:text-usa-red transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,23 +149,51 @@ export default async function AthletePage({ params }: PageProps) {
                     <div className="text-usa-navy">{athlete.residence}</div>
                   </div>
                 )}
-                <div className="flex items-start gap-4">
-                  <div className="w-32 text-slate-500 font-medium">Discipline</div>
-                  <div className="text-usa-navy">
-                    {athlete.discipline?.map((d) => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
+                {isWorldCup && athlete.discipline?.length ? (
+                  <div className="flex items-start gap-4">
+                    <div className="w-32 text-slate-500 font-medium">Discipline</div>
+                    <div className="text-usa-navy">
+                      {athlete.discipline.map((d) => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
+                    </div>
                   </div>
-                </div>
+                ) : null}
+                {athlete.gyms?.length ? (
+                  <div className="flex items-start gap-4">
+                    <div className="w-32 shrink-0 text-slate-500 font-medium">Trains At</div>
+                    <div className="text-usa-navy">{athlete.gyms.join(', ')}</div>
+                  </div>
+                ) : null}
+                {athlete.sponsors?.length ? (
+                  <div className="flex items-start gap-4">
+                    <div className="w-32 shrink-0 text-slate-500 font-medium">Sponsors</div>
+                    <div className="text-usa-navy">{athlete.sponsors.join(', ')}</div>
+                  </div>
+                ) : null}
               </div>
 
-              {/* Fun Facts */}
+              {/* Bio */}
               {athlete.funFacts && (
                 <div>
                   <h2 className="font-display text-xl text-usa-navy mb-3">About</h2>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed whitespace-pre-line">
                     {athlete.funFacts}
                   </p>
                 </div>
               )}
+
+              {/* Highlighted Results */}
+              {athlete.results?.length ? (
+                <div className="mt-8">
+                  <h2 className="font-display text-xl text-usa-navy mb-3">Highlighted Results</h2>
+                  <ul className="space-y-2">
+                    {athlete.results.map((result, i) => (
+                      <li key={i} className="border-l-2 border-usa-red pl-3 text-slate-600 leading-snug">
+                        {result}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               {/* Social Media */}
               {athlete.socialMedia && (

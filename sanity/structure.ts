@@ -37,8 +37,49 @@ S.listItem()
             ])
         ),
       S.divider(),
-      S.documentTypeListItem('athlete').title('Athletes'),
-      S.documentTypeListItem('historicalRoster').title('Historical Rosters'),
+      S.listItem()
+        .title('Athletes')
+        .child(
+          S.list()
+            .title('Athletes')
+            .items([
+              S.listItem()
+                .title('World Cup Team')
+                .child(
+                  S.documentList()
+                    .title('World Cup Team')
+                    .schemaType('athlete')
+                    .filter('_type == "athlete" && "worldCup" in teams')
+                    .defaultOrdering([{ field: 'name', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Youth Team')
+                .child(
+                  S.documentList()
+                    .title('Youth Team')
+                    .schemaType('athlete')
+                    .filter('_type == "athlete" && "youth" in teams')
+                    .defaultOrdering([{ field: 'name', direction: 'asc' }])
+                ),
+              S.listItem()
+                .title('Archived')
+                .child(
+                  S.documentList()
+                    .title('Archived Athletes')
+                    .schemaType('athlete')
+                    .filter('_type == "athlete" && count(coalesce(teams, [])) == 0')
+                    .defaultOrdering([{ field: 'name', direction: 'asc' }])
+                ),
+              S.divider(),
+              S.listItem()
+                .title('All Athletes')
+                .child(
+                  S.documentTypeList('athlete')
+                    .title('All Athletes')
+                    .defaultOrdering([{ field: 'name', direction: 'asc' }])
+                ),
+            ])
+        ),
       S.divider(),
       S.listItem()
         .title('Events')

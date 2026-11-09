@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { client } from '@/lib/sanity'
-import TeamPageClient from './TeamPageClient'
+import TeamHeader from './TeamHeader'
+import AthleteGrid, { type Athlete } from './AthleteGrid'
 
 export const revalidate = 3600
 
@@ -9,68 +10,37 @@ export const metadata: Metadata = {
   description: 'Meet the athletes representing the United States in international ice climbing competitions.',
 }
 
-export interface Athlete {
-  _id: string
-  name: string
-  slug: { current: string }
-  photo?: {
-    asset: {
-      _ref: string
-    }
-  }
-  discipline: string[]
-  category: 'adult' | 'youth'
-}
-
-export interface HistoricalAthlete {
-  name: string
-  disciplines?: string[]
-  category?: 'adult' | 'youth'
-}
-
-export interface HistoricalRoster {
-  _id: string
-  season: string
-  athletes: HistoricalAthlete[]
-}
-
 async function getAthletes(): Promise<Athlete[]> {
-  const query = `*[_type == "athlete"] | order(name asc) {
+  const query = `*[_type == "athlete" && "worldCup" in teams] | order(name asc) {
     _id,
     name,
     slug,
     photo,
-    discipline,
-    category
-  }`
-
-  return client.fetch(query)
-}
-
-async function getHistoricalRosters(): Promise<HistoricalRoster[]> {
-  const query = `*[_type == "historicalRoster"] | order(season desc) {
-    _id,
-    season,
-    athletes[] {
-      name,
-      disciplines,
-      category
-    }
+    discipline
   }`
 
   return client.fetch(query)
 }
 
 export default async function TeamPage() {
-  const [athletes, historicalRosters] = await Promise.all([
-    getAthletes(),
-    getHistoricalRosters()
-  ])
+  const athletes = await getAthletes()
 
   return (
-    <TeamPageClient
-      athletes={athletes}
-      historicalRosters={historicalRosters}
-    />
+    <>
+      <TeamHeader
+        active="worldCup"
+        title="USA National Team"
+        subtitle="Meet the athletes representing the United States in international World Cup ice climbing competitions"
+      />
+      <section className="section-padding">
+        <div className="section-container">
+          <AthleteGrid
+            athletes={athletes}
+            showDiscipline
+            emptyMessage="The National Team roster will be announced soon."
+          />
+        </div>
+      </section>
+    </>
   )
 }

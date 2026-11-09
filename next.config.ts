@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Youth duplicates merged into one profile per athlete
+      { source: '/team/wilson-whitley-youth', destination: '/team/wilson-whitley', permanent: true },
+      { source: '/team/zoe-schiffer-youth', destination: '/team/zoe-schiffer', permanent: true },
+    ]
+  },
   async headers() {
     return [
       {

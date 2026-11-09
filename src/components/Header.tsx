@@ -20,7 +20,8 @@ const navItems: NavItem[] = [
     label: 'Team',
     href: '/team',
     children: [
-      { label: 'Athletes', href: '/team' },
+      { label: 'National Team', href: '/team' },
+      { label: 'Youth Team', href: '/team/youth' },
       { label: 'Competition Disciplines', href: '/team/disciplines' },
       { label: 'Resources', href: '/team/resources' },
     ],

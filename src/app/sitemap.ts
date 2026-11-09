@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     '',
     '/team',
+    '/team/youth',
     '/team/disciplines',
     '/team/resources',
     '/events',
@@ -34,9 +35,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  // Dynamic athlete pages
+  // Dynamic athlete pages (archived athletes redirect, so leave them out)
   const athletes: { slug: { current: string } }[] = await client.fetch(
-    `*[_type == "athlete"]{ slug }`
+    `*[_type == "athlete" && count(coalesce(teams, [])) > 0]{ slug }`
   )
   const athletePages = athletes.map((athlete) => ({
     url: `${baseUrl}/team/${athlete.slug.current}`,
