@@ -51,7 +51,7 @@ const WORLD_CUP = [
 ]
 
 // New to the team, so they need a profile created
-const NEW_WORLD_CUP = ['Alexander Rausch', 'Cambyr Skade', 'Kelsey Beyerly', 'Molly Denholm']
+const NEW_WORLD_CUP = ['Alex Rausch', 'Cambyr Skade', 'Kelsey Beyerly', 'Molly Denholm']
 
 // Youth duplicate -> the original profile it gets merged into
 const DUPLICATES: Record<string, string> = {
