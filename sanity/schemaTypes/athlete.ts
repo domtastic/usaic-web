@@ -28,7 +28,6 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'dateOfBirth',
@@ -43,6 +42,21 @@ export default defineType({
       description: 'City, State or City, Country',
     }),
     defineField({
+      name: 'teams',
+      title: 'Current Team',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'World Cup Team', value: 'worldCup' },
+          { title: 'Youth Team', value: 'youth' },
+        ],
+        layout: 'grid',
+      },
+      description:
+        'Uncheck both to archive the athlete. Archived athletes stay here but are hidden from the website.',
+    }),
+    defineField({
       name: 'discipline',
       title: 'Discipline',
       type: 'array',
@@ -54,20 +68,16 @@ export default defineType({
         ],
         layout: 'grid',
       },
-      validation: (Rule) => Rule.required().min(1),
-    }),
-    defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Adult', value: 'adult' },
-          { title: 'Youth', value: 'youth' },
-        ],
-        layout: 'radio',
-      },
-      validation: (Rule) => Rule.required(),
+      // Youth athletes always compete in both, so this only applies to the World Cup team
+      hidden: ({ document }) => !(document?.teams as string[] | undefined)?.includes('worldCup'),
+      validation: (Rule) =>
+        Rule.custom((value: string[] | undefined, context) => {
+          const teams = context.document?.teams as string[] | undefined
+          if (teams?.includes('worldCup') && !value?.length) {
+            return 'Pick at least one discipline for World Cup athletes'
+          }
+          return true
+        }),
     }),
     defineField({
       name: 'funFacts',
@@ -109,14 +119,14 @@ export default defineType({
   preview: {
     select: {
       title: 'name',
-      subtitle: 'category',
+      teams: 'teams',
       media: 'photo',
     },
-    prepare(selection) {
-      const { title, subtitle, media } = selection
+    prepare({ title, teams, media }) {
+      const labels: Record<string, string> = { worldCup: 'World Cup Team', youth: 'Youth Team' }
       return {
         title,
-        subtitle: subtitle === 'adult' ? 'Adult Team' : 'Youth Team',
+        subtitle: teams?.length ? teams.map((t: string) => labels[t] ?? t).join(' · ') : 'Archived',
         media,
       }
     },
