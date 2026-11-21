@@ -79,18 +79,12 @@ export default function NonprofitStatusPage() {
                   Mailing Address
                 </dt>
                 <dd className="text-lg text-usa-navy font-display sm:text-right">
-                  4523 E Lake St
+                  1801 N 49th St
                   <br />
-                  Minneapolis, MN 55406
+                  Milwaukee, WI 53208
                 </dd>
               </div>
             </dl>
-            <p className="text-base text-slate-500 mt-4">
-              We&apos;re in the process of updating our registered mailing address with the IRS,
-              moving to <span className="text-slate-700 font-semibold">1801 N 49th St,
-              Milwaukee, WI 53208</span>. This page will reflect that as our official address
-              once the update is complete.
-            </p>
           </div>
         </div>
       </section>
