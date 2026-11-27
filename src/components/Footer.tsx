@@ -52,15 +52,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
           <Link href="/" className="inline-block mb-4">
-  <div className="bg-white rounded-lg p-2 inline-block">
-    <Image
-      src="/usaic-logo.jpg"
-      alt="USA Ice Climbing"
-      width={150}
-      height={50}
-      className="h-10 w-auto"
-    />
-  </div>
+  <Image
+    src="/logos/svg/USAIceClimbing_FullColor_Reverse.svg"
+    alt="USA Ice Climbing"
+    width={174}
+    height={100}
+    className="h-14 w-auto"
+  />
 </Link>
             <p className="text-slate-400 text-sm mb-4">
               Promoting ice climbing in America and supporting our athletes on the world stage.
